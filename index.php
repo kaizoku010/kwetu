@@ -1,0 +1,195 @@
+<?php include 'navbar.php'; ?>
+<?php include './includes/db.php'; ?>
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kwetu Store - Home</title>
+    <style>
+        /* ✅ General Page Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        /* ✅ Hero Section */
+        .hero {
+            background: url('assets/hero-bg.jpg') center/cover no-repeat;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero h1 {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 18px;
+        }
+
+        /* ✅ Search Bar */
+        .search-container {
+            width: 60%;
+            max-width: 600px;
+            margin-top: 20px;
+            display: flex;
+        }
+
+        .search-input {
+            flex-grow: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 5px 0 0 5px;
+            font-size: 16px;
+        }
+
+        .search-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 15px;
+            cursor: pointer;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .search-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* ✅ Categories Section */
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 40px auto;
+            width: 90%;
+            max-width: 1000px;
+        }
+
+        .category-card {
+            width: 30%;
+            min-width: 250px;
+            margin: 15px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .category-card img {
+            width: 100%;
+            max-height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .category-card h3 {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        /* ✅ CTA (Call-to-Action) Section */
+        .cta-section {
+            background: #007bff;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        .cta-section h2 {
+            font-size: 28px;
+        }
+
+        .cta-section p {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 12px 20px;
+            background: white;
+            color: #007bff;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 15px;
+            transition: background 0.3s;
+        }
+
+        .cta-btn:hover {
+            background: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ✅ Hero Section -->
+    <div class="hero">
+        <h1>Your One-Stop Auction Platform</h1>
+        <!-- <p>Your One-Stop Auction Platform</p> -->
+
+        <!-- ✅ Search Bar -->
+        <div class="search-container">
+            <form action="search.php" method="GET" class="search-form">
+                <input type="text" name="query" class="search-input" placeholder="Search for auctions, products, and more..." required>
+                <button type="submit" class="search-btn">Search</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ✅ Categories Section -->
+    <div class="categories">
+        <div class="category-card">
+            <img src="assets/cars.jpg" alt="Cars">
+            <h3>Car Auctions</h3>
+        </div>
+        <div class="category-card">
+            <img src="assets/electronics.jpg" alt="Electronics">
+            <h3>Electronics Auction</h3>
+        </div>
+        <div class="category-card">
+            <img src="assets/realestate.jpg" alt="Real Estate">
+            <h3>Real Estate Auctions</h3>
+        </div>
+        <div class="category-card">
+            <img src="assets/antiques.jpg" alt="Antiques">
+            <h3>Antiques & Collectibles Auction</h3>
+        </div>
+        <div class="category-card">
+            <img src="assets/furniture.jpg" alt="Furniture">
+            <h3>Furniture Auctions</h3>
+        </div>
+    </div>
+
+    <!-- ✅ Call-to-Action (CTA) Section -->
+    <div class="cta-section">
+        <h2>Want to Sell Your Items?</h2>
+        <p>Partner with Kwetu Auctions and reach thousands of buyers!</p>
+        <a href="sell_with_us.php" class="cta-btn">Start Selling</a>
+    </div>
+
+    <?php include 'auctions.php'; ?>
+    <?php include 'navbar2.php'; ?>
+
+</body>
+</html>
