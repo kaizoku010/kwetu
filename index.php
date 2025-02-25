@@ -23,7 +23,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
         /* ✅ Hero Section */
         .hero {
-            background: url('assets/hero-bg.jpg') center/cover no-repeat;
+            background: url('assets/auc.jpg') center/cover no-repeat;
             height: 400px;
             display: flex;
             flex-direction: column;
@@ -155,10 +155,34 @@ if (session_status() === PHP_SESSION_NONE) {
                 <button type="submit" class="search-btn">Search</button>
             </form>
         </div>
+        <div class="categories-container">
+            <div class="ic-box">
+                <image class="ic-box-img" src="assets/ics/car.png" alt="Search Icon">
+                <h5 class="ic-box-text">Car Auctions</h5>    
+            </div>  
+            <div class="ic-box">
+                <image class="ic-box-img" src="assets/ics/device.png" alt="Search Icon">
+                <h5 class="ic-box-text">Electronics Auctions</h5>    
+            </div>  
+            <div class="ic-box">
+                <image class="ic-box-img" src="assets/ics/property.png" alt="Search Icon">
+                <h5 class="ic-box-text">Real Estate Auctions</h5>    
+            </div>  
+            <div class="ic-box">
+                <image class="ic-box-img" src="assets/ics/furniture.png" alt="Search Icon">
+                <h5 class="ic-box-text">Furniture Auctions</h5>    
+            </div>  
+            <div class="ic-box">
+                <image class="ic-box-img" src="assets/ics/vases.png" alt="Search Icon">
+                <h5 class="ic-box-text">Other Auctions</h5>    
+            </div>  
+                      
+        </div>
+
     </div>
 
     <!-- ✅ Categories Section -->
-    <div class="categories">
+    <!-- <div class="categories">
         <div class="category-card">
             <img src="assets/cars.jpg" alt="Cars">
             <h3>Car Auctions</h3>
@@ -179,13 +203,13 @@ if (session_status() === PHP_SESSION_NONE) {
             <img src="assets/furniture.jpg" alt="Furniture">
             <h3>Furniture Auctions</h3>
         </div>
-    </div>
+    </div> -->
 
     <!-- ✅ Call-to-Action (CTA) Section -->
     <div class="cta-section">
         <h2>Want to Sell Your Items?</h2>
         <p>Partner with Kwetu Auctions and reach thousands of buyers!</p>
-        <a href="sell_with_us.php" class="cta-btn">Start Selling</a>
+        <a style="margin-top:0px !important" href="sell_with_us.php" class="cta-btn">Get Started</a>
     </div>
 
     <?php include 'auctions.php'; ?>

@@ -59,8 +59,9 @@ if (session_status() === PHP_SESSION_NONE) {
         }
 
         .nav-links a:hover {
-            background: #007bff;
-            border-radius: 5px;
+            background: transparent !important;
+            border-radius: 0px !important;
+            color: gray !important
         }
 
         /* ✅ Authentication Buttons */
@@ -145,16 +146,77 @@ if (session_status() === PHP_SESSION_NONE) {
                 display: none;
             }
         }
+
+        .nav-links li {
+        margin: 0 0px !important;
+        }
+
+        /* dixon's css */
+        .nav-container{
+            /* background-color: red; */
+            display: flex;
+
+            justify-content: end !important;
+            flex-direction: column;
+        }
+
+        .auth-buttons {
+            margin-bottom:1rem;
+            display: flex;
+            margin-right: .8rem;
+            align-items: center;
+            justify-content: end  !important;
+         }
+
+
+        .login-button{
+        background-color: transparent !important;
+        color:white !important;
+        font-size: .8rem !important;
+        }
+    
+       .register-button {
+       color: black !important;
+       font-size: .8rem !important;
+       
+       }
+
+       .register-button:hover {
+       color: white !important;
+       background-color: black !important;
+
+        }
+
+        .login-button:hover {
+        color: gray !important;
+        }
+
+
     </style>
 </head>
 <body>
 
 <nav class="navbar">
-    <a href="index.php" class="logo">Kwetu Auctions</a>
+    <a href="index.php" class="logo">
+    <image src="assets/logo-full.png" alt="Kwetu Auctions" class="logo-image">
+    </a>
     
     <div class="hamburger" onclick="toggleMenu()">☰</div>
     
-    <ul class="nav-links">
+
+  <div class="nav-container">
+
+   <div class="auth-buttons">
+        <?php if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true): ?>
+            <a href="user_auth/profile.php"><?php echo htmlspecialchars($_SESSION['username']); ?></a>
+            <a href="user_auth/user_logout.php">Logout</a>
+        <?php else: ?>
+            <a class="login-button" href="user_auth/user_login.php">Sign In</a>
+            <a class="register-button" href="user_auth/user_registration.php">Create Account</a>
+        <?php endif; ?>
+    </div>
+
+  <ul class="nav-links">
         <button class="close-menu" onclick="toggleMenu()">✖</button>
         <li><a href="index.php">Home</a></li>
         <li><a href="auction_guide.php">Auction Guide</a></li>
@@ -165,16 +227,8 @@ if (session_status() === PHP_SESSION_NONE) {
         <li><a href="faq.php">FAQ</a></li>
         <li><a href="./admin/admin_login.php">Admin</a></li>
     </ul>
-    
-    <div class="auth-buttons">
-        <?php if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true): ?>
-            <a href="user_auth/profile.php"><?php echo htmlspecialchars($_SESSION['username']); ?></a>
-            <a href="user_auth/user_logout.php">Logout</a>
-        <?php else: ?>
-            <a href="user_auth/user_login.php">Login</a>
-            <a href="user_auth/user_registration.php">Register</a>
-        <?php endif; ?>
     </div>
+  
 </nav>
 
 <script>

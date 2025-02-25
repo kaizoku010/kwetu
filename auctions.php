@@ -15,8 +15,8 @@ if (session_status() === PHP_SESSION_NONE) {
     <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
-    <div class="container mt-5 text-center">
-        <h2 class="auction-title">Active & Upcoming Auctions</h2>
+    <div style="display: flex;">
+        <h2 class="auction-heading">Active & Upcoming Auctions</h2>
     </div>
 
     <div class="auction-container"> 
@@ -27,26 +27,25 @@ if (session_status() === PHP_SESSION_NONE) {
 
                 if ($result->num_rows > 0) {
                     while ($auction = $result->fetch_assoc()) {
-                        echo '<div class="col-md-5 col-sm-12 mb-4">
+                        echo '<div class="col-sm-12">
                                 <a href="auction.php?id=' . $auction['id'] . '" class="auction-card-link">
                                     <div class="auction-card d-flex flex-column flex-md-row align-items-stretch">
-                                        <div class="auction-images order-md-2">
-                                           <img src="' . $auction['image'] . '" alt="Auction Image" class="img-fluid main-image">
-                                           <img src="' . $auction['second_image'] . '" alt="," class="img-fluid second-image d-none d-md-block">
-
+                                
+                                    <div class="auction-images order-md-1" style="background-image: url(\'' . $auction['image'] . '\'); background-size: cover; background-position: center; min-height: 250px;">
                                         </div>
                                         <div class="auction-box flex-grow-1 text-start">
                                             <h4 class="company-title fw-bold text-black">' . $auction['company_title'] . '</h4>
-                                            <p><strong>Opening Date:</strong> ' . $auction['opening_date'] . '</p>
-                                            <p><strong>Closing Date:</strong> <span class="text-danger">' . $auction['closing_date'] . '</span></p>
-                                            <p><strong>Location:</strong> <span class="text-success">' . $auction['location'] . '</span></p>
-                                            <div class="description-box">
-                                                <p class="auction-description">' . wordwrap($auction['description'], 50, "<br>", true) . '</p>
+                                            <p class="mdx "><strong class="dateTime">Opening Date |</strong> ' . $auction['opening_date'] . '</p>
+                                            <p class="mdx"><strong class="dateTime">Closing Date |</strong> <span class="text-danger">' . $auction['closing_date'] . '</span></p>
+                                            <p class="mdx"><strong id="closing-timer2">Location:</strong> <span id="bid-location" class="text-success">' . $auction['location'] . '</span></p>
+                                           <div class="sperator"></div>
+                                            <div class="">
+                                                <p class="auc-desc">' . $auction['description'] . '</p>
                                             </div>
-                                            <p id="closing-timer"><strong class="text-darkred">Closing In:</strong> 
+                                            <p id="closing-timer"><strong>Closing In:</strong> 
                                             <span class="countdown-timer" data-closing="' . $auction['closing_date'] . '"></span></p>';
 
-                        // ✅ Admin-only Edit & Delete Buttons
+                        // Admin-only Edit & Delete Buttons
                         if ($isAdmin) {
                             echo '<div class="mt-2">
                                     <a href="edit_auction.php?id=' . $auction['id'] . '" class="btn btn-warning btn-sm">Edit</a>
@@ -70,7 +69,7 @@ if (session_status() === PHP_SESSION_NONE) {
             border-radius: 8px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
         }
-        .auction-images img {
+        .auction-images {
             width: 100%;
             height: auto;
             object-fit: cover;
@@ -131,7 +130,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     const timeLeft = closingTime - now;
 
                     if (timeLeft <= 0) {
-                        timer.innerHTML = "<span class='text-danger font-weight-bold'>Closed</span>";
+                        timer.innerHTML = "<span  class='white font-weight-bold'>Closed</span>";
                     } else {
                         const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
                         const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));

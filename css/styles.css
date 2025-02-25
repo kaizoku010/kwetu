@@ -20,8 +20,7 @@ body.index-page {
 }
 
                                                                             /* ===== Hero Section (Banner) ===== */
-.hero {
-    background: url("https://media.istockphoto.com/id/917901978/photo/gavel-on-auction-word.jpg?s=612x612&w=0&k=20&c=e5mnLUG2UEg6y8zfO1zc7Gi4Ed8PEEeV3eGeYOKxKBI=") no-repeat center center/cover;
+/* .hero {
     height: 350px;
     display: flex;
     flex-direction: column;
@@ -31,7 +30,7 @@ body.index-page {
     color: white;
     padding: 20px;
     position: relative;
-}
+} */
 
 /* Hero Text */
 .hero h1 {
@@ -103,11 +102,12 @@ body.index-page {
 .fixed-sidebar {
     position: fixed;
     top: 50%;
+    display: none !important;
     left: 20px; /* Adjust left position */
     transform: translateY(-50%);
     width: 200px; /* Smaller width */
     background: rgba(0, 0, 0, 0.8);
-    padding: 20px;
+    padding: 0px;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     z-index: 1000;
@@ -139,7 +139,7 @@ body.index-page {
     left: 20px;  /* Positions it to the left */
     transform: translateY(-50%);  /* Ensures perfect centering */
     
-    width: 200px;  /* ✅ CONTROLS WIDTH */
+    width: 200px;  /* CONTROLS WIDTH */
     background: rgba(0, 0, 0, 0.8);
     
     padding: 20px;
@@ -150,8 +150,8 @@ body.index-page {
 
 /* Controls the Size of the Sidebar Links */
 .fixed-sidebar .nav-link {
-    padding: 10px;  /* ✅ CONTROLS LINK HEIGHT */
-    font-size: 1rem;  /* ✅ CONTROLS LINK TEXT SIZE */
+    padding: 10px;  /* CONTROLS LINK HEIGHT */
+    font-size: 1rem;  /* CONTROLS LINK TEXT SIZE */
     display: block;
     text-align: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -170,23 +170,20 @@ h2.auction-title {
     font-size: 32px;
     font-weight: bold;
     color: #6e2c2c;
-    margin: 0 auto 25px auto; /* ✅ Auto margin for centering */
+    margin: 0 auto 25px auto; /* Auto margin for centering */
     text-transform: uppercase ;
     letter-spacing: 1px;
     border-bottom: 3px solid #007bff;
     padding-bottom: 10px;
-    display: block; /* ✅ Ensures it takes full width */
-    width: fit-content; /* ✅ Prevents full width stretching */
+    display: block; /* Ensures it takes full width */
+    width: fit-content; /* Prevents full width stretching */
 }
 /* Reduce padding inside auction cards */
-.auction-card {
-    padding: 10px; /* ✅ Reduced from 15px */
-}
 
 /* Reduce spacing around text */
 .auction-details p {
-    font-size: 14px; /* ✅ Reduce text size slightly */
-    margin: 5px 0; /* ✅ Reduce space between details */
+    font-size: 14px; /* Reduce text size slightly */
+    margin: 5px 0; /* Reduce space between details */
 }
 
 
@@ -211,7 +208,7 @@ h2.auction-title {
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    padding: 0px !important;
     margin-bottom: 20px;
     align-items: center;
 }
@@ -242,16 +239,15 @@ h2.auction-title {
 
 .auction-image img {
     width: 100%;
-    height: auto;
-    border-radius: 8px;
+    height: fit-content;
     
 }
 /* ===== Fix Auction Card Image Size ===== */
 .auction-card img {
-    width: 100%;  /* ✅ Ensures image fits the card */
-    height: 200px; /* ✅ Sets a fixed height */
-    object-fit: cover; /* ✅ Maintains aspect ratio & prevents distortion */
-    border-radius: 5px; /* ✅ Optional: Rounded corners */
+    width: 100%;
+    height: 13rem !important;
+    object-fit: contain;
+    border-radius: 0px !important;
 }
 
 
@@ -271,9 +267,6 @@ h2.auction-title {
 .participate-btn:hover {
     background: #0056b3;
 }
-
-
-
 
 
 /* Auction Item Card                                              Auction.php*/
@@ -328,13 +321,13 @@ h2.auction-title {
 /* ===== Responsive Design (Mobile View) ===== */
 @media (max-width: 992px) {
     .row {
-        grid-template-columns: repeat(2, minmax(300px, 1fr)); /* ✅ Two per row on tablets */
+        grid-template-columns: repeat(2, minmax(300px, 1fr)); /* Two per row on tablets */
     }
 }
 
 @media (max-width: 768px) {
     .row {
-        grid-template-columns: 1fr; /* ✅ One card per row on mobile */
+        grid-template-columns: 1fr; /* One card per row on mobile */
     }
 }
 /* General Page Styling */
@@ -456,18 +449,85 @@ body {
     margin-top: 30px;
 }
 
+.auction-images {
+    width: 100%;
+    min-height: 250px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 0px;
+    flex: 0 0 40% !important;
+}
 
 
 
+.cta-section h2 {
+    font-size: 28px;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom: -8px;
+}
 
 
+.auc-desc {
+    font-size: smaller;
+}
+
+.mdx{
+    margin-bottom: 0px;
+}
+
+.company-title{
+    text-decoration: none !important;
+    margin-bottom: 0px !important;
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+}
+
+.sperator{
+        height: 1px;
+        width: 100%;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        background: #e8e8e8;
+}
+
+.dateTime{
+text-transform: uppercase;
+font-size: 0.9rem;
+font-weight: 900;    
+
+}
 
 
+.auction-box{
+    border-radius: 0px !important;
+}
+
+#closing-timer{
+        font-size: small;
+        background-color: #d71920;
+        width: fit-content;
+        color: white;
+        padding: .4rem;
+        border-radius: 5px;
+}
 
 
+#closing-timer2 {
+    font-size: small;
+}
 
+#bid-location{
+    color: green;
+        font-size: small;
+}
 
+.countdown-timer{
+    font-size: small;
+    color: white;
+}
 
-
-
-
+.white{
+    color:white;
+}
