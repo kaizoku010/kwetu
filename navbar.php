@@ -197,8 +197,8 @@ if (session_status() === PHP_SESSION_NONE) {
 <body>
 
 <nav class="navbar">
-    <a href="index.php" class="logo">
-    <image src="assets/logo-full.png" alt="Kwetu Auctions" class="logo-image">
+    <a href="/" class="logo">
+    <image src="/assets/logo-full.png" alt="Kwetu Auctions" class="logo-image">
     </a>
     
     <div class="hamburger" onclick="toggleMenu()">☰</div>
@@ -212,7 +212,7 @@ if (session_status() === PHP_SESSION_NONE) {
             <a href="user_auth/user_logout.php">Logout</a>
         <?php else: ?>
             <a class="login-button" href="user_auth/user_login.php">Sign In</a>
-            <a class="register-button" href="user_auth/user_registration.php">Create Account</a>
+            <a class="register-button" href="/user_auth/user_registration.php">Create Account</a>
         <?php endif; ?>
     </div>
 

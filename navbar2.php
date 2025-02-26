@@ -116,7 +116,8 @@ $user_id = $_SESSION['user_id'] ?? null;
             </li>
 
             <li style="text-align: left;" class="nav-item hover-dropdown">
-                <a class="nav-link text-white" style="text-align: left; font-size: .8rem" href="#">🏆  Winning Bids</a>
+                <a class="nav-link text-white" style="text-align: left; font-size: .8rem"
+                href="#">🏆  Winning Bids</a>
                 <ul id="winning-bids-menu" class="winning-bids-menu scrollable-menu p-2 rounded"></ul>
             </li>
 

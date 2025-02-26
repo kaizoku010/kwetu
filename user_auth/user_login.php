@@ -2,6 +2,7 @@
 
 session_start(); // ✅ Start session
 include '../includes/db.php';
+include '../navbar.php';
 
 // ✅ Display Logout Success Message if Redirected
 $logout_message = "";
@@ -54,31 +55,109 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>User Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/styles.css">
+
+    <style>
+
+
+        #user-login {
+               height: 100vh;
+               display: flex !important;
+               background-image: url('../assets/bg2.png');
+               background-size: cover;
+               background-position: center;
+               background-repeat: no-repeat;
+
+        }
+
+        #left-user-login {
+            background-color: transparent;
+            height: 100vh;
+            width: 70%;
+        }
+
+        #user-login-form {
+  padding: 10rem;
+  /* width: 99%; */
+  height: 100vh;
+  text-align: left !important;
+  align-items: center;
+  display: flex;
+  background-color: #171515;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+        }
+
+        
+
+        #form-side {
+background-color: #80808012;
+            height: 100vh;
+            width: 33%;
+        }
+
+        #login-btn{
+  margin-top: 1rem;
+  width: 100%;
+  align-self: center;
+  border-radius: 30px;
+        }
+
+        .text-left{
+            color: white;
+            font-size: small;
+            align-self: flex-start;
+        }
+
+        .login-title{
+            font-weight: bold;
+        }
+
+        .login-form{
+width: 25rem;
+        }
+
+        .brand-logo{
+            margin-bottom: 1rem;
+            width: 7rem;
+        }
+
+    </style>
 </head>
 <body>
 
-    <div class="container mt-5">
-        <h2 class="text-center">User Login</h2>
-
+<div id="user-login">
+<div id="left-user-login">
+</div>
+<div id="form-side">
+ <div class="" id="user-login-form">
+        <img src="../assets/logo.png" class="brand-logo" alt="Kwetu Logo">
         <!-- ✅ Display Logout Success Message -->
         <?php echo $logout_message; ?>
 
         <?php if (isset($error)) echo "<p class='text-danger text-center'>$error</p>"; ?>
 
-        <form action="user_login.php" method="POST">
-            <div class="mb-3">
-                <label class="form-label">Email</label>
+        <form class="login-form" action="user_login.php" method="POST">
+            <div style="text-align: left !important;" class="mb-3">
+                <label  class="text-left" class="form-label">Email</label>
                 <input type="email" class="form-control" name="email" required>
             </div>
 
-            <div class="mb-3">
-                <label class="form-label">Password</label>
+            <div style="text-align: left !important;" class="mb-3">
+                <label  class="text-left" class="form-label">Password</label>
                 <input type="password" class="form-control" name="password" required>
             </div>
+<div style="display:flex; flex-direction: column; width: 100%;">
+            <button id="login-btn" type="submit" class="btn btn-primary">Login</button>
 
-            <button type="submit" class="btn btn-primary">Login</button>
+</div>
+
+            <p style="margin-top: 1rem; color: white; font-size: small;" >Don't have an account? <a style="text-decoration: none; color: #0d6efd;" href="user_registration.php">Create Account</a></p>
         </form>
     </div>
+</div>
+</div>
+   
 
 </body>
 </html>

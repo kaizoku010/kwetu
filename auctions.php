@@ -12,11 +12,32 @@ if (session_status() === PHP_SESSION_NONE) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auctions - Kwetu Store</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
-    <div style="display: flex;">
-        <h2 class="auction-heading">Active & Upcoming Auctions</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4 dixon">
+       
+    <h2 class="auction-heading">Active & Upcoming Auctions</h2>
+      
+        <div class="auction-filters">
+            <button id="mdx-white" class="btn btn-outline-secondary me-2 filter-btn active" data-filter="all">
+                <i class="fas fa-list"></i> All
+            </button>
+            <button id="mdx-white" class="btn btn-outline-secondary me-2 filter-btn" data-filter="upcoming">
+                <i class="fas fa-clock"></i> Upcoming
+            </button>
+            <button id="mdx-white" class="btn btn-outline-success me-2 filter-btn" data-filter="active">
+                <i class="fas fa-gavel"></i> Active
+            </button>
+
+             <button id="mdx-white" class="btn btn-outline-success me-2 filter-btn" data-filter="active">
+                <i class="fas fa-gavel"></i> Locations
+            </button>
+            <button id="mdx-white" class="btn btn-danger me-2 filter-btn" data-filter="closed">
+                <i class="fas fa-lock"></i> Closed
+            </button>
+        </div>
     </div>
 
     <div class="auction-container"> 
@@ -27,7 +48,19 @@ if (session_status() === PHP_SESSION_NONE) {
 
                 if ($result->num_rows > 0) {
                     while ($auction = $result->fetch_assoc()) {
-                        echo '<div class="col-sm-12">
+                        $now = new DateTime();
+                        $start_time = new DateTime($auction['opening_date']);
+                        $end_time = new DateTime($auction['closing_date']);
+                        
+                        if ($now < $start_time) {
+                            $status = 'upcoming';
+                        } elseif ($now >= $start_time && $now <= $end_time) {
+                            $status = 'active';
+                        } else {
+                            $status = 'closed';
+                        }
+                        
+                        echo '<div class="" data-status="' . $status . '">
                                 <a href="auction.php?id=' . $auction['id'] . '" class="auction-card-link">
                                     <div class="auction-card d-flex flex-column flex-md-row align-items-stretch">
                                 
@@ -144,6 +177,43 @@ if (session_status() === PHP_SESSION_NONE) {
                 updateTimer();
                 setInterval(updateTimer, 1000);
             });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all filter buttons
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            
+            // Add click event to each filter button
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Get the filter value
+                    const filterValue = this.getAttribute('data-filter');
+                    
+                    // Get all auction items
+                    const auctionItems = document.querySelectorAll('.auction-item');
+                    
+                    // Show/hide items based on filter
+                    auctionItems.forEach(item => {
+                        if (filterValue === 'all' || item.getAttribute('data-status') === filterValue) {
+                            item.style.display = '';
+                            item.style.animation = 'fadeIn 0.5s';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Set 'All' as active by default
+            document.querySelector('[data-filter="all"]').classList.add('active');
         });
     </script>
 
