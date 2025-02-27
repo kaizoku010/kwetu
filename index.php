@@ -21,7 +21,7 @@ if (session_status() === PHP_SESSION_NONE) {
             background-color: #f8f9fa;
         }
 
-        /* ✅ Hero Section */
+
         .hero {
             background: url('assets/auc.jpg') center/cover no-repeat;
             height: 400px;
@@ -124,17 +124,18 @@ if (session_status() === PHP_SESSION_NONE) {
             margin: 10px 0;
         }
 
-        .cta-btn {
-            display: inline-block;
-            padding: 12px 20px;
-            background: white;
-            color: #007bff;
-            font-weight: bold;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 15px;
-            transition: background 0.3s;
-        }
+  .cta-btn {
+  display: inline-block;
+  padding: 4px 30px;
+  background: white;
+  color: #007bff;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-top: 15px;
+  transition: background 0.3s;
+  font-size: 1rem;
+}
 
         .cta-btn:hover {
             background: #f1f1f1;
@@ -156,10 +157,7 @@ if (session_status() === PHP_SESSION_NONE) {
             </form>
         </div>
         <div class="categories-container">
-            <div class="ic-box">
-                <image class="ic-box-img" src="assets/ics/car.png" alt="Search Icon">
-                <h5 class="ic-box-text">Car Auctions</h5>    
-            </div>  
+            
             <div class="ic-box">
                 <image class="ic-box-img" src="assets/ics/device.png" alt="Search Icon">
                 <h5 class="ic-box-text">Electronics Auctions</h5>    
@@ -172,11 +170,15 @@ if (session_status() === PHP_SESSION_NONE) {
                 <image class="ic-box-img" src="assets/ics/furniture.png" alt="Search Icon">
                 <h5 class="ic-box-text">Furniture Auctions</h5>    
             </div>  
+            
             <div class="ic-box">
                 <image class="ic-box-img" src="assets/ics/vases.png" alt="Search Icon">
                 <h5 class="ic-box-text">Other Auctions</h5>    
             </div>  
-                      
+              <div class="ic-box">
+                <image class="ic-box-img" src="assets/ics/car.png" alt="Search Icon">
+                <h5 class="ic-box-text">Car Auctions</h5>    
+            </div>          
         </div>
 
     </div>

@@ -64,15 +64,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding: 0;
             text-align: center;
         }
-        .container {
-            width: 90%;
-            max-width: 700px;
-            margin: 50px auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+    .container {
+  width: 90%;
+  max-width: 700px;
+  margin: 50px auto;
+    margin-top: 50px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+
+  margin-top: 10rem;
+}
         h2 {
             color: #007bff;
             margin-bottom: 20px;

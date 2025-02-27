@@ -14,15 +14,18 @@
             text-align: center;
             color: #333;
         }
-        .container {
-            width: 90%;
-            max-width: 800px;
-            margin: 50px auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
+      .container {
+  width: 90%;
+  max-width: 800px;
+  margin: 50px auto;
+    margin-top: 50px;
+  background: white;
+    background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  margin-top: 10rem;
+}
         .title {
             font-size: 32px;
             font-weight: bold;

@@ -117,7 +117,7 @@
     <!-- ✅ Join Our Team Hero Section -->
     <div class="hero">
         <h1>Join Our Team</h1>
-        <a href="open_positions.php" class="hero-btn">View Open Positions</a>
+       / <!-- <a href="open_positions.php" class="hero-btn">View Open Positions</a> -->
     </div>
 
     <!-- ✅ Who Are We Section -->

@@ -12,23 +12,21 @@
             padding: 0;
             line-height: 1.6;
         }
-        /* ✅ Fix content overlapping with navbar */
         .container {
             width: 90%;
             max-width: 1000px;
             margin: 80px auto 20px auto; /* Added top margin for spacing */
-            background: white;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        .about-title {
-            font-size: 30px;
-            font-weight: bold;
-            text-align: center;
-            color: #007bff;
-            margin-bottom: 20px;
-        }
+
+.about-title {
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  color: #007bff;
+  margin-bottom: 20px;
+  margin-top: 7rem;
+}
         .about-section {
             margin-bottom: 40px;
             padding: 20px;
@@ -71,11 +69,11 @@
     <?php include 'navbar.php'; ?> <!-- ✅ Include Navbar -->
 
     <div class="container">
-        <h1 class="about-title">About Kwetu Auctions</h1>
+        <h1 class="about-title">About Kwetu</h1>
 
         <!-- ✅ Introduction -->
         <div class="about-section">
-            <img src="assets/about-banner.jpg" alt="Auction House">
+            <img src="assets/aucs2.jpg" alt="Auction House">
             <p>
                 Welcome to <span class="highlight">Kwetu Auctions</span>, your trusted platform for online auctions! 
                 Established in <b>2015</b>, we have revolutionized the way people buy and sell valuable assets.

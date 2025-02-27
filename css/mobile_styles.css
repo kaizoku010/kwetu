@@ -1,0 +1,47 @@
+    @media screen and (max-width: 992px) {
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100vh;
+            background-color: rgba(3, 3, 3, 0.95);
+            padding: 20px;
+            text-align: left;
+            transition: left 0.3s ease-in-out;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        .nav-links.active {
+            left: 0;
+        }
+
+        .nav-links li {
+            margin: 15px 0;
+            width: 100%;
+        }
+
+        .nav-links a {
+            display: block;
+            width: 100%;
+        }
+
+        .close-menu {
+            display: block;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+        }
+
+        .hamburger {
+            display: block;
+        }
+    }

@@ -51,19 +51,11 @@ body.index-page {
 }
 
 .logo-image {
-    width: 17rem;
+    width: 12rem;
     height: auto;
 }
 
 
-
-/* Hero Text */
-.hero h1 {
-    font-size: 2rem !important;
-    font-weight: bold;
-    margin-bottom: 10px;
-    text-transform: uppercase !important;
-}
 
 .hero p {
     font-size: 18px;
@@ -85,16 +77,16 @@ body.index-page {
 .search-input {
     padding: 12px;
     font-size: 16px;
-    border: 2px solid #007bff;
+    border: 2px solid #f78b00;
     border-radius: 5px 0 0 5px;
     flex: 1;
 }
 
 /* Search Button */
 .search-btn {
-    background: #007bff;
+    background: #f78b00;
     color: white;
-    border: 2px solid #007bff;
+    border: 2px solid #f78b00;
     padding: 12px 20px;
     font-size: 16px;
     border-radius: 0 5px 5px 0;
@@ -103,17 +95,20 @@ body.index-page {
 }
 
 .search-btn:hover {
-    background: #0056b3;
+    background: #f78c00da;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
+
+
+ 
     .hero {
         height: 250px;
     }
 
     .hero h1 {
-        font-size: 28px;
+        font-size: 1.8rem;
     }
 
     .hero p {
@@ -241,7 +236,7 @@ body {
 .company-title {
     font-size: 22px;
     font-weight: bold;
-    color: #007bff;
+    color: #f78b00;
     margin-top: 20px;
     text-decoration: underline;
     padding-bottom: 5px;
@@ -266,7 +261,7 @@ body {
 }
 
 .table th {
-    background-color: #007bff;
+    background-color: #f78b00;
     color: white;
     font-weight: bold;
 }
@@ -305,7 +300,7 @@ body {
 }
 
 .payment-btn {
-    background-color: #007bff;
+    background-color: #f78b00;
     color: white;
     padding: 12px 18px;
     border-radius: 5px;
@@ -318,7 +313,6 @@ body {
 .payment-btn:hover {
     background-color: #0056b3;
 }
-
 /* Grand Total Styling */
 .grand-total {
     font-size: 22px;
@@ -361,7 +355,7 @@ margin-top: 1rem;
 }
 
 .cta-section {
-    background: #007bff;
+    background: #f78b00;
     color: white;
     text-align: center;
     padding: 30px;
@@ -373,4 +367,3 @@ margin-top: 1rem;
 .new-item-holder{
     background-color: red !important;
 }
-

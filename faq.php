@@ -13,18 +13,19 @@
             color: #333;
         }
         .container {
-            width: 90%;
+            width: 100%%;
             max-width: 900px;
             margin: 50px auto;
-            background: white;
+
+
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
         }
         .title {
             font-size: 32px;
             font-weight: bold;
             color: #007bff;
+                        margin-top: 10rem;
             text-align: center;
             margin-bottom: 20px;
         }

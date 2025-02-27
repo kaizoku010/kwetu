@@ -122,11 +122,75 @@ width: 25rem;
             width: 7rem;
         }
 
+        
+/* Responsive Design */
+@media (max-width: 900px) {
+
+
+    
+        #login-btn{
+  margin-top: 0rem;
+  width: 45%;
+  align-self: center;
+  border-radius: 30px;
+        }
+
+
+    .create-account-text{
+        text-align: center;
+    }
+.form-control {
+border-radius: 28px;
+  margin-top: .5rem;
+}
+      .user-login {
+        height: 100vh;
+        flex-direction: column;
+        display: flex !important;
+        background-image: unset !important;
+        background-size: cover;
+        background-position: center;
+        background-color: black !important;
+        background-repeat: no-repeat;
+    }
+
+    #left-user-login {
+  background-color: transparent;
+  height: 100vh;
+  width: 70%;
+  display: none;
+}
+
+#form-side {
+  background-color: #80808012;
+  height: 100%;
+  width: 100%;
+}
+
+#user-login-form {
+  padding: 2rem;
+  width: 100%;
+  height: 100vh;
+  text-align: left !important;
+  align-items: center;
+  display: flex;
+  background-color: #171515;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+
+.login-form {
+  width: 20rem;
+}
+
+}
+
     </style>
 </head>
 <body>
 
-<div id="user-login">
+<div class="user-login" id="user-login">
 <div id="left-user-login">
 </div>
 <div id="form-side">
@@ -152,7 +216,7 @@ width: 25rem;
 
 </div>
 
-            <p style="margin-top: 1rem; color: white; font-size: small;" >Don't have an account? <a style="text-decoration: none; color: #0d6efd;" href="user_registration.php">Create Account</a></p>
+            <p class="create-account-text" style="margin-top: 1rem; color: white; font-size: small;" >Don't have an account? <a style="text-decoration: none; color: #0d6efd;" href="user_registration.php">Create Account</a></p>
         </form>
     </div>
 </div>

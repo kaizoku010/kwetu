@@ -18,6 +18,100 @@ if (session_status() === PHP_SESSION_NONE) {
             font-family: Arial, sans-serif;
         }
 
+
+ /* Hide the desktop menu on mobile devices */
+@media screen and (max-width: 992px) {
+    .desktop-menu {
+        display: none !important;
+    }
+
+}
+
+/* Hide the mobile menu on desktop devices */
+@media screen and (min-width: 993px) {
+    .mobile-menu {
+        display: none !important;
+    }
+} */
+
+/* ===== Mobile Menu Styling (Completely Separate) ===== */
+.mobile-hamburger {
+    display: none; /* Hidden by default */
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    z-index: 1100;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
+.mobile-drawer {
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: -280px; /* Start off-screen */
+    width: 280px;
+    height: 100vh;
+    background-color: rgba(3, 3, 3, 0.95);
+    padding: 20px;
+    text-align: left;
+    transition: left 0.3s ease-in-out;
+    z-index: 1050;
+}
+
+.mobile-drawer.active {
+    left: 0; /* Slide in from left */
+    display: flex;
+}
+
+.close-drawer {
+    display: block;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+}
+
+.drawer-links {
+    list-style: none;
+    padding: 0;
+    margin-top: 50px;
+}
+
+.drawer-links li {
+    margin: 15px 0;
+    width: 100%;
+}
+
+.drawer-links a {
+    display: block;
+    width: 100%;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 10px 0;
+}
+
+.drawer-links a:hover {
+    color: #ccc;
+}
+
+/* Show hamburger on mobile */
+@media screen and (max-width: 992px) {
+    .mobile-hamburger {
+        display: block;
+    }
+    
+    .desktop-menu {
+        display: none !important;
+    }
+}
         /* ===== ✅ Navbar Styling ===== */
         .navbar {
             position: fixed;
@@ -91,15 +185,25 @@ if (session_status() === PHP_SESSION_NONE) {
             font-size: 24px;
             color: white;
             cursor: pointer;
+            z-index: 1100; /* Ensure it's above other elements */
         }
 
+        #mobile-links:hover{
+color:gray;
+        }
         @media screen and (max-width: 992px) {
+
+            .logo-image {
+    width: 11rem !important;
+    height: auto;
+  }
+
             .nav-links {
                 display: flex;
                 flex-direction: column;
                 position: fixed;
                 top: 0;
-                left: -250px;
+                left: -250px; /* Start off-screen */
                 width: 250px;
                 height: 100vh;
                 background-color: rgba(3, 3, 3, 0.95);
@@ -108,10 +212,15 @@ if (session_status() === PHP_SESSION_NONE) {
                 transition: left 0.3s ease-in-out;
                 justify-content: flex-start;
                 align-items: flex-start;
+                z-index: 1050; /* Ensure it's above other elements */
             }
 
             .nav-links.active {
+                left: 0; /* Slide in from left */
+            }
+            .dx-links.active{
                 left: 0;
+            
             }
 
             .nav-links li {
@@ -146,6 +255,35 @@ if (session_status() === PHP_SESSION_NONE) {
                 display: none;
             }
         }
+
+        
+#hamburger-btn {
+        display: block;
+        position: absolute;
+        right: 20px;
+        top: unset !important;
+        background: none;
+        border: medium;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  height: fit-content;
+}
+
+    .logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+  margin-left: 1rem;
+}
 
         .nav-links li {
         margin: 0 0px !important;
@@ -198,53 +336,86 @@ if (session_status() === PHP_SESSION_NONE) {
 
 <nav class="navbar">
     <a href="/" class="logo">
-    <image src="/assets/logo-full.png" alt="Kwetu Auctions" class="logo-image">
+        <image src="/assets/logo-full.svg" alt="Kwetu Auctions" class="logo-image">
     </a>
     
-    <div class="hamburger" onclick="toggleMenu()">☰</div>
-    
+    <!-- Simple hamburger button -->
+    <button id="hamburger-btn" style="display: none; position: absolute; right: 20px; top: 20px; background: none; border: none; color: white; font-size: 24px; cursor: pointer;">☰</button>
 
-  <div class="nav-container">
+    <div class="nav-container">
+        <!-- Auth buttons -->
+        <div class="auth-buttons">
+            <?php if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true): ?>
+                <a href="user_auth/profile.php"><?php echo htmlspecialchars($_SESSION['username']); ?></a>
+                <a href="user_auth/user_logout.php">Logout</a>
+            <?php else: ?>
+                <a class="login-button" href="user_auth/user_login.php">Sign In</a>
+                <a class="register-button" href="/user_auth/user_registration.php">Create Account</a>
+            <?php endif; ?>
+        </div>
 
-   <div class="auth-buttons">
-        <?php if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true): ?>
-            <a href="user_auth/profile.php"><?php echo htmlspecialchars($_SESSION['username']); ?></a>
-            <a href="user_auth/user_logout.php">Logout</a>
-        <?php else: ?>
-            <a class="login-button" href="user_auth/user_login.php">Sign In</a>
-            <a class="register-button" href="/user_auth/user_registration.php">Create Account</a>
-        <?php endif; ?>
+        <!-- Desktop Menu -->
+        <ul class="nav-links desktop-menu">
+            <li><a href="index.php">Home</a></li>
+            <li><a href="auction_guide.php">Auction Guide</a></li>
+            <li><a href="transport_services.php">Transport Services</a></li>
+            <li><a href="sell_with_us.php">Sell With Us</a></li>
+            <li><a href="about_us.php">About Us</a></li>
+            <li><a href="career.php">Careers</a></li>
+            <li><a href="faq.php">FAQ</a></li>
+            <li><a href="./admin/admin_login.php">Admin</a></li>
+        </ul>
     </div>
-
-  <ul class="nav-links">
-        <button class="close-menu" onclick="toggleMenu()">✖</button>
-        <li><a href="index.php">Home</a></li>
-        <li><a href="auction_guide.php">Auction Guide</a></li>
-        <li><a href="transport_services.php">Transport Services</a></li>
-        <li><a href="sell_with_us.php">Sell With Us</a></li>
-        <li><a href="about_us.php">About Us</a></li>
-        <li><a href="career.php">Careers</a></li>
-        <li><a href="faq.php">FAQ</a></li>
-        <li><a href="./admin/admin_login.php">Admin</a></li>
-    </ul>
-    </div>
-  
 </nav>
 
-<script>
-    function toggleMenu() {
-        var nav = document.querySelector(".nav-links");
-        nav.classList.toggle("active");
-    }
+<!-- Mobile Menu (simple overlay) -->
+<div id="mobile-menu" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); z-index: 1000; padding: 20px;">
+    <button id="close-btn" style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: white; font-size: 24px; cursor: pointer;">✖</button>
+    
+    <ul  style="list-style: none; margin-top: 60px; padding: 0; text-align: left;">
+            <li style="margin: 15px 0;"><a id="mobile-links" href="index.php" style="color: white; text-decoration: none; font-size: 18px;">Home</a></li>
 
-    document.addEventListener("click", function(event) {
-        var nav = document.querySelector(".nav-links");
-        var hamburger = document.querySelector(".hamburger");
-        
-        if (!nav.contains(event.target) && !hamburger.contains(event.target)) {
-            nav.classList.remove("active");
+            <li style="margin: 15px 0;"><a id="mobile-links" href="/user_auth/user_login.php" style="color: white; text-decoration: none; font-size: 18px;">Sign In</a></li>
+        <li style="margin: 15px 0;"><a id="mobile-links" href="/user_auth/user_registration.php" style="color: white; text-decoration: none; font-size: 18px;">Regesiter</a></li>
+         <li style="margin: 15px 0;"><a id="mobile-links" href="auction_guide.php" style="color: white; text-decoration: none; font-size: 18px;">Auction Guide</a></li>
+        <li style="margin: 15px 0;"><a id="mobile-links" href="transport_services.php" style="color: white; text-decoration: none; font-size: 18px;">Transport Services</a></li>
+        <li style="margin: 15px 0;"><a id="mobile-links" href="sell_with_us.php" style="color: white; text-decoration: none; font-size: 18px;">Sell With Us</a></li>
+        <li style="margin: 15px 0;"><a id="mobile-links" href="about_us.php" style="color: white; text-decoration: none; font-size: 18px;">About Us</a></li>
+        <li style="margin: 15px 0;"><a id="mobile-links" href="career.php" style="color: white; text-decoration: none; font-size: 18px;">Careers</a></li>
+        <li style="margin: 15px 0;"><a id="mobile-links" href="faq.php" style="color: white; text-decoration: none; font-size: 18px;">FAQ</a></li>
+        <!-- <li style="margin: 15px 0;"><a id="mobile-links" href="./admin/admin_login.php" style="color: white; text-decoration: none; font-size: 18px;">Admin</a></li> -->
+    </ul>
+</div>
+
+<script>
+// Simple JavaScript that will definitely work
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if we're on mobile
+    function checkMobile() {
+        if (window.innerWidth <= 992) {
+            document.getElementById('hamburger-btn').style.display = 'block';
+            document.querySelector('.desktop-menu').style.display = 'none';
+        } else {
+            document.getElementById('hamburger-btn').style.display = 'none';
+            document.querySelector('.desktop-menu').style.display = 'flex';
         }
+    }
+    
+    // Run on page load
+    checkMobile();
+    
+    // Run on window resize
+    window.addEventListener('resize', checkMobile);
+    
+    // Toggle mobile menu
+    document.getElementById('hamburger-btn').addEventListener('click', function() {
+        document.getElementById('mobile-menu').style.display = 'block';
     });
+    
+    document.getElementById('close-btn').addEventListener('click', function() {
+        document.getElementById('mobile-menu').style.display = 'none';
+    });
+});
 </script>
 
 </body>
