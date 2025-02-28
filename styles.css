@@ -109,7 +109,7 @@ body.index-page {
     }
 
     .hero h1 {
-        font-size: 1.8rem;
+        font-size: 1.8rem !important;
     }
 
     .hero p {

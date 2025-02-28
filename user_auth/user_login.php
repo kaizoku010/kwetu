@@ -98,7 +98,7 @@ background-color: #80808012;
 
         #login-btn{
   margin-top: 1rem;
-  width: 100%;
+  width: 100% !important;
     background-color: #f78b00 !important;
 border-color: #f78b00 !important;
 ;
@@ -153,7 +153,7 @@ width: 25rem;
 
     
         #login-btn{
-  margin-top: 0rem;
+  margin-top: 2rem;
   width: 45%;
   background-color: #f78b00 !important;
   align-self: center;
@@ -163,15 +163,14 @@ width: 25rem;
           
         .back-nav {
   margin-top: 0rem;
-  width: 25rem;
-  background-color: #fffdfa;
+  width: 100%;
+  background-color: transparent;
   align-self: center;
   border-radius: 30px;
-  color: black;
+  color: white;
   text-decoration: none;
   display: flex;
   justify-content: center;
-  height: 2rem;
   margin-top: .8rem;
   padding: .4rem;
 }

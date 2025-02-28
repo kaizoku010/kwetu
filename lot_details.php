@@ -184,6 +184,7 @@ if ($highest_bid_result->num_rows > 0) {
                          name="bid_amount" 
                          value="<?php echo $current_price_ugx;?>"
                          class="form-control"
+                         step="<?php echo $min_allowed_bid_ugx;?>"
                          placeholder="Enter your bid value"
                          required <?php echo $is_closed ? 'disabled' : ''; ?>>
                     </div>

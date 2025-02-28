@@ -194,7 +194,7 @@ color:gray;
         @media screen and (max-width: 992px) {
 
             .logo-image {
-    width: 11rem !important;
+    width: 6rem !important;
     height: auto;
   }
 
@@ -376,7 +376,7 @@ color:gray;
             <li style="margin: 15px 0;"><a id="mobile-links" href="index.php" style="color: white; text-decoration: none; font-size: 18px;">Home</a></li>
 
             <li style="margin: 15px 0;"><a id="mobile-links" href="/user_auth/user_login.php" style="color: white; text-decoration: none; font-size: 18px;">Sign In</a></li>
-        <li style="margin: 15px 0;"><a id="mobile-links" href="/user_auth/user_registration.php" style="color: white; text-decoration: none; font-size: 18px;">Regesiter</a></li>
+        <li style="margin: 15px 0;"><a id="mobile-links" href="/user_auth/user_registration.php" style="color: white; text-decoration: none; font-size: 18px;">Register</a></li>
          <li style="margin: 15px 0;"><a id="mobile-links" href="auction_guide.php" style="color: white; text-decoration: none; font-size: 18px;">Auction Guide</a></li>
         <li style="margin: 15px 0;"><a id="mobile-links" href="transport_services.php" style="color: white; text-decoration: none; font-size: 18px;">Transport Services</a></li>
         <li style="margin: 15px 0;"><a id="mobile-links" href="sell_with_us.php" style="color: white; text-decoration: none; font-size: 18px;">Sell With Us</a></li>
