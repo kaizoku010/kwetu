@@ -127,7 +127,7 @@ if (session_status() === PHP_SESSION_NONE) {
         }
 
         .logo {
-            font-size: 22px;
+            width: 6rem;;
             font-weight: bold;
             color: white;
             text-decoration: none;
