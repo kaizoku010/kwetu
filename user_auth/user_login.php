@@ -122,21 +122,20 @@ width: 25rem;
 
 .brand-logo {
   margin-bottom: .8rem;
-  width: 13rem;
+  width: 10rem;
 }
 .back-nav {
   margin-top: 0rem;
   width: 25rem;
   background-color: transparent;
   align-self: center;
-  border-radius: 30px;
+border: 2px solid #f78b00; 
+    border-radius: 30px;
+
   color: white;
   text-decoration: none;
   display: flex;
   justify-content: center;
-
-    border-style: solid;
-  border-color: #f78b00;
   margin-top: .8rem;
   padding: .3rem;
 }
@@ -152,7 +151,7 @@ width: 25rem;
 
 
     
-        #login-btn{
+    #login-btn{
   margin-top: 2rem;
   width: 45%;
   background-color: #f78b00 !important;
@@ -161,12 +160,13 @@ width: 25rem;
         }
 
           
-        .back-nav {
+  .back-nav {
   margin-top: 0rem;
   width: 100%;
   background-color: transparent;
+    border-radius: 30px;
+
   align-self: center;
-  border-radius: 30px;
   color: white;
   text-decoration: none;
   display: flex;
@@ -243,12 +243,12 @@ border-radius: 28px;
         <form class="login-form" action="user_login.php" method="POST">
             <div style="text-align: left !important;" class="mb-3">
                 <label  class="text-left" class="form-label">Email</label>
-                <input type="email" class="form-control" name="email" required>
+                <input style="border-radius: 30px;" type="email" class="form-control" name="email" required>
             </div>
 
             <div style="text-align: left !important;" class="mb-3">
                 <label  class="text-left" class="form-label">Password</label>
-                <input type="password" class="form-control" name="password" required>
+                <input style="border-radius: 30px;" type="password" class="form-control" name="password" required>
             </div>
 <div style="display:flex; flex-direction: column; width: 100%;">
             <button id="login-btn" type="submit" class="btn btn-primary">Login</button>
