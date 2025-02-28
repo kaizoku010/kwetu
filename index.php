@@ -1,20 +1,13 @@
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+?>
 <?php include 'navbar.php'; ?>
 <?php include './includes/db.php'; ?>
 <?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
-}
-
-// Get count of items in each category
-$category_counts = [];
-$categories = ['cars', 'furniture', 'electronics', 'real_estate', 'other'];
-foreach ($categories as $cat) {
-    $query = "SELECT COUNT(*) as count FROM auction_items WHERE category = '$cat'";
-    $result = $conn->query($query);
-    $row = $result->fetch_assoc();
-    $category_counts[$cat] = $row['count'];
-}
-?>
+}?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -246,8 +239,9 @@ foreach ($categories as $cat) {
                 <a style="text-decoration:none"  href="category.php?category=furniture">
                     <image class="ic-box-img" src="assets/ics/furniture.png" alt="Search Icon">
                         <h5 class="ic-box-text">Furniture Auctions</h5>
-            </div>
             </a>
+                    </div>
+           
 
 
             <div class="ic-box">
@@ -267,37 +261,7 @@ foreach ($categories as $cat) {
 
     </div>
 
-    <!-- ✅ Categories Section
-    <div class="categories-section">
-        <h2 style="text-align: center; margin-bottom: 30px;">Browse by Category</h2>
-        <div class="categories-grid">
-            <a href="category.php?category=cars" class="category-box">
-                <div class="category-icon"><i class="fas fa-car"></i></div>
-                <div class="category-name">Cars</div>
-                <div class="category-count"><?php echo $category_counts['cars']; ?> items</div>
-            </a>
-            <a href="category.php?category=furniture" class="category-box">
-                <div class="category-icon"><i class="fas fa-couch"></i></div>
-                <div class="category-name">Furniture</div>
-                <div class="category-count"><?php echo $category_counts['furniture']; ?> items</div>
-            </a>
-            <a href="category.php?category=electronics" class="category-box">
-                <div class="category-icon"><i class="fas fa-laptop"></i></div>
-                <div class="category-name">Electronics</div>
-                <div class="category-count"><?php echo $category_counts['electronics']; ?> items</div>
-            </a>
-            <a href="category.php?category=real_estate" class="category-box">
-                <div class="category-icon"><i class="fas fa-home"></i></div>
-                <div class="category-name">Real Estate</div>
-                <div class="category-count"><?php echo $category_counts['real_estate']; ?> items</div>
-            </a>
-            <a href="category.php?category=other" class="category-box">
-                <div class="category-icon"><i class="fas fa-box-open"></i></div>
-                <div class="category-name">Other</div>
-                <div class="category-count"><?php echo $category_counts['other']; ?> items</div>
-            </a>
-        </div>
-    </div> -->
+
 
     <!-- ✅ Call-to-Action (CTA) Section -->
     <div class="cta-section">
@@ -306,8 +270,8 @@ foreach ($categories as $cat) {
         <a style="margin-top:0px !important" href="sell_with_us.php" class="cta-btn">Get Started</a>
     </div>
 
-    <?php include 'auctions.php'; ?>
-    <?php include 'navbar2.php'; ?>
+<?php include './auctions.php'; ?>
+<?php include './navbar2.php'; ?>
 
 </body>
 

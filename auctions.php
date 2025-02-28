@@ -45,27 +45,7 @@ if (session_status() === PHP_SESSION_NONE) {
 </head>
 <body>
     <div class="dixon">
-       
-    <h2 class="auction-heading">Active & Upcoming Auctions</h2>
-      
-        <div class="auction-filters">
-            <button id="mdx-white" class="btn btn-outline-secondary me-2 filter-btn active" data-filter="all">
-                <i class="fas fa-list"></i> All
-            </button>
-            <!-- <button id="mdx-white" class="btn btn-outline-secondary me-2 filter-btn" data-filter="upcoming">
-                <i class="fas fa-clock"></i> Upcoming
-            </button> -->
-            <button id="mdx-white" class="btn btn-outline-success me-2 filter-btn" data-filter="active">
-                <i class="fas fa-gavel"></i> Active
-            </button>
-
-             <button id="mdx-white" class="btn btn-outline-success me-2 filter-btn" data-filter="active">
-                <i class="fas fa-gavel"></i> Locations
-            </button>
-            <!-- <button id="mdx-white" class="btn btn-danger me-2 filter-btn" data-filter="closed">
-                <i class="fas fa-lock"></i> Closed
-            </button> -->
-        </div>
+        <h2 class="auction-heading">Active & Upcoming Auctions</h2>
     </div>
 
     <div class="auction-container"> 
@@ -134,12 +114,11 @@ if (session_status() === PHP_SESSION_NONE) {
         }
     </style>
 
-    <!-- JavaScript for Infinite Scroll and Countdown Timer -->
+    <!-- JavaScript for Infinite Scroll -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         let page = 1;
         let loading = false;
-        let currentFilter = 'all';
         let hasMoreAuctions = true;
 
         // Load initial auctions
@@ -154,18 +133,6 @@ if (session_status() === PHP_SESSION_NONE) {
                     }
                 }
             });
-            
-            // Filter buttons
-            $('.filter-btn').click(function() {
-                $('.filter-btn').removeClass('active');
-                $(this).addClass('active');
-                
-                currentFilter = $(this).data('filter');
-                $('#auction-list').empty();
-                page = 1;
-                hasMoreAuctions = true;
-                loadAuctions();
-            });
         });
         
         function loadAuctions() {
@@ -175,55 +142,35 @@ if (session_status() === PHP_SESSION_NONE) {
             $('#loading-spinner').removeClass('d-none');
             
             $.ajax({
-                url: 'fetch_auctions.php',
+                url: './fetch_auctions.php',
                 type: 'GET',
                 data: {
-                    page: page,
-                    filter: currentFilter
+                    page: page
                 },
                 dataType: 'json',
                 success: function(response) {
                     $('#loading-spinner').addClass('d-none');
                     
-                    if (response.error) {
-                        console.error('Server error:', response.error);
-                        $('#auction-list').append('<div class="col-12 text-center"><p>Error: ' + response.error + '</p></div>');
-                        return;
-                    }
-                    
-                    if(response.auctions && response.auctions.length > 0) {
+                    if(response.auctions.length > 0) {
                         response.auctions.forEach(function(auction) {
                             $('#auction-list').append(auction);
                         });
                         
+                        // Initialize countdown timers for new elements
                         initCountdownTimers();
+                        
                         page++;
                         hasMoreAuctions = response.hasMore;
                     } else {
                         hasMoreAuctions = false;
-                        if (page === 1) {
-                            $('#auction-list').html('<div class="col-12 text-center"><p>No auctions available.</p></div>');
-                        }
                     }
+                    loading = false;
                 },
                 error: function(xhr, status, error) {
                     $('#loading-spinner').addClass('d-none');
-                    console.error('AJAX Error:', status, error);
-                    console.error('Response:', xhr.responseText);
-                    $('#auction-list').append('<div class="col-12 text-center"><p>Failed to load auctions. Please try again later.</p></div>');
+                    loading = false;
                 }
             });
-        }
-        
-        function recycleAuctions() {
-            // Clone existing auctions and append them to create illusion of infinite content
-            const existingAuctions = $('#auction-list > div').clone();
-            
-            // Only append if we have auctions to recycle
-            if(existingAuctions.length > 0) {
-                $('#auction-list').append(existingAuctions);
-                initCountdownTimers();
-            }
         }
         
         function initCountdownTimers() {
