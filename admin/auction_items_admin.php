@@ -29,6 +29,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $max_bid = mysqli_real_escape_string($conn, $_POST['max_bid']) / $exchange_rate;
     $condition = mysqli_real_escape_string($conn, $_POST['condition']);
     $description = mysqli_real_escape_string($conn, $_POST['description']);
+    $category = mysqli_real_escape_string($conn, $_POST['category']);
+    $starting_time = mysqli_real_escape_string($conn, $_POST['starting_time']);
+    $closing_time = mysqli_real_escape_string($conn, $_POST['closing_time']);
 
     // ✅ Retrieve auction ID using company name
     $auction_query = "SELECT id FROM auctions WHERE company_title = '$company_name' LIMIT 1";
@@ -54,8 +57,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // ✅ Insert into Database
-    $query = "INSERT INTO auction_items (auction_id, lot_number, title, bidders, price, min_bid, max_bid, `condition`, description, image) 
-              VALUES ('$auction_id', '$lot_number', '$title', '$bidders', '$price', '$min_bid', '$max_bid', '$condition', '$description', '$image_path')";
+    $query = "INSERT INTO auction_items (auction_id, lot_number, title, bidders, price, min_bid, max_bid, `condition`, description, image, category, starting_time, closing_time) 
+              VALUES ('$auction_id', '$lot_number', '$title', '$bidders', '$price', '$min_bid', '$max_bid', '$condition', '$description', '$image_path', '$category', '$starting_time', '$closing_time')";
 
     if ($conn->query($query)) {
         echo "<script>
@@ -101,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             margin-bottom: 5px;
             color: #333;
         }
-        input, textarea {
+        input, textarea, select {
             width: 100%;
             padding: 12px;
             margin-bottom: 15px;
@@ -109,7 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border-radius: 5px;
             font-size: 16px;
         }
-        input:focus, textarea:focus {
+        input:focus, textarea:focus, select:focus {
             border-color: #007bff;
             outline: none;
             box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
@@ -162,6 +165,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <h4>Auction Details</h4>
                 <label>Company Name</label>
                 <input type="text" name="company_name" required placeholder="Enter Company Name">
+
+                <label>Category</label>
+                <select name="category" required>
+                    <option value="">Select a category</option>
+                    <option value="cars">Cars</option>
+                    <option value="furniture">Furniture</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="real_estate">Real Estate</option>
+                    <option value="other">Other</option>
+                </select>
+                    <h4>Timing</h4>
+                <label>Starting Time</label>
+                <input type="time" name="starting_time" required>
+
+                <label>Closing Time</label>
+                <input type="time" name="closing_time" required>
+            
 
                 <label>Lot Number</label>
                 <input type="text" name="lot_number" required>

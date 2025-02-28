@@ -4,10 +4,21 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+// Get count of items in each category
+$category_counts = [];
+$categories = ['cars', 'furniture', 'electronics', 'real_estate', 'other'];
+foreach ($categories as $cat) {
+    $query = "SELECT COUNT(*) as count FROM auction_items WHERE category = '$cat'";
+    $result = $conn->query($query);
+    $row = $result->fetch_assoc();
+    $category_counts[$cat] = $row['count'];
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,7 +31,6 @@ if (session_status() === PHP_SESSION_NONE) {
             padding: 0;
             background-color: #f8f9fa;
         }
-
 
         .hero {
             background: url('assets/auc.jpg') center/cover no-repeat;
@@ -49,9 +59,63 @@ if (session_status() === PHP_SESSION_NONE) {
             width: 60%;
             max-width: 600px;
             margin-top: 20px;
-            display: flex;
         }
 
+        /* ✅ Category Grid */
+        .categories-section {
+            padding: 40px 20px;
+            background: white;
+            margin-top: -50px;
+            position: relative;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .category-box {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .category-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #007bff;
+        }
+
+        .category-name {
+            font-size: 1.2em;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .category-count {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        /* ✅ Search Bar */
         .search-input {
             flex-grow: 1;
             padding: 12px;
@@ -124,90 +188,114 @@ if (session_status() === PHP_SESSION_NONE) {
             margin: 10px 0;
         }
 
-.ic-box-text{
-    font-weight: normal !important;
-}
+        .ic-box-text {
+            font-weight: normal !important;
+        }
 
-  .cta-btn {
-  display: inline-block;
-  padding: 4px 30px;
-  background: white;
-  color: black;
-  font-weight: normal;
-  text-decoration: none;
-  border-radius: 5px;
-  margin-top: 15px;
-  transition: background 0.3s;
-  font-size: 1rem;
-}
+        .cta-btn {
+            display: inline-block;
+            padding: 4px 30px;
+            background: white;
+            color: black;
+            font-weight: normal;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 15px;
+            transition: background 0.3s;
+            font-size: 1rem;
+        }
 
         .cta-btn:hover {
             background: #f1f1f1;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
+
 <body>
 
     <!-- ✅ Hero Section -->
     <div class="hero">
         <h1>Your One-Stop Auction Platform</h1>
-        <!-- <p>Your One-Stop Auction Platform</p> -->
-
+        <p>Discover Amazing Deals on Quality Items</p>
         <!-- ✅ Search Bar -->
         <div class="search-container">
+
             <form action="search.php" method="GET" class="search-form">
-                <input type="text" name="query" class="search-input" placeholder="Search for auctions, products, and more..." required>
+                <input type="text" name="query" class="search-input"
+                    placeholder="Search for auctions, products, and more..." required>
                 <button type="submit" class="search-btn">Search</button>
             </form>
         </div>
         <div class="categories-container">
-            
+
             <div class="ic-box">
-                <image class="ic-box-img" src="assets/ics/device.png" alt="Search Icon">
-                <h5 class="ic-box-text">Electronics Auctions</h5>    
-            </div>  
+                <a style="text-decoration:none" href="category.php?category=electronics">
+                    <image class="ic-box-img" src="assets/ics/device.png" alt="Search Icon">
+                        <h5 class="ic-box-text">Electronics Auctions</h5>
+                </a>
+            </div>
             <div class="ic-box">
-                <image class="ic-box-img" src="assets/ics/property.png" alt="Search Icon">
-                <h5 class="ic-box-text">Real Estate Auctions</h5>    
-            </div>  
+                <a style="text-decoration:none"  href="category.php?category=real_estate">
+                    <image class="ic-box-img" src="assets/ics/property.png" alt="Search Icon">
+                        <h5 class="ic-box-text">Real Estate Auctions</h5>
+                </a>
+
+            </div>
             <div class="ic-box">
-                <image class="ic-box-img" src="assets/ics/furniture.png" alt="Search Icon">
-                <h5 class="ic-box-text">Furniture Auctions</h5>    
-            </div>  
-            
+                <a style="text-decoration:none"  href="category.php?category=furniture">
+                    <image class="ic-box-img" src="assets/ics/furniture.png" alt="Search Icon">
+                        <h5 class="ic-box-text">Furniture Auctions</h5>
+            </div>
+            </a>
+
+
             <div class="ic-box">
-                <image class="ic-box-img" src="assets/ics/vases.png" alt="Search Icon">
-                <h5 class="ic-box-text">Other Auctions</h5>    
-            </div>  
-              <div class="ic-box">
-                <image class="ic-box-img" src="assets/ics/car.png" alt="Search Icon">
-                <h5 class="ic-box-text">Car Auctions</h5>    
-            </div>          
+                <a style="text-decoration:none"  href="category.php?category=other">
+                    <image class="ic-box-img" src="assets/ics/vases.png" alt="Search Icon">
+                        <h5 class="ic-box-text">Other Auctions</h5>
+                </a>
+            </div>
+            <div class="ic-box">
+                <a style="text-decoration:none" href="category.php?category=cars">
+                    <image class="ic-box-img" src="assets/ics/car.png" alt="Search Icon">
+                        <h5 class="ic-box-text">Car Auctions</h5>
+                </a>
+
+            </div>
         </div>
 
     </div>
 
-    <!-- ✅ Categories Section -->
-    <!-- <div class="categories">
-        <div class="category-card">
-            <img src="assets/cars.jpg" alt="Cars">
-            <h3>Car Auctions</h3>
-        </div>
-        <div class="category-card">
-            <img src="assets/electronics.jpg" alt="Electronics">
-            <h3>Electronics Auction</h3>
-        </div>
-        <div class="category-card">
-            <img src="assets/realestate.jpg" alt="Real Estate">
-            <h3>Real Estate Auctions</h3>
-        </div>
-        <div class="category-card">
-            <img src="assets/antiques.jpg" alt="Antiques">
-            <h3>Antiques & Collectibles Auction</h3>
-        </div>
-        <div class="category-card">
-            <img src="assets/furniture.jpg" alt="Furniture">
-            <h3>Furniture Auctions</h3>
+    <!-- ✅ Categories Section
+    <div class="categories-section">
+        <h2 style="text-align: center; margin-bottom: 30px;">Browse by Category</h2>
+        <div class="categories-grid">
+            <a href="category.php?category=cars" class="category-box">
+                <div class="category-icon"><i class="fas fa-car"></i></div>
+                <div class="category-name">Cars</div>
+                <div class="category-count"><?php echo $category_counts['cars']; ?> items</div>
+            </a>
+            <a href="category.php?category=furniture" class="category-box">
+                <div class="category-icon"><i class="fas fa-couch"></i></div>
+                <div class="category-name">Furniture</div>
+                <div class="category-count"><?php echo $category_counts['furniture']; ?> items</div>
+            </a>
+            <a href="category.php?category=electronics" class="category-box">
+                <div class="category-icon"><i class="fas fa-laptop"></i></div>
+                <div class="category-name">Electronics</div>
+                <div class="category-count"><?php echo $category_counts['electronics']; ?> items</div>
+            </a>
+            <a href="category.php?category=real_estate" class="category-box">
+                <div class="category-icon"><i class="fas fa-home"></i></div>
+                <div class="category-name">Real Estate</div>
+                <div class="category-count"><?php echo $category_counts['real_estate']; ?> items</div>
+            </a>
+            <a href="category.php?category=other" class="category-box">
+                <div class="category-icon"><i class="fas fa-box-open"></i></div>
+                <div class="category-name">Other</div>
+                <div class="category-count"><?php echo $category_counts['other']; ?> items</div>
+            </a>
         </div>
     </div> -->
 
@@ -222,4 +310,5 @@ if (session_status() === PHP_SESSION_NONE) {
     <?php include 'navbar2.php'; ?>
 
 </body>
+
 </html>

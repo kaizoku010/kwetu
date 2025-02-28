@@ -169,12 +169,10 @@
 
                                                                   /* Controls the Size of the Sidebar Links */
                                                                   .fixed-sidebar .nav-link {
-                                                                      padding: 10px;
-                                                                      /* CONTROLS LINK HEIGHT */
-                                                                      font-size: 1rem;
-                                                                      /* CONTROLS LINK TEXT SIZE */
+                                                                      padding: 10px;                        
+                                                                      font-size: small !important;
                                                                       display: block;
-                                                                      text-align: center;
+                                                                      text-align: left !important;
                                                                       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
                                                                       transition: background 0.3s ease-in-out;
                                                                   }
@@ -408,19 +406,29 @@
                                                                           /* One card per row on mobile */
                                                                       }
 
+                                                                                                                                          .search-input {
+                                                                                                                                              padding: 12px;
+                                                                                                                                              font-size: small !important;
+                                                                                                                                              border: 2px solid #f78b00;
+                                                                                                                                              border-radius: 5px 0 0 5px;
+                                                                                                                                              flex: 1;
+                                                                                                                                          }
+
+
+                                                                                                                                          .ic-box-img {
+                                                                                                                                              width: 30px !important;
+                                                                                                                                              height: 30px !important;
+                                                                                                                                              margin-bottom: .1rem;
+                                                                                                                                          }
+
                                                                       .auth-buttons2{
                                                                         display: flex;
                                                                         flex-direction: column;
                                                                       }
 
                                                                       .cta-section p {
-                                                                          font-size: 14px;
-                                                                          margin: 10px 0;
-                                                                      }
-
-                                                                      .auction-filters .btn:hover {
                                                                           transform: translateY(-2px);
-                                                                          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                                                                          box-shadow: none !important;
                                                                       }
 
                                                                       .auction-filters .btn i {
