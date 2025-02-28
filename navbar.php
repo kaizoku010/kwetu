@@ -197,7 +197,6 @@ color:gray;
     width: 6rem !important;
     height: auto;
   }
-
             .nav-links {
                 display: flex;
                 flex-direction: column;
