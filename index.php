@@ -270,8 +270,8 @@ if (session_status() === PHP_SESSION_NONE) {
         <a style="margin-top:0px !important" href="sell_with_us.php" class="cta-btn">Get Started</a>
     </div>
 
-<?php include './auctions.php'; ?>
-<?php include './navbar2.php'; ?>
+<?php include 'auctions.php'; ?>
+<?php include 'navbar2.php'; ?>
 
 </body>
 
