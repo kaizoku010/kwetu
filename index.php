@@ -32,7 +32,7 @@ if (session_status() === PHP_SESSION_NONE) {
             text-align: center;
             color: white;
             font-weight: bold;
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+            text-shadow: none !important;
         }
 
         .hero h1 {

@@ -83,6 +83,10 @@ $user_id = $_SESSION['user_id'] ?? null;
         display: block;
     }
 
+    .nav-item > li{
+        font-size: small !important;
+    }
+
     .hover-dropdown ul li {
         padding: 8px;
         border-bottom: 1px solid #ddd;
@@ -102,7 +106,7 @@ $user_id = $_SESSION['user_id'] ?? null;
 
 <nav class="col-md-3 col-lg-2 d-md-block bg-dark sidebar fixed-sidebar">
     <div class="position-sticky">
-        <h5 class="text-white text-center mt-3">Auction Dashboard</h5>
+        <h5 style="font-size: medium;" class="text-white text-center mt-3">Auction Dashboard</h5>
         <ul class="nav flex-column mt-4">
             <!-- ✅ Winning Bids Hover Dropdown -->
             <li class="nav-item hover-dropdown">
