@@ -185,33 +185,32 @@ if (session_status() === PHP_SESSION_NONE) {
                 success: function(response) {
                     $('#loading-spinner').addClass('d-none');
                     
-                    if(response.auctions.length > 0) {
+                    if (response.error) {
+                        console.error('Server error:', response.error);
+                        $('#auction-list').append('<div class="col-12 text-center"><p>Error: ' + response.error + '</p></div>');
+                        return;
+                    }
+                    
+                    if(response.auctions && response.auctions.length > 0) {
                         response.auctions.forEach(function(auction) {
                             $('#auction-list').append(auction);
                         });
                         
-                        // Initialize countdown timers for new elements
                         initCountdownTimers();
-                        
                         page++;
                         hasMoreAuctions = response.hasMore;
                     } else {
                         hasMoreAuctions = false;
-                        
-                        // If no more auctions from server, start recycling existing ones
-                        if(page > 1) {
-                            recycleAuctions();
+                        if (page === 1) {
+                            $('#auction-list').html('<div class="col-12 text-center"><p>No auctions available.</p></div>');
                         }
                     }
-                    
-                    loading = false;
                 },
-                error: function() {
+                error: function(xhr, status, error) {
                     $('#loading-spinner').addClass('d-none');
-                    loading = false;
-                    
-                    // On error, recycle existing auctions
-                    recycleAuctions();
+                    console.error('AJAX Error:', status, error);
+                    console.error('Response:', xhr.responseText);
+                    $('#auction-list').append('<div class="col-12 text-center"><p>Failed to load auctions. Please try again later.</p></div>');
                 }
             });
         }
