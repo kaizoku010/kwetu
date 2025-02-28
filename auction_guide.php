@@ -29,7 +29,7 @@
         .title {
             font-size: 32px;
             font-weight: bold;
-            color: #007bff;
+            color: #f78b00;
             margin-bottom: 20px;
         }
         .step {
@@ -42,7 +42,7 @@
         }
         .step h2 {
             font-size: 22px;
-            color: #007bff;
+            color: #f78b00;
         }
         .step p {
             font-size: 16px;
@@ -50,7 +50,7 @@
         }
         .highlight {
             font-weight: bold;
-            color: #007bff;
+            color: #f78b00;
         }
         .note {
             background: #ffecb3;

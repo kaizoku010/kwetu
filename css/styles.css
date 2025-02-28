@@ -79,13 +79,12 @@
 
 
                                                                   /* Hero Text */
-                                                                  .hero h1 {
-                                                                      font-size: 2rem;
-                                                                      font-weight: bold;
-                                                                      margin-bottom: 10px;
-                                                                      text-transform: uppercase !important;
-
-                                                                  }
+                                                                                                                                .hero h1 {
+                                                                                                                                    font-size: 2.2rem;
+                                                                                                                                    font-weight: bolder;
+                                                                                                                                    margin-bottom: 10px;
+                                                                                                                                    text-transform: uppercase !important;
+                                                                                                                                }
 
                                                                   /* Responsive Design */
                                                                   @media (max-width: 768px) {
@@ -117,9 +116,7 @@
                                                                           margin-top: 1rem;
                                                                       }
 
-                                                                      .hero h1 {
-                                                                          font-size: 1.6rem;
-                                                                      }
+                                                                
 
                                                                       .hero p {
                                                                           font-size: 16px;

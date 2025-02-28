@@ -2,7 +2,7 @@
 
 session_start(); // ✅ Start session
 include '../includes/db.php';
-include '../navbar.php';
+include './navbar.php';
 
 // ✅ Display Logout Success Message if Redirected
 $logout_message = "";
@@ -99,6 +99,9 @@ background-color: #80808012;
         #login-btn{
   margin-top: 1rem;
   width: 100%;
+    background-color: #f78b00 !important;
+border-color: #f78b00 !important;
+;
   align-self: center;
   border-radius: 30px;
         }
@@ -117,12 +120,33 @@ background-color: #80808012;
 width: 25rem;
         }
 
-        .brand-logo{
-            margin-bottom: 1rem;
-            width: 7rem;
-        }
+.brand-logo {
+  margin-bottom: .8rem;
+  width: 13rem;
+}
+.back-nav {
+  margin-top: 0rem;
+  width: 25rem;
+  background-color: transparent;
+  align-self: center;
+  border-radius: 30px;
+  color: white;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
 
+    border-style: solid;
+  border-color: #f78b00;
+  margin-top: .8rem;
+  padding: .3rem;
+}
         
+
+.back-nav:hover{
+    color:white;
+     background-color: #f78b00 !important;
+}
+
 /* Responsive Design */
 @media (max-width: 900px) {
 
@@ -131,10 +155,26 @@ width: 25rem;
         #login-btn{
   margin-top: 0rem;
   width: 45%;
+  background-color: #f78b00 !important;
   align-self: center;
   border-radius: 30px;
         }
 
+          
+        .back-nav {
+  margin-top: 0rem;
+  width: 25rem;
+  background-color: #fffdfa;
+  align-self: center;
+  border-radius: 30px;
+  color: black;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  height: 2rem;
+  margin-top: .8rem;
+  padding: .4rem;
+}
 
     .create-account-text{
         text-align: center;
@@ -195,7 +235,7 @@ border-radius: 28px;
 </div>
 <div id="form-side">
  <div class="" id="user-login-form">
-        <img src="../assets/logo.png" class="brand-logo" alt="Kwetu Logo">
+        <img src="../assets/logo-full.svg" class="brand-logo" alt="Kwetu Logo">
         <!-- ✅ Display Logout Success Message -->
         <?php echo $logout_message; ?>
 
@@ -213,10 +253,12 @@ border-radius: 28px;
             </div>
 <div style="display:flex; flex-direction: column; width: 100%;">
             <button id="login-btn" type="submit" class="btn btn-primary">Login</button>
+            <a class="back-nav" href="/">Back</a>
 
 </div>
 
-            <p class="create-account-text" style="margin-top: 1rem; color: white; font-size: small;" >Don't have an account? <a style="text-decoration: none; color: #0d6efd;" href="user_registration.php">Create Account</a></p>
+            <p class="create-account-text" style="margin-top: 1rem; color: white; font-size: small;" >
+                Don't have an account? <a style="text-decoration: none; color: #f78b00;" href="user_registration.php">Create Account</a></p>
         </form>
     </div>
 </div>

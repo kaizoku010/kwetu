@@ -64,7 +64,7 @@
         .transport-info h3 {
             font-size: 22px;
             margin-bottom: 5px;
-            color: #007bff;
+            color: #f78b00;
         }
         .transport-info p {
             margin: 5px 0;

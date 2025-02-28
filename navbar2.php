@@ -1,4 +1,4 @@
-<?php include ('./includes/db.php'); ?>
+<?php include('./includes/db.php'); ?>
 <?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -27,40 +27,48 @@ $user_id = $_SESSION['user_id'] ?? null;
 
     /* ✅ Dropdown Background Colors */
     .winning-bids-menu {
-        background: #d4edda !important; /* Light Green */
+        background: #d4edda !important;
+        /* Light Green */
         border-left: 4px solid #28a745;
     }
 
     .losing-bids-menu {
-        background: #f8d7da !important; /* Light Red */
+        background: #f8d7da !important;
+        /* Light Red */
         border-left: 4px solid #dc3545;
     }
 
     .active-auctions-menu {
-        background: #87CEFA !important; /* Sky Blue */
+        background: #87CEFA !important;
+        /* Sky Blue */
         border-left: 4px solid #007BFF;
     }
 
     .closed-auctions-menu {
-        background: #d6d6d6 !important; /* Light Gray */
+        background: #d6d6d6 !important;
+        /* Light Gray */
         border-left: 4px solid #6c757d;
     }
 
     .upcoming-auctions-menu {
-        background: #8B4513 !important; /* Brown */
+        background: #8B4513 !important;
+        /* Brown */
         border-left: 4px solid #5A2D0C;
     }
 
     /* ✅ Scrollable Dropdown */
     .scrollable-menu {
-        max-height: 300px; /* ✅ Limit height */
-        overflow-y: auto; /* ✅ Enable scrolling */
+        max-height: 300px;
+        /* ✅ Limit height */
+        overflow-y: auto;
+        /* ✅ Enable scrolling */
     }
 
     .hover-dropdown ul {
         display: none;
         position: absolute;
-        left: 100%; /* Open to the right */
+        left: 100%;
+        /* Open to the right */
         top: 0;
         background: white;
         list-style: none;
@@ -84,60 +92,50 @@ $user_id = $_SESSION['user_id'] ?? null;
     .hover-dropdown ul li:last-child {
         border-bottom: none;
     }
+
     @media (max-width: 768px) {
-    .sidebar {
-        display: none;
+        .sidebar {
+            display: none;
+        }
     }
-
-    #mdx-text {
-    color:red
-    }
-}
-
 </style>
 
 <nav class="col-md-3 col-lg-2 d-md-block bg-dark sidebar fixed-sidebar">
     <div class="position-sticky">
-
-        <h5 id="mdx-text"
-         style="text-align: left; font-size: large;"
-         class="text-white mt-3">Auction Dashboard</h5>
+        <h5 class="text-white text-center mt-3">Auction Dashboard</h5>
         <ul class="nav flex-column mt-4">
             <!-- ✅ Winning Bids Hover Dropdown -->
-
-           <li class="nav-item">
-            <a style="text-align: left; font-size: .8rem; text-decoration: none; " class="nav-link- text-white" href="finance.php">💰  Finance</a>
-           </li>
-
-            <!-- ✅ Losing Bids Hover Dropdown -->
             <li class="nav-item hover-dropdown">
-                <a style="text-align: left; font-size: .8rem" class="nav-link- text-white" href="#">❌  Losing Bids</a>
-                <ul id="losing-bids-menu" class="losing-bids-menu scrollable-menu p-2 rounded"></ul>
-            </li>
-
-            <li style="text-align: left;" class="nav-item hover-dropdown">
-                <a class="nav-link text-white" style="text-align: left; font-size: .8rem"
-                href="#">🏆  Winning Bids</a>
+                <a class="nav-link text-white" href="#">🏆 Winning Bids</a>
                 <ul id="winning-bids-menu" class="winning-bids-menu scrollable-menu p-2 rounded"></ul>
             </li>
 
+            <!-- ✅ Losing Bids Hover Dropdown -->
+            <li class="nav-item hover-dropdown">
+                <a class="nav-link text-white" href="#">❌ Losing Bids</a>
+                <ul id="losing-bids-menu" class="losing-bids-menu scrollable-menu p-2 rounded"></ul>
+            </li>
 
             <!-- ✅ Active Auctions Dropdown (Sky Blue) -->
             <li class="nav-item hover-dropdown">
-                <a style="text-align: left; font-size: .8rem" class="nav-link- text-white" href="#">✅  Active Auctions</a>
+                <a class="nav-link text-white" href="#">✅ Active Auctions</a>
                 <ul id="active-auctions-menu" class="active-auctions-menu scrollable-menu p-2 rounded"></ul>
             </li>
 
             <!-- ✅ Closed Auctions Dropdown (Gray) -->
             <li class="nav-item hover-dropdown">
-                <a style="text-align: left; font-size: .8rem" class="nav-link- text-white" href="#">📁  Closed Auctions</a>
+                <a class="nav-link text-white" href="#">📁 Closed Auctions</a>
                 <ul id="closed-auctions-menu" class="closed-auctions-menu scrollable-menu p-2 rounded"></ul>
             </li>
 
             <!-- ✅ Upcoming Auctions Dropdown (Brown) -->
             <li class="nav-item hover-dropdown">
-                <a style="text-align: left; font-size: .8rem" class="nav-link- text-white" href="#">📅  Upcoming Auctions</a>
+                <a class="nav-link text-white" href="#">📅 Upcoming Auctions</a>
                 <ul id="upcoming-auctions-menu" class="upcoming-auctions-menu scrollable-menu p-2 rounded"></ul>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-white" href="finance.php">💰 Finance</a>
             </li>
 
         </ul>
@@ -151,7 +149,7 @@ $user_id = $_SESSION['user_id'] ?? null;
 
 <!-- ✅ JavaScript to Load Winning, Losing, Active, Closed & Upcoming Auctions on Hover -->
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         let userId = <?php echo json_encode($user_id); ?>;
 
         function fetchBids(type, menuId) {
@@ -172,23 +170,23 @@ $user_id = $_SESSION['user_id'] ?? null;
                 .catch(error => console.error(`Error fetching ${endpoint}:`, error));
         }
 
-        document.querySelector(".hover-dropdown:nth-child(1)").addEventListener("mouseover", function() {
+        document.querySelector(".hover-dropdown:nth-child(1)").addEventListener("mouseover", function () {
             fetchBids("winning", "winning-bids-menu");
         });
 
-        document.querySelector(".hover-dropdown:nth-child(2)").addEventListener("mouseover", function() {
+        document.querySelector(".hover-dropdown:nth-child(2)").addEventListener("mouseover", function () {
             fetchBids("losing", "losing-bids-menu");
         });
 
-        document.querySelector(".hover-dropdown:nth-child(3)").addEventListener("mouseover", function() {
+        document.querySelector(".hover-dropdown:nth-child(3)").addEventListener("mouseover", function () {
             fetchData("fetch_active_auctions.php", "active-auctions-menu");
         });
 
-        document.querySelector(".hover-dropdown:nth-child(4)").addEventListener("mouseover", function() {
+        document.querySelector(".hover-dropdown:nth-child(4)").addEventListener("mouseover", function () {
             fetchData("fetch_closed_auctions.php", "closed-auctions-menu");
         });
 
-        document.querySelector(".hover-dropdown:nth-child(5)").addEventListener("mouseover", function() {
+        document.querySelector(".hover-dropdown:nth-child(5)").addEventListener("mouseover", function () {
             fetchData("fetch_upcoming_auctions.php", "upcoming-auctions-menu");
         });
     });

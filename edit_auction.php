@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
         }
         h2 {
-            color: #007bff;
+            color: #f78b00;
             font-weight: bold;
             text-align: center;
         }
@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         .btn-primary {
             width: 100%;
-            background: #007bff;
+            background: #f78b00;
             border: none;
             padding: 10px;
             font-size: 16px;

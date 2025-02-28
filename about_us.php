@@ -23,7 +23,7 @@
   font-size: 30px;
   font-weight: bold;
   text-align: center;
-  color: #007bff;
+  color: #f78b00;
   margin-bottom: 20px;
   margin-top: 7rem;
 }
@@ -42,7 +42,7 @@
             margin-bottom: 15px;
         }
         .highlight {
-            color: #007bff;
+            color: #f78b00;
             font-weight: bold;
         }
         .testimonial {
@@ -54,7 +54,7 @@
             text-align: center;
         }
         .testimonial strong {
-            color: #007bff;
+            color: #f78b00;
         }
         .contact-section {
             background: #e9ecef;

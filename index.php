@@ -61,7 +61,7 @@ if (session_status() === PHP_SESSION_NONE) {
         }
 
         .search-btn {
-            background-color: #007bff;
+            background-color: #f78b00;
             color: white;
             border: none;
             padding: 12px 15px;
@@ -108,7 +108,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
         /* ✅ CTA (Call-to-Action) Section */
         .cta-section {
-            background: #007bff;
+            background: #f78b00;
             color: white;
             text-align: center;
             padding: 30px;
@@ -124,12 +124,16 @@ if (session_status() === PHP_SESSION_NONE) {
             margin: 10px 0;
         }
 
+.ic-box-text{
+    font-weight: normal !important;
+}
+
   .cta-btn {
   display: inline-block;
   padding: 4px 30px;
   background: white;
-  color: #007bff;
-  font-weight: bold;
+  color: black;
+  font-weight: normal;
   text-decoration: none;
   border-radius: 5px;
   margin-top: 15px;

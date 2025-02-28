@@ -48,7 +48,7 @@ if ($result->num_rows == 0) {
         .company-title {
             font-size: 24px;
             font-weight: bold;
-            color: #007bff;
+            color: #f78b00;
             margin-top: 10px;
         }
         .company-image {

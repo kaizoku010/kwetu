@@ -135,7 +135,7 @@ if (empty($company_winning_bids)) {
         .company-title {
             font-size: 24px;
             font-weight: bold;
-            color: #007bff;
+            color: #f78b00;
             text-decoration: underline;
             text-align: center;
         }
@@ -162,7 +162,7 @@ if (empty($company_winning_bids)) {
         }
 
         .table th {
-            background-color: #007bff;
+            background-color: #f78b00;
             color: white;
             font-weight: bold;
         }
@@ -173,7 +173,7 @@ if (empty($company_winning_bids)) {
         }
 
         .payment-btn {
-            background-color: #007bff;
+            background-color: #f78b00;
             color: white;
             padding: 12px 18px;
             border-radius: 5px;

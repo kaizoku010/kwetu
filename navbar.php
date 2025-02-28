@@ -166,7 +166,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
         .auth-buttons a {
             background-color: white;
-            color: #007bff;
+            color: #f78b00;
             padding: 8px 12px;
             margin-left: 10px;
             border-radius: 5px;
@@ -277,12 +277,12 @@ color:gray;
   height: fit-content;
 }
 
-    .logo {
-  font-size: 22px;
+.logo {
   font-weight: bold;
   color: white;
+
   text-decoration: none;
-  margin-left: 1rem;
+ 
 }
 
         .nav-links li {
@@ -356,9 +356,9 @@ color:gray;
 
         <!-- Desktop Menu -->
         <ul class="nav-links desktop-menu">
-            <li><a href="index.php">Home</a></li>
-            <li><a href="auction_guide.php">Auction Guide</a></li>
-            <li><a href="transport_services.php">Transport Services</a></li>
+            <li><a href="/">Home</a></li>
+            <li><a href="./auction_guide.php">Auction Guide</a></li>
+            <li><a href="./transport_services.php">Transport Services</a></li>
             <li><a href="sell_with_us.php">Sell With Us</a></li>
             <li><a href="about_us.php">About Us</a></li>
             <li><a href="career.php">Careers</a></li>

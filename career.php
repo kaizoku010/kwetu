@@ -35,7 +35,7 @@
             font-weight: bold;
             border: none;
             border-radius: 5px;
-            background: #007bff;
+            background: #f78b00;
             color: white;
             text-decoration: none;
             transition: background 0.3s;
@@ -65,7 +65,7 @@
             width: 60%;
         }
         .section h2 {
-            color: #007bff;
+            color: #f78b00;
             font-size: 28px;
             margin-bottom: 10px;
         }
@@ -84,7 +84,7 @@
         }
         .core-values h2 {
             font-size: 28px;
-            color: #007bff;
+            color: #f78b00;
             margin-bottom: 20px;
         }
         .values-container {

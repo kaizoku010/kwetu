@@ -24,7 +24,7 @@
         .title {
             font-size: 32px;
             font-weight: bold;
-            color: #007bff;
+            color: #f78b00;
                         margin-top: 10rem;
             text-align: center;
             margin-bottom: 20px;
@@ -34,8 +34,8 @@
         }
         .faq-section h2 {
             font-size: 24px;
-            color: #007bff;
-            border-bottom: 2px solid #007bff;
+            color: #f78b00;
+            border-bottom: 2px solid #f78b00;
             padding-bottom: 5px;
             margin-bottom: 15px;
         }

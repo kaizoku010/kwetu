@@ -128,7 +128,7 @@
 
 /* Register Button */
 .register-btn {
-    background: #007bff !important; /* ✅ Blue */
+    background: #f78b00 !important; /* ✅ Blue */
     color: white !important;
     padding: 8px 15px;
     border-radius: 5px;
@@ -138,7 +138,7 @@
 }
 
 .register-btn:hover {
-    background: #0056b3 !important; /* ✅ Darker blue */
+    background: #f78c00b5 !important; /* ✅ Darker blue */
     color: white !important;
 }
 
@@ -151,7 +151,7 @@
 
 .dropbtn {
     background: white;
-    color: #007bff;
+    color: #f78b00;
     padding: 8px 12px;
     border-radius: 5px;
     font-weight: bold;
@@ -160,8 +160,8 @@
 }
 
 .dropbtn:hover {
-    background: #0056b3;
-    color: white;
+    background: #f78c00b5 !important;
+        /* ✅ Darker blue */    color: white;
 }
 
 .dropdown-content {
@@ -176,7 +176,7 @@
 }
 
 .dropdown-content a {
-    color: #007bff;
+    color: #f78b00;
     padding: 10px;
     display: block;
     text-decoration: none;
@@ -203,7 +203,7 @@
     .nav-links {
         display: none;
         flex-direction: column;
-        background: #007bff;
+        background: #f78b00;
         position: absolute;
         top: 60px;
         width: 100%;

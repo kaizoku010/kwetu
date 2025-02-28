@@ -76,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   margin-top: 10rem;
 }
         h2 {
-            color: #007bff;
+            color: #f78b00;
             margin-bottom: 20px;
         }
         form {
