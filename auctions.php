@@ -120,23 +120,30 @@ if (session_status() === PHP_SESSION_NONE) {
         let page = 1;
         let loading = false;
         let isRecycling = false;
+        let hasMoreItems = true; // New flag to track if more items are available
 
-        // Load initial auctions
         $(document).ready(function() {
             loadAuctions();
             
-            // Add scroll event listener
+            // Enhanced infinite scroll with debounce
+            let scrollTimeout;
             $(window).scroll(function() {
-                if($(window).scrollTop() + $(window).height() > $(document).height() - 200) {
-                    if(!loading) {
-                        loadAuctions();
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(function() {
+                    if(!loading && hasMoreItems) {
+                        const scrollPosition = $(window).scrollTop() + $(window).height();
+                        const triggerPosition = $(document).height() - 200;
+                        
+                        if(scrollPosition > triggerPosition) {
+                            loadAuctions();
+                        }
                     }
-                }
+                }, 100); // Debounce scroll events
             });
         });
         
         function loadAuctions() {
-            if(loading) return;
+            if(loading || !hasMoreItems) return;
             
             loading = true;
             $('#loading-spinner').removeClass('d-none');
@@ -152,27 +159,39 @@ if (session_status() === PHP_SESSION_NONE) {
                 success: function(response) {
                     $('#loading-spinner').addClass('d-none');
                     
-                    if(response.auctions.length > 0) {
+                    if(response.auctions && response.auctions.length > 0) {
                         response.auctions.forEach(function(auction) {
                             $('#auction-list').append(auction);
                         });
                         
-                        // Initialize countdown timers for new elements
                         initCountdownTimers();
                         
                         if(response.isLastPage) {
-                            isRecycling = true;
-                            page = 1;
+                            if(isRecycling) {
+                                hasMoreItems = false; // Stop infinite scroll if we've recycled through all items
+                                $('#end-of-auctions').show(); // Optional: Show "end of auctions" message
+                            } else {
+                                isRecycling = true;
+                                page = 1;
+                            }
                         } else {
                             page++;
                         }
+                    } else {
+                        hasMoreItems = false;
+                        $('#end-of-auctions').show();
                     }
                     loading = false;
                 },
                 error: function(xhr, status, error) {
                     $('#loading-spinner').addClass('d-none');
                     loading = false;
-                    console.error('Error loading auctions:', error);
+                    console.error('Failed to load auctions:', error);
+                    
+                    // Show error message
+                    $('#auction-list').append(
+                        '<div class="alert alert-danger">Failed to load more auctions. Please refresh the page.</div>'
+                    );
                 }
             });
         }

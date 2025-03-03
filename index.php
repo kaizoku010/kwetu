@@ -16,6 +16,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kwetu Store - Home</title>
+    <link rel="icon" type="image/x-icon" href="assets/favi.png">
     <style>
         /* ✅ General Page Styling */
         body {
