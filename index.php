@@ -199,6 +199,10 @@ if (session_status() === PHP_SESSION_NONE) {
             font-size: .8rem;
         }
 
+        .search-btn:active{
+background: #f78b00 !important;
+        }
+
         .cta-btn:hover {
             background: #f1f1f1;
         }
