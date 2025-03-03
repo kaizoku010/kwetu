@@ -196,7 +196,7 @@ if (session_status() === PHP_SESSION_NONE) {
             border-radius: 5px;
             margin-top: 15px;
             transition: background 0.3s;
-            font-size: 1rem;
+            font-size: .8rem;
         }
 
         .cta-btn:hover {
