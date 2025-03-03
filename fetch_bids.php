@@ -1,4 +1,10 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Log the incoming request
+error_log("Received request - Type: " . $_GET['type'] . ", User ID: " . $_GET['user_id']);
+
 include './includes/db.php';
 
 if (!isset($_GET['type']) || !isset($_GET['user_id'])) {

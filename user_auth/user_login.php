@@ -105,7 +105,7 @@ background-color: #80808012;
   width: 100% !important;
     background-color: #f78b00 !important;
 border-color: #f78b00 !important;
-;
+          font-size: .8rem;
   align-self: center;
   border-radius: 30px;
         }
@@ -131,6 +131,8 @@ width: 25rem;
 .back-nav {
   margin-top: 0rem;
   width: 25rem;
+            font-size: .8rem;
+
   background-color: transparent;
   align-self: center;
 border: 1px solid #f78b00; 

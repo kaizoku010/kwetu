@@ -59,7 +59,7 @@ $user_id = $_SESSION['user_id'] ?? null;
     /* ✅ Scrollable Dropdown */
     .scrollable-menu {
         max-height: 300px;
-        /* ✅ Limit height */
+        /* �� Limit height */
         overflow-y: auto;
         /* ✅ Enable scrolling */
     }
@@ -157,9 +157,14 @@ $user_id = $_SESSION['user_id'] ?? null;
         let userId = <?php echo json_encode($user_id); ?>;
 
         function fetchBids(type, menuId) {
+            console.log(`Fetching ${type} bids for user ${userId}`);
             fetch("fetch_bids.php?type=" + type + "&user_id=" + userId)
-                .then(response => response.text())
+                .then(response => {
+                    console.log('Response:', response);
+                    return response.text();
+                })
                 .then(data => {
+                    console.log('Data received:', data);
                     document.getElementById(menuId).innerHTML = data;
                 })
                 .catch(error => console.error("Error fetching bids:", error));
