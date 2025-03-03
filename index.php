@@ -278,6 +278,61 @@ background: #f78b00 !important;
 <?php include './auctions.php'; ?>
 <?php include 'navbar2.php'; ?>
 
+<button id="scrollToTop" title="Go to top">↑</button>
+
+<style>
+
+
+#scrollToTop {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 99;
+  border: none;
+  outline: none;
+  background-color: #f78b00;
+  color: #fdfdfd;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 50%;
+  font-size: 18px;
+  width: 56px;
+  height: 56px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  font-weight: bold !important;
+}
+
+    #scrollToTop:hover {
+        background-color: #f78c00da;
+        transform: translateY(-3px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+</style>
+
+<script>
+    // Get the button
+    const scrollToTopBtn = document.getElementById("scrollToTop");
+
+    // Combine both scroll handlers
+    window.onscroll = function() {
+        // Scroll to top button visibility
+        if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+            scrollToTopBtn.style.display = "block";
+        } else {
+            scrollToTopBtn.style.display = "none";
+        }
+    };
+
+    // When the user clicks on the button, scroll to the top of the document
+    scrollToTopBtn.addEventListener("click", function() {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    });
+</script>
 </body>
 
 </html>

@@ -120,17 +120,17 @@ if (session_status() === PHP_SESSION_NONE) {
         let page = 1;
         let loading = false;
         let isRecycling = false;
-        let hasMoreItems = true; // New flag to track if more items are available
+        let hasMoreItems = true; // We'll keep this true always since we're recycling
 
         $(document).ready(function() {
             loadAuctions();
             
             // Enhanced infinite scroll with debounce
             let scrollTimeout;
-            $(window).scroll(function() {
+            window.addEventListener('scroll', function() {
                 clearTimeout(scrollTimeout);
                 scrollTimeout = setTimeout(function() {
-                    if(!loading && hasMoreItems) {
+                    if(!loading) { // Remove hasMoreItems check since we always want to load
                         const scrollPosition = $(window).scrollTop() + $(window).height();
                         const triggerPosition = $(document).height() - 200;
                         
@@ -138,12 +138,12 @@ if (session_status() === PHP_SESSION_NONE) {
                             loadAuctions();
                         }
                     }
-                }, 100); // Debounce scroll events
+                }, 100);
             });
         });
         
         function loadAuctions() {
-            if(loading || !hasMoreItems) return;
+            if(loading) return;
             
             loading = true;
             $('#loading-spinner').removeClass('d-none');
@@ -167,19 +167,11 @@ if (session_status() === PHP_SESSION_NONE) {
                         initCountdownTimers();
                         
                         if(response.isLastPage) {
-                            if(isRecycling) {
-                                hasMoreItems = false; // Stop infinite scroll if we've recycled through all items
-                                $('#end-of-auctions').show(); // Optional: Show "end of auctions" message
-                            } else {
-                                isRecycling = true;
-                                page = 1;
-                            }
+                            isRecycling = true;
+                            page = 1; // Reset page to 1
                         } else {
                             page++;
                         }
-                    } else {
-                        hasMoreItems = false;
-                        $('#end-of-auctions').show();
                     }
                     loading = false;
                 },
@@ -188,7 +180,6 @@ if (session_status() === PHP_SESSION_NONE) {
                     loading = false;
                     console.error('Failed to load auctions:', error);
                     
-                    // Show error message
                     $('#auction-list').append(
                         '<div class="alert alert-danger">Failed to load more auctions. Please refresh the page.</div>'
                     );

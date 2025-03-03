@@ -30,12 +30,10 @@ try {
     $totalCount = $totalResult->fetch_assoc()['total'];
 
     // If recycling and offset exceeds total, reset offset to beginning
-    if ($recycling && $offset >= $totalCount) {
+    if ($offset >= $totalCount) {
         $offset = 0;
         $page = 1;
     }
-
-    $isAdmin = isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true;
 
     // Query with pagination
     $query = "SELECT * FROM auctions LIMIT ? OFFSET ?";
