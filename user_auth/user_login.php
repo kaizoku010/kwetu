@@ -34,7 +34,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // ✅ Update last_active to track online users
             $conn->query("UPDATE users SET last_active = NOW() WHERE id = " . $_SESSION['user_id']);
 
-            header("Location: ../index.php");
+            // header("Location: ../index.php");
+// take user to their profile by default
+            header("Location: profile.php"); 
+
             exit();
         } else {
             $error = "Invalid credentials. Please try again.";
@@ -77,11 +80,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         #user-login-form {
   padding: 10rem;
-  /* width: 99%; */
+
   height: 100vh;
   text-align: left !important;
   align-items: center;
   display: flex;
+                 background-image: url('../assets/wavy.jpg');
   background-color: #171515;
   flex-direction: column;
   justify-content: center;
@@ -116,7 +120,7 @@ border-color: #f78b00 !important;
             font-weight: bold;
         }
 
-        .login-form{
+    .login-form{
 width: 25rem;
         }
 
@@ -129,7 +133,7 @@ width: 25rem;
   width: 25rem;
   background-color: transparent;
   align-self: center;
-border: 2px solid #f78b00; 
+border: 1px solid #f78b00; 
     border-radius: 30px;
 
   color: white;
@@ -234,7 +238,7 @@ border-radius: 28px;
 </div>
 <div id="form-side">
  <div class="" id="user-login-form">
-        <img src="../assets/logo-full.svg" class="brand-logo" alt="Kwetu Logo">
+        <img onclick="window.location.href='/'" src="../assets/logo-full.svg" class="brand-logo" alt="Kwetu Logo">
         <!-- ✅ Display Logout Success Message -->
         <?php echo $logout_message; ?>
 
@@ -256,7 +260,7 @@ border-radius: 28px;
 
 </div>
 
-            <p class="create-account-text" style="margin-top: 1rem; color: white; font-size: small;" >
+            <p class="create-account-text text-center" style="margin-top: 1rem; color: white; font-size: small;" >
                 Don't have an account? <a style="text-decoration: none; color: #f78b00;" href="user_registration.php">Create Account</a></p>
         </form>
     </div>

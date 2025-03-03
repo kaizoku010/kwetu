@@ -109,6 +109,8 @@ body.index-page {
 
     .hero h1 {
         font-size: 1.8rem !important;
+        margin-top: 4rem;
+    
     }
 
     .hero p {

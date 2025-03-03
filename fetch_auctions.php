@@ -7,46 +7,33 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Log request
-error_log("fetch_auctions.php called with page: " . $_GET['page']);
-
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$recycling = isset($_GET['recycling']) ? filter_var($_GET['recycling'], FILTER_VALIDATE_BOOLEAN) : false;
 $limit = 10; // Number of auctions per page
 $offset = ($page - 1) * $limit;
 
-// Get total count first
+// Get total count
 $countQuery = "SELECT COUNT(*) as total FROM auctions";
 $totalResult = $conn->query($countQuery);
-if (!$totalResult) {
-    error_log("Error in count query: " . $conn->error);
-    die(json_encode(['error' => 'Database error', 'debug' => $conn->error]));
-}
 $totalCount = $totalResult->fetch_assoc()['total'];
 
-error_log("Total auctions found: " . $totalCount);
+// If recycling and offset exceeds total, reset offset to beginning
+if ($recycling && $offset >= $totalCount) {
+    $offset = 0;
+    $page = 1;
+}
 
 $isAdmin = isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true;
 
-// Simple query with pagination
+// Query with pagination
 $query = "SELECT * FROM auctions LIMIT ? OFFSET ?";
 $stmt = $conn->prepare($query);
-if (!$stmt) {
-    error_log("Error preparing statement: " . $conn->error);
-    die(json_encode(['error' => 'Database error', 'debug' => $conn->error]));
-}
-
 $stmt->bind_param("ii", $limit, $offset);
 $stmt->execute();
 $result = $stmt->get_result();
 
-if (!$result) {
-    error_log("Error executing query: " . $stmt->error);
-    die(json_encode(['error' => 'Database error', 'debug' => $stmt->error]));
-}
-
 $auctions = [];
 if ($result->num_rows > 0) {
-    error_log("Found " . $result->num_rows . " auctions for page " . $page);
     while ($auction = $result->fetch_assoc()) {
         $now = new DateTime();
         $start_time = new DateTime($auction['opening_date']);
@@ -95,13 +82,13 @@ if ($result->num_rows > 0) {
 header('Content-Type: application/json');
 $response = [
     'auctions' => $auctions,
-    'hasMore' => ($page * $limit) < $totalCount,
+    'isLastPage' => ($offset + $limit) >= $totalCount,
     'debug' => [
         'page' => $page,
         'total' => $totalCount,
-        'returned' => count($auctions)
+        'returned' => count($auctions),
+        'recycling' => $recycling
     ]
 ];
-error_log("Sending response: " . json_encode($response['debug']));
 echo json_encode($response);
 ?>

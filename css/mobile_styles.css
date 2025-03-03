@@ -1,47 +1,123 @@
-    @media screen and (max-width: 992px) {
-        .nav-links {
+.mdx-reg-section {
+    height: 100vh;
+    background-color: black;
+    background-image: url("../assets/bg2.png");
+    display: flex;
+    margin-top: 0 !important;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.form-control {
+    border-radius: 30px !important;
+}
+
+.mdx-filler{
+    display:block;
+    width: 70%;
+    background-color: transparent;
+}
+
+
+.mdx-reg {
+        justify-content: center;
+        height: 100vh;
+        background-color: black;
+        background-image: url("../assets/wavy.jpg");
+        color: white;
+        width: 35% !important;
+        max-width: 100%;
+        display: flex;
+        padding-left: 7rem;
+        padding-right: 7rem;
+        flex-direction: column;
+        margin-top: 0 !important;
+}
+
+    .brand-logo-reg {
+        width: 10rem;
+        margin-bottom: 2rem;
+        align-self: center;
+    }
+
+    /* .mdx-margins{
+        margin-left: 3rem;
+            margin-right: 3rem;
+    } */
+
+    .mdx-btn-reg:hover{
+        background-color: transparent !important;
+        color: white !important;
+    }
+
+    .brand-logo-reg:hover {
+        cursor: pointer;
+    }
+
+    .mdx-btn-bck:hover{
+        background-color: #f78b00 !important;
+        color: white !important;
+    }
+
+.mdx-btn-reg {
+    background-color: #f78b00 !important;
+    border-color: #f78b00 !important;
+    border-radius: 30px;
+    width: 100%;
+}
+
+.mdx-btn-bck {
+    margin-top: 1rem;
+    background-color: transparent !important;
+    border-color: #f78b00 !important;
+    border-radius: 30px;
+    width: 100%;
+    border: 1px solid #f78b00;
+}
+
+    @media screen and (max-width: 993px) {
+       .mdx-filler{
+        display: none;
+       }
+       
+        .mdx-reg {
+            background-color: #171515 !important;
+            height: 100vh;
+            background-image: url("../assets/wavy.jpg");
+            color: white;
+            padding-left: 3rem;
+            padding-right: 3rem;
             display: flex;
             flex-direction: column;
-            position: fixed;
-            top: 0;
-            left: -250px;
-            width: 250px;
-            height: 100vh;
-            background-color: rgba(3, 3, 3, 0.95);
-            padding: 20px;
-            text-align: left;
-            transition: left 0.3s ease-in-out;
-            justify-content: flex-start;
-            align-items: flex-start;
+            width: 100% !important;
+            margin-top: 0 !important;
+            justify-content: center;
+
         }
 
-        .nav-links.active {
-            left: 0;
+        .brand-logo-reg {
+            width: 10rem;
+            margin-bottom: 2rem;
+            align-self: center;
         }
 
-        .nav-links li {
-            margin: 15px 0;
+        .mdx-btn-reg {
+            background-color: #f78b00 !important;
+            border-color: #f78b00 !important;
+            border-radius: 30px;
             width: 100%;
         }
 
-        .nav-links a {
-            display: block;
+        .mdx-btn-bck {
+            margin-top: 1rem;
+            background-color: transparent !important;
+            border-color: #f78b00 !important;
+            border-radius: 30px;
             width: 100%;
+            border: 2px solid #f78b00;
         }
 
-        .close-menu {
-            display: block;
-            font-size: 24px;
-            color: white;
-            cursor: pointer;
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: none;
-            border: none;
-        }
-
-        .hamburger {
-            display: block;
+        .form-control {
+            border-radius: 30px !important;
         }
     }

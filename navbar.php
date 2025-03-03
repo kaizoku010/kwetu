@@ -19,10 +19,17 @@ if (session_status() === PHP_SESSION_NONE) {
             font-family: Arial, sans-serif;
         }
 
+        #userDropdown{
+          background-color: black !important;  
+        }
+
 
         /* Hide the desktop menu on mobile devices */
         @media screen and (max-width: 992px) {
             .desktop-menu {
+                display: none !important;
+            }
+            .kai-sama{
                 display: none !important;
             }
 
@@ -114,6 +121,19 @@ if (session_status() === PHP_SESSION_NONE) {
             .mobile-hamburger {
                 display: block;
             }
+             .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem !important;
+            background-color: rgb(3, 3, 3);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
 
             .desktop-menu {
                 display: none !important;
@@ -346,12 +366,10 @@ if (session_status() === PHP_SESSION_NONE) {
 </head>
 
 <body>
-
     <nav class="navbar">
         <a href="/" class="logo">
             <image src="/assets/logo-full.svg" alt="Kwetu Auctions" class="logo-image">
         </a>
-
         <!-- Simple hamburger button -->
         <button id="hamburger-btn"
             style="display: none; position: absolute; right: 20px; top: 20px; background: none; border: none; color: white; font-size: 24px; cursor: pointer;">☰</button>
@@ -360,8 +378,15 @@ if (session_status() === PHP_SESSION_NONE) {
             <!-- Auth buttons -->
             <div class="auth-buttons">
                 <?php if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true): ?>
-                    <a href="user_auth/profile.php"><?php echo htmlspecialchars($_SESSION['username']); ?></a>
-                    <a href="user_auth/user_logout.php">Logout</a>
+          <li class="kai-sama nav-item dropdown">
+        <a  class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            👤 <?php echo htmlspecialchars($_SESSION['username']); ?>
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="userDropdown">
+            <li><a class="dropdown-item" href="/user_auth/profile.php">My Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/user_auth/user_logout.php">Logout</a></li>
+        </ul>
                 <?php else: ?>
                     <a class="login-button" href="user_auth/user_login.php">Sign In</a>
                     <a class="register-button" href="/user_auth/user_registration.php">Create Account</a>
@@ -389,13 +414,30 @@ if (session_status() === PHP_SESSION_NONE) {
             style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: white; font-size: 24px; cursor: pointer;">✖</button>
 
         <ul style="list-style: none; margin-top: 60px; padding: 0; text-align: left;">
+            <?php if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true): ?>
+                <li style="margin: 15px 0;">
+                    <span style="color: white; font-size: 18px; display: block; margin-bottom: 10px;">
+                        👤 <?php echo htmlspecialchars($_SESSION['username']); ?>
+                    </span>
+                    <ul style="list-style: none; padding-left: 20px;">
+                        <li style="margin: 10px 0;">
+                            <a id="mobile-links" href="/user_auth/profile.php" style="color: white; text-decoration: none; font-size: 16px;">My Profile</a>
+                        </li>
+                        <li style="margin: 10px 0;">
+                            <a id="mobile-links" href="/user_auth/user_logout.php" style="color: white; text-decoration: none; font-size: 16px;">Logout</a>
+                        </li>
+                    </ul>
+                </li>
+            <?php endif; ?>
             <li style="margin: 15px 0;"><a id="mobile-links" href="index.php"
                     style="color: white; text-decoration: none; font-size: 18px;">Home</a></li>
-
-            <li style="margin: 15px 0;"><a id="mobile-links" href="/user_auth/user_login.php"
-                    style="color: white; text-decoration: none; font-size: 18px;">Sign In</a></li>
-            <li style="margin: 15px 0;"><a id="mobile-links" href="/user_auth/user_registration.php"
-                    style="color: white; text-decoration: none; font-size: 18px;">Register</a></li>
+            
+            <?php if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true): ?>
+                <li style="margin: 15px 0;"><a id="mobile-links" href="/user_auth/user_login.php"
+                        style="color: white; text-decoration: none; font-size: 18px;">Sign In</a></li>
+                <li style="margin: 15px 0;"><a id="mobile-links" href="/user_auth/user_registration.php"
+                        style="color: white; text-decoration: none; font-size: 18px;">Register</a></li>
+            <?php endif; ?>
             <li style="margin: 15px 0;"><a id="mobile-links" href="auction_guide.php"
                     style="color: white; text-decoration: none; font-size: 18px;">Auction Guide</a></li>
             <li style="margin: 15px 0;"><a id="mobile-links" href="transport_services.php"

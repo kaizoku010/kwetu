@@ -119,7 +119,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <script>
         let page = 1;
         let loading = false;
-        let hasMoreAuctions = true;
+        let isRecycling = false;
 
         // Load initial auctions
         $(document).ready(function() {
@@ -128,7 +128,7 @@ if (session_status() === PHP_SESSION_NONE) {
             // Add scroll event listener
             $(window).scroll(function() {
                 if($(window).scrollTop() + $(window).height() > $(document).height() - 200) {
-                    if(!loading && hasMoreAuctions) {
+                    if(!loading) {
                         loadAuctions();
                     }
                 }
@@ -145,7 +145,8 @@ if (session_status() === PHP_SESSION_NONE) {
                 url: './fetch_auctions.php',
                 type: 'GET',
                 data: {
-                    page: page
+                    page: page,
+                    recycling: isRecycling
                 },
                 dataType: 'json',
                 success: function(response) {
@@ -159,16 +160,19 @@ if (session_status() === PHP_SESSION_NONE) {
                         // Initialize countdown timers for new elements
                         initCountdownTimers();
                         
-                        page++;
-                        hasMoreAuctions = response.hasMore;
-                    } else {
-                        hasMoreAuctions = false;
+                        if(response.isLastPage) {
+                            isRecycling = true;
+                            page = 1;
+                        } else {
+                            page++;
+                        }
                     }
                     loading = false;
                 },
                 error: function(xhr, status, error) {
                     $('#loading-spinner').addClass('d-none');
                     loading = false;
+                    console.error('Error loading auctions:', error);
                 }
             });
         }
