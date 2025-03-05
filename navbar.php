@@ -288,7 +288,7 @@ margin-bottom: 0.3rem;
             .logo-image {
                 width: 6rem !important;
                 height: auto;
-                margin-left: -2rem;
+                margin-left: -2rem !important;
             }
 
             .nav-links {
