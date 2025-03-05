@@ -124,9 +124,8 @@ if ($highest_bid_result->num_rows > 0) {
 
     <?php include 'navbar2.php'; ?>
 
-    <div class="container mt-5">
-        <h2 class="text-center">Lot Details</h2>
-
+    <div class=" container mt-5">
+        <h2 style="margin-top: 6rem; margin-bottom: 2rem;" class="text-center">Lot Details</h2>
         <div class="row">
             <!-- ✅ Left Side: Image & Description -->
             <div class="col-md-6">
