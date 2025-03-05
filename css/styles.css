@@ -473,6 +473,8 @@ h2.auction-title {
     /* background-color: red; */
     /* display: flex; */
     /* display: none; */
+    margin-top: .2rem;
+    margin-right: 1.7rem;
     justify-content: end !important;
     flex-direction: column;
   }

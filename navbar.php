@@ -26,7 +26,7 @@
         }
 
      .currency-selector-container {
-  margin-right: 15px;
+  margin-right: 0px;
   width: 5rem;
   background-color: #f7951d !important;
   border-radius: 4px !important;
