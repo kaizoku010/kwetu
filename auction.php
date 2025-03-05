@@ -75,8 +75,7 @@ $exchange_rate = 3800;
                                 <div class="bg-light p-3 rounded mb-2">
                                     <h6 class="fw-bold">Bids:</h6>
                                     <p><span id="bids-count-' . $item['id'] . '">' . htmlspecialchars($item['bidders'], ENT_QUOTES, 'UTF-8') . '</span></p>
-                                </div> mklj
-
+                                </div>
                                 <div class="bg-light p-3 rounded mb-2">
                                     <h6 class="fw-bold">Current Price:</h6>
                                     <p class="price-display" 

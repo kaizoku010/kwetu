@@ -38,7 +38,7 @@ $closing_time = strtotime($lot['closing_date']);
 $current_time = time();
 $is_closed = ($closing_time <= $current_time); // ✅ Auction is closed if time has passed
 
-// ✅ Set Exchange Rate
+//  Tryin Exchange Rate
 $exchange_rate = 3800;
 
 // ✅ Convert Prices to UGX
@@ -114,6 +114,10 @@ if ($highest_bid_result->num_rows > 0) {
             from { opacity: 1; }
             to { opacity: 0.5; }
         }
+
+        /* .black-txt-area > p{
+            color: red;
+        } */
     </style>
 </head>
 <body>
@@ -146,9 +150,9 @@ if ($highest_bid_result->num_rows > 0) {
                     <p>UGX <span id="current-price"><?php echo number_format($current_price_ugx); ?></span></p>
                 </div>
 
-                <div class="bg-light p-3 rounded mb-2">
+                <div class="bg-light p-3 rounded mb-2 black-txt-area">
                     <h6 class="fw-bold">Your Last Bid:</h6>
-                    <p><?php echo ($user_bid_value > 0) ? "UGX " . number_format($user_bid_value) : "You haven't bided on this lot"; ?></p>
+                    <p class="black-text"><?php echo ($user_bid_value > 0) ? "UGX " . number_format($user_bid_value) : "You haven't bided on this lot"; ?></p>
                 </div>
 
                 <div class="bg-light p-3 rounded mb-2">
@@ -167,7 +171,7 @@ if ($highest_bid_result->num_rows > 0) {
                 </div>
 
                 <!-- ✅ Winning or Losing Message -->
-                <div class="p-3 rounded text-white text-center mb-2 
+                <div class="p-3 rounded text-center mb-2 
                     <?php echo ($user_bid_value == 0) ? 'bg-no-bid' : ($is_winning ? 'bg-winning' : 'bg-losing'); ?>">
                     <h6><?php echo ($user_bid_value == 0) ? 'You haven\'t bided on this lot.' : ($is_winning ? 'You are winning!' : 'You are losing. Place a higher bid!'); ?></h6>
                 </div>
@@ -216,7 +220,7 @@ if ($highest_bid_result->num_rows > 0) {
         }
 
         // Replace the existing interval-based code with WebSocket
-        const ws = new WebSocket('ws://localhost:8080');
+        const ws = new WebSocket('ws://localhost:3306');
         const lotId = <?php echo $lot_id; ?>;
 
         ws.onopen = function() {
