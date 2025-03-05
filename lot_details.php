@@ -215,51 +215,46 @@ if ($highest_bid_result->num_rows > 0) {
             bidInput.setAttribute('title', initialValue + 'K UGX');
         }
 
-        function fetchLotDetails() {
-            const lotId = <?php echo $lot_id; ?>;
+        // Replace the existing interval-based code with WebSocket
+        const ws = new WebSocket('ws://localhost:8080');
+        const lotId = <?php echo $lot_id; ?>;
 
-            $.ajax({
-                url: 'fetch_lot_details.php',
-                type: 'GET',
-                data: { lot_id: lotId },
-                dataType: 'json',
-                success: function(response) {
+        ws.onopen = function() {
+            // Subscribe to updates for this lot
+            ws.send(JSON.stringify({
+                type: 'subscribe',
+                lot_id: lotId
+            }));
+        };
 
-                console.log("responses",response);
+        ws.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            
+            // Update DOM elements
+            $('#current-price').text(data.current_price_ugx.toLocaleString());
+            $('#min-allowed-bid').text(data.min_allowed_bid_ugx.toLocaleString());
+            $('#max-allowed-bid').text(data.max_allowed_bid_ugx.toLocaleString());
+            $('#user-bid-value').text(data.user_bid_value > 0 ? 
+                "UGX " + data.user_bid_value.toLocaleString() : 
+                "You haven't bided on this lot"
+            );
+            $('#highest-bid').text(data.highest_bid_ugx.toLocaleString());
 
-                    if (response.error) {
-                        console.error(response.error);
-                        return;
-                    }
+            // Update winning/losing status
+            const bidStatus = $('#bid-status');
+            if (data.user_bid_value == 0) {
+                bidStatus.removeClass('bg-winning bg-losing')
+                        .addClass('bg-no-bid')
+                        .html("<h6>You haven't bided on this lot.</h6>");
+            } else {
+                bidStatus.removeClass('bg-no-bid')
+                        .addClass(data.is_winning ? 'bg-winning' : 'bg-losing')
+                        .html("<h6>" + (data.is_winning ? 'You are winning!' : 'You are losing. Place a higher bid!') + "</h6>");
+            }
+        };
 
-                    // Update DOM elements
-                    $('#current-price').text(response.current_price_ugx.toLocaleString());
-                    $('#min-allowed-bid').text(response.min_allowed_bid_ugx.toLocaleString());
-                    $('#max-allowed-bid').text(response.max_allowed_bid_ugx.toLocaleString());
-                    $('#user-bid-value').text(response.user_bid_value > 0 ? "UGX " + response.user_bid_value.toLocaleString() : "You haven't bided on this lot");
-                    $('#highest-bid').text(response.highest_bid_ugx.toLocaleString());
-
-                    // Update winning/losing status
-                    const bidStatus = $('#bid-status');
-                    if (response.user_bid_value == 0) {
-                        bidStatus.removeClass('bg-winning bg-losing').addClass('bg-no-bid').html("<h6>You haven't bided on this lot.</h6>");
-                    } else {
-                        bidStatus.removeClass('bg-no-bid').addClass(response.is_winning ? 'bg-winning' : 'bg-losing').html("<h6>" + (response.is_winning ? 'You are winning!' : 'You are losing. Place a higher bid!') + "</h6>");
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error fetching lot details:', error);
-                }
-            });
-        }
-
-        // Fetch lot details every 5 seconds
-        setInterval(fetchLotDetails, 5000);
-
-        // Fetch details immediately when the page loads
-        $(document).ready(function() {
-            fetchLotDetails();
-        });
+        // Remove the existing interval
+        // setInterval(fetchLotDetails, 5000); // Removed
     </script>
 </body>
 </html>

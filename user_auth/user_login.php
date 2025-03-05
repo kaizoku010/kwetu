@@ -2,7 +2,7 @@
 
 session_start(); // ✅ Start session
 include '../includes/db.php';
-include './navbar.php';
+// include './navbar.php';
 
 // ✅ Display Logout Success Message if Redirected
 $logout_message = "";

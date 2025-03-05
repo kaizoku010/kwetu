@@ -1,7 +1,7 @@
-<?php
+<!-- <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-?>
+?> -->
 <?php include 'navbar.php'; ?>
 <?php include './includes/db.php'; ?>
 <?php
@@ -205,6 +205,10 @@ background: #f78b00 !important;
 
         .cta-btn:hover {
             background: #f1f1f1;
+        }
+
+        .hero p {
+            font-weight: 300;    
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">

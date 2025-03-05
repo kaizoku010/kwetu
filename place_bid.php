@@ -72,5 +72,20 @@ echo "<script>
         alert('Your bid of UGX " . number_format($bid_amount_ugx) . " has been placed successfully!');
         window.location.href = 'lot_details.php?id=$lot_id';
       </script>";
+
+// After successful bid placement, notify WebSocket server
+$ch = curl_init('http://localhost:8080/notify');
+$bidData = [
+    'lot_id' => $lot_id,
+    'current_price_ugx' => $bid_amount_ugx,
+    'highest_bid_ugx' => $bid_amount_ugx,
+    'user_bid_value' => $bid_amount_ugx,
+    'is_winning' => true
+];
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($bidData));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_exec($ch);
+curl_close($ch);
 exit();
 ?>

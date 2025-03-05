@@ -19,8 +19,34 @@ if (session_status() === PHP_SESSION_NONE) {
             font-family: Arial, sans-serif;
         }
 
-        #userDropdown{
-          background-color: black !important;  
+        .desktop-menu{
+            margin-bottom: -.2rem !important;
+        }
+
+
+        .currency-selector-container {
+            margin-right: 15px;
+            width: 5rem;
+            background-color: #f7951d !important;
+            border-radius: 4px !important;
+            align-self: flex-end !important;
+            margin-bottom: .4rem;
+        }
+
+        #globalCurrencySelector {
+            background-color: transparent;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 2px 8px;
+        }
+
+        #globalCurrencySelector option {
+            background-color: #333;
+            color: white;
+        }
+
+        #userDropdown {
+            background-color: black !important;
         }
 
 
@@ -29,7 +55,8 @@ if (session_status() === PHP_SESSION_NONE) {
             .desktop-menu {
                 display: none !important;
             }
-            .kai-sama{
+
+            .kai-sama {
                 display: none !important;
             }
 
@@ -121,22 +148,24 @@ if (session_status() === PHP_SESSION_NONE) {
             .mobile-hamburger {
                 display: block;
             }
-             .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 1.5rem !important;
-            background-color: rgb(3, 3, 3);
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-        }
+
+            .navbar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                padding: 1.5rem !important;
+                background-color: rgb(3, 3, 3);
+                padding: 12px 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                z-index: 1000;
+            }
 
             .desktop-menu {
                 display: none !important;
+       
             }
         }
 
@@ -375,22 +404,34 @@ if (session_status() === PHP_SESSION_NONE) {
             style="display: none; position: absolute; right: 20px; top: 20px; background: none; border: none; color: white; font-size: 24px; cursor: pointer;">☰</button>
 
         <div class="nav-container">
+            <!-- Add this before the auth-buttons div -->
+            <div class="currency-selector-container">
+                <select id="globalCurrencySelector" class="form-select form-select-sm">
+                    <option value="UGX">UGX</option>
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                </select>
+            </div>
             <!-- Auth buttons -->
             <div class="auth-buttons">
                 <?php if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true): ?>
-          <li class="kai-sama nav-item dropdown">
-        <a  class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            👤 <?php echo htmlspecialchars($_SESSION['username']); ?>
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="userDropdown">
-            <li><a class="dropdown-item" href="/user_auth/profile.php">My Profile</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="/user_auth/user_logout.php">Logout</a></li>
-        </ul>
-                <?php else: ?>
-                    <a class="login-button" href="user_auth/user_login.php">Sign In</a>
-                    <a class="register-button" href="/user_auth/user_registration.php">Create Account</a>
-                <?php endif; ?>
+                    <li class="kai-sama nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            👤 <?php echo htmlspecialchars($_SESSION['username']); ?>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="/user_auth/profile.php">My Profile</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="/user_auth/user_logout.php">Logout</a></li>
+                        </ul>
+                    <?php else: ?>
+                        <a class="login-button" href="user_auth/user_login.php">Sign In</a>
+                        <a class="register-button" href="/user_auth/user_registration.php">Create Account</a>
+                    <?php endif; ?>
             </div>
 
             <!-- Desktop Menu -->
@@ -421,17 +462,19 @@ if (session_status() === PHP_SESSION_NONE) {
                     </span>
                     <ul style="list-style: none; padding-left: 20px;">
                         <li style="margin: 10px 0;">
-                            <a id="mobile-links" href="/user_auth/profile.php" style="color: white; text-decoration: none; font-size: 16px;">My Profile</a>
+                            <a id="mobile-links" href="/user_auth/profile.php"
+                                style="color: white; text-decoration: none; font-size: 16px;">My Profile</a>
                         </li>
                         <li style="margin: 10px 0;">
-                            <a id="mobile-links" href="/user_auth/user_logout.php" style="color: white; text-decoration: none; font-size: 16px;">Logout</a>
+                            <a id="mobile-links" href="/user_auth/user_logout.php"
+                                style="color: white; text-decoration: none; font-size: 16px;">Logout</a>
                         </li>
                     </ul>
                 </li>
             <?php endif; ?>
             <li style="margin: 15px 0;"><a id="mobile-links" href="index.php"
                     style="color: white; text-decoration: none; font-size: 18px;">Home</a></li>
-            
+
             <?php if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true): ?>
                 <li style="margin: 15px 0;"><a id="mobile-links" href="/user_auth/user_login.php"
                         style="color: white; text-decoration: none; font-size: 18px;">Sign In</a></li>
@@ -485,6 +528,10 @@ if (session_status() === PHP_SESSION_NONE) {
         });
     </script>
 
+    <script src="/js/currency-converter.js"></script>
 </body>
 
 </html>
+
+
+
