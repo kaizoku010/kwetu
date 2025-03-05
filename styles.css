@@ -21,8 +21,6 @@ body.index-page {
     padding: 0;
 }
 
-
-
 /* ===== Hero Section (Banner) ===== */
 .hero {
     background: url("assets/auc.jpg") no-repeat center center/cover !important;
@@ -368,4 +366,9 @@ margin-top: 1rem;
 
 .new-item-holder{
     background-color: red !important;
+}
+
+
+.form-select-sm {
+    font-size: .733rem !important;
 }

@@ -79,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button onclick="window.location.href='/'" class="btn btn-success mdx-btn-bck">Back Home</button>
 
         </form>
-        <p class="text-center mt-3">Already have an account? <a style="color: #f78b00" href="user_login.php">Login here</a></p>
+        <p class="text-center mt-3">Already have an account? <a style="color: #f78b00; text-decoration: none;" href="user_login.php">Login here</a></p>
 </div>   
 
 <!-- mdx filler -->

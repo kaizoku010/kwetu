@@ -129,7 +129,7 @@ if (session_status() === PHP_SESSION_NONE) {
         }
 
         .search-btn:hover {
-            background-color: #0056b3;
+            background-color:rgba(247, 140, 0, 0.88) !important;
         }
 
         /* ✅ Categories Section */
@@ -201,7 +201,7 @@ if (session_status() === PHP_SESSION_NONE) {
         }
 
         .search-btn:active{
-background: #f78b00 !important;
+     background: #f78b00 !important;
         }
 
         .cta-btn:hover {
