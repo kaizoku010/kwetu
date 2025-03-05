@@ -84,6 +84,16 @@
         display: none;
     }
 
+
+         .nav-container {
+             margin-top: .2rem;
+             margin-right: 1.7rem !important;
+             justify-content: end !important;
+             flex-direction: column;
+         }
+
+
+
     #globalCurrencySelector {
         background-color: transparent;
         color: white;
