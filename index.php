@@ -31,6 +31,7 @@ if (session_status() === PHP_SESSION_NONE) {
             height: 400px;
             display: flex;
             flex-direction: column;
+            background-color: black;
             align-items: center;
             justify-content: center;
             text-align: center;

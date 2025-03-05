@@ -731,3 +731,16 @@ body {
     transform: translateY(-5px);
 }
 
+
+.active>.page-link,
+.page-link.active {
+  z-index: 3;
+  color: var(--bs-pagination-active-color);
+  background-color: #f78b00 !important;
+  border-color: #f78b00 !important;
+}
+
+.page-link{
+  color: black !important;
+}
+

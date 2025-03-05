@@ -104,7 +104,7 @@ $exchange_rate = 3800;
                             </div>
 
                             <div class="card-footer">
-                                <a href="lot_details.php?id=' . $item['id'] . '" class="btn w-100" style="background-color: #f78b00 !important; color: white;">View This Lot</a>
+                                <a href="lot_details.php?id=' . $item['id'] . '" class="btn w-100" style="background-color: #f78b00 !important; color: white; text-size:.8rem;">View This Lot</a>
                             </div>
                         </div>
                     </div>';
