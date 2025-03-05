@@ -219,7 +219,7 @@ if ($highest_bid_result->num_rows > 0) {
         }
 
     //lets use a websocket instead of polling
-        const ws = new WebSocket('ws://localhost:3306');
+        const ws = new WebSocket('ws://kwetuauctions.com:8080');
         const lotId = <?php echo $lot_id; ?>;
 
         ws.onopen = function() {
