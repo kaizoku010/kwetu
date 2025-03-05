@@ -87,7 +87,7 @@
 
          .nav-container {
              margin-top: .2rem;
-             margin-right: 1.7rem !important;
+             /* margin-right: 1.7rem !important; */
              justify-content: end !important;
              flex-direction: column;
          }
