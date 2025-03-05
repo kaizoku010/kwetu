@@ -284,9 +284,11 @@ margin-bottom: 0.3rem;
 
         @media screen and (max-width: 992px) {
 
+            
             .logo-image {
                 width: 6rem !important;
                 height: auto;
+                margin-left: -2rem;
             }
 
             .nav-links {
