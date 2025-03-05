@@ -50,6 +50,11 @@ $category_display = ucwords(str_replace('_', ' ', $category));
     <title><?php echo htmlspecialchars($category_display); ?> - Kwetu Store</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./css/styles.css">
+    <style>
+    .home-text{
+        font-size: small;
+    }
+    </style>
 </head>
 <body>
     <?php include 'navbar.php'; ?>
@@ -62,38 +67,18 @@ $category_display = ucwords(str_replace('_', ' ', $category));
             if ($result && $result->num_rows > 0) {
                 while ($item = $result->fetch_assoc()) {
                     $price_in_ugx = $item['price'] * $exchange_rate;
-
-
                     echo '<div class="col-md-4 mb-4">
-                            <div class="card h-100">
-                                <img src="' 
-                                . htmlspecialchars($item['image']) 
-                                . '" class="card-img-top" alt="Item Image">
-                                <div class="card-body" style="text-align:left;>
+                            <div class="card h-100">                    
+                                   <div class="card-body" style="text-align:left;">
                                     <h5 class="card-title">' 
                                     . htmlspecialchars($item['title']) 
                                     . '</h5>
-                                    <p class="card-text" style="text-align:left; ">' 
+                                    <p class="card-text home-text" style="text-align:left; ">' 
                                     . htmlspecialchars(substr($item['description'], 0, 100)) 
-                                    . '...</p>
-                                    <p class="price-display" 
-                                       data-original-price="' . $price_in_ugx 
-                                       . '" 
-                                       data-original-currency="UGX"
-                                       id="current-price-' . $item['id'] 
-                                       . '">
-                                        UGX ' . number_format($price_in_ugx) 
-                                        . '
-                                    </p>                      
-                                    <p><strong>Company:</strong> ' 
-                                    . htmlspecialchars($item['company_title']) 
-                                    . '</p>
-                                    <p><strong>Closing Date:</strong> ' 
-                                    . htmlspecialchars($item['closing_date']) 
-                                    . '</p>
+                                    . '...</p>                    
                                     <a href="lot_details.php?id=' 
                                     . $item['id'] 
-                                    . '" class="btn" style="background-color: #f78b00; color: white;">View Details</a>
+                                    . '" class="btn" style="background-color: #f78b00; color: white; width: 100%;">View Details</a>
                                 </div>
                             </div>
                           </div>';

@@ -218,9 +218,9 @@ if (empty($company_winning_bids)) {
                     </tbody>
                 </table>
 
-                <div class="payment-btn-container">
+                <!-- <div class="payment-btn-container">
                     <a href="payment_info.php?company=<?php echo urlencode($company); ?>" class="payment-btn">View Payment Info</a>
-                </div>
+                </div> -->
             </div>
         <?php endforeach; ?>
     </div>

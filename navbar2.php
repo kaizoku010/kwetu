@@ -102,6 +102,8 @@ $user_id = $_SESSION['user_id'] ?? null;
             display: none;
         }
     }
+
+    .navbar2-text{}
 </style>
 
 <nav class="col-md-3 col-lg-2 d-md-block bg-dark sidebar fixed-sidebar">
@@ -157,6 +159,16 @@ $user_id = $_SESSION['user_id'] ?? null;
         let userId = <?php echo json_encode($user_id); ?>;
 
         function fetchBids(type, menuId) {
+            if (!userId) {
+                document.getElementById(menuId).innerHTML = `
+                    <li class='list-group-item text-center'>
+                        <a href='user_auth/user_login.php' class='navbar2-text'>
+                            Please login to view your ${type} bids
+                        </a>
+                    </li>`;
+                return;
+            }
+
             console.log(`Fetching ${type} bids for user ${userId}`);
             fetch("fetch_bids.php?type=" + type + "&user_id=" + userId)
                 .then(response => {

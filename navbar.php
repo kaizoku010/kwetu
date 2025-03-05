@@ -81,8 +81,6 @@ margin-bottom: 0.3rem;
         #userDropdown {
             background-color: black !important;
         }
-/*  */
-
 
         /* Hide the desktop menu on mobile devices */
         @media screen and (max-width: 992px) {
