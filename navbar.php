@@ -26,7 +26,7 @@
         }
 
      .currency-selector-container {
-  margin-right: 15px !important;
+  margin-right: 2rem !important;
   width: 5rem;
   background-color: #f7951d !important;
   border-radius: 4px !important;
@@ -284,7 +284,7 @@ margin-bottom: 0.3rem;
 
         @media screen and (max-width: 992px) {
 
-            
+
             .logo-image {
                 width: 6rem !important;
                 height: auto;
