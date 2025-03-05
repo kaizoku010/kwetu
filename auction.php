@@ -93,7 +93,7 @@ $exchange_rate = 3800;
 
                                 <div class="bg-light p-3 rounded" style="max-height: 6rem; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical;">
                                     <h6 class="fw-bold">Description:</h6>
-                                    <p>' . nl2br(htmlspecialchars($item['description'], ENT_QUOTES, 'UTF-8')) . '</p>
+                                    <p style="text-size:.8rem;">' . nl2br(htmlspecialchars($item['description'], ENT_QUOTES, 'UTF-8')) . '</p>
                                 </div>
 
                                 ' . ($is_admin ? '

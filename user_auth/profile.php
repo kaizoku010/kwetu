@@ -77,6 +77,27 @@ $user = $user_stmt->get_result()->fetch_assoc();
 
         @media (max-width: 900px) {
 
+            .home-main{
+            }
+
+            #ongoing-tab{
+                font-size: .8rem !important;
+
+            }
+
+            #lost-tab{
+                font-size: .8rem !important;
+            }
+
+            #winning-tab{
+                font-size: .8rem !important;
+            }
+
+            .home-text{
+                font-size: small;
+                margin-bottom: .1rem;
+            }
+
 
             .kaizoku-small{
                 font-size: small;
@@ -211,7 +232,7 @@ $user = $user_stmt->get_result()->fetch_assoc();
         <!-- Add Bid Statistics Section -->
         <div class="mdx-row row mb-4">
             <div class="col-md-12">
-                <div class="card">
+                <div class="card" style="margin-top: 2rem;">
                     <div class="card-body">
                         <h5 class="card-title kaizoku-small">Your Bidding Statistics</h5>
                         <div class="row text-center">
@@ -321,9 +342,9 @@ $user = $user_stmt->get_result()->fetch_assoc();
 
                         while ($bid = $ongoing_bids->fetch_assoc()) {
                             echo '<div class="bid-card ongoing p-3">
-                                    <h5>' . htmlspecialchars($bid['title']) . '</h5>
-                                    <p>Your Bid: UGX ' . number_format($bid['bid_amount'] * $exchange_rate) . '</p>
-                                    <p>Closes: ' . date('M d, Y H:i', strtotime($bid['closing_date'])) . '</p>
+                                    <h5 class="home-main">' . htmlspecialchars($bid['title']) . '</h5>
+                                    <p class="home-text">Your Bid: UGX ' . number_format($bid['bid_amount'] * $exchange_rate) . '</p>
+                                    <p class="home-text">Closes: ' . date('M d, Y H:i', strtotime($bid['closing_date'])) . '</p>
                                     <a href="../lot_details.php?id=' . $bid['id'] . '" class="btn btn-primary btn-sm">View Lot</a>
                                   </div>';
                         }
@@ -353,7 +374,7 @@ $user = $user_stmt->get_result()->fetch_assoc();
                         while ($bid = $winning_bids->fetch_assoc()) {
                             echo '<div class="bid-card winning p-3">
                                     <h5>' . htmlspecialchars($bid['title']) . '</h5>
-                                    <p>Winning Bid: UGX ' . number_format($bid['bid_amount'] * $exchange_rate) . '</p>
+                                    <p class="home-text">Winning Bid: UGX ' . number_format($bid['bid_amount'] * $exchange_rate) . '</p>
                                     <a href="../lot_details.php?id=' . $bid['id'] . '" class="btn btn-success btn-sm">View Lot</a>
                                   </div>';
                         }
@@ -384,8 +405,8 @@ $user = $user_stmt->get_result()->fetch_assoc();
                         while ($bid = $lost_bids->fetch_assoc()) {
                             echo '<div class="bid-card losing p-3">
                                     <h5>' . htmlspecialchars($bid['title']) . '</h5>
-                                    <p>Your Bid: UGX ' . number_format($bid['bid_amount'] * $exchange_rate) . '</p>
-                                    <p>Highest Bid: UGX ' . number_format($bid['highest_bid'] * $exchange_rate) . '</p>
+                                    <p class="home-text">Your Bid: UGX ' . number_format($bid['bid_amount'] * $exchange_rate) . '</p>
+                                    <p class="home-text">Highest Bid: UGX ' . number_format($bid['highest_bid'] * $exchange_rate) . '</p>
                                     <a href="../lot_details.php?id=' . $bid['id'] . '" class="btn btn-danger btn-sm">View Lot</a>
                                   </div>';
                         }

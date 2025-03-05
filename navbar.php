@@ -1,7 +1,7 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
 ?>
 
 <!DOCTYPE html>
@@ -10,7 +10,9 @@ if (session_status() === PHP_SESSION_NONE) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
+    <link rel="stylesheet" href="./css/mobile_styles.css">
+
+   <style>
         /* ===== ✅ Global Reset ===== */
         * {
             margin: 0;
@@ -23,6 +25,36 @@ if (session_status() === PHP_SESSION_NONE) {
             margin-bottom: -.2rem !important;
         }
 
+     .currency-selector-container {
+  margin-right: 15px;
+  width: 5rem;
+  background-color: #f7951d !important;
+  border-radius: 4px !important;
+  align-self: flex-end !important;
+  margin-bottom: 0.4rem;
+}
+
+
+.currency-selector-container {
+  margin-right: 15px;
+  width: 5rem;
+  background-color: #f7951d !important;
+  border-radius: 4px !important;
+  align-self: flex-end !important;
+  margin-bottom: 0.4rem;
+}
+#globalCurrencySelector {
+  background-color: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 2px 8px;
+}
+
+#globalCurrencySelector option {
+  background-color: #333;
+  color: white;
+}
+
 
         .currency-selector-container {
             margin-right: 15px;
@@ -30,8 +62,9 @@ if (session_status() === PHP_SESSION_NONE) {
             background-color: #f7951d !important;
             border-radius: 4px !important;
             align-self: flex-end !important;
-            margin-bottom: .4rem;
-        }
+margin-bottom: 1.3rem;
+
+}
 
         #globalCurrencySelector {
             background-color: transparent;
@@ -48,6 +81,7 @@ if (session_status() === PHP_SESSION_NONE) {
         #userDropdown {
             background-color: black !important;
         }
+/*  */
 
 
         /* Hide the desktop menu on mobile devices */
@@ -165,7 +199,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
             .desktop-menu {
                 display: none !important;
-       
+
             }
         }
 
@@ -401,7 +435,12 @@ if (session_status() === PHP_SESSION_NONE) {
         </a>
         <!-- Simple hamburger button -->
         <button id="hamburger-btn"
-            style="display: none; position: absolute; right: 20px; top: 20px; background: none; border: none; color: white; font-size: 24px; cursor: pointer;">☰</button>
+            style="display: none;
+            position: absolute;
+            width: fit-content;
+            right: 20px; top: 20px; background: none;
+            border: none; color: white; font-size: 24px;
+            cursor: pointer;">☰</button>
 
         <div class="nav-container">
             <!-- Add this before the auth-buttons div -->
@@ -419,7 +458,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     <li class="kai-sama nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            👤 <?php echo htmlspecialchars($_SESSION['username']); ?>
+                            👤                                 <?php echo htmlspecialchars($_SESSION['username']); ?>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="userDropdown">
                             <li><a class="dropdown-item" href="/user_auth/profile.php">My Profile</a></li>
@@ -458,7 +497,7 @@ if (session_status() === PHP_SESSION_NONE) {
             <?php if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true): ?>
                 <li style="margin: 15px 0;">
                     <span style="color: white; font-size: 18px; display: block; margin-bottom: 10px;">
-                        👤 <?php echo htmlspecialchars($_SESSION['username']); ?>
+                        👤                             <?php echo htmlspecialchars($_SESSION['username']); ?>
                     </span>
                     <ul style="list-style: none; padding-left: 20px;">
                         <li style="margin: 10px 0;">
@@ -475,7 +514,7 @@ if (session_status() === PHP_SESSION_NONE) {
             <li style="margin: 15px 0;"><a id="mobile-links" href="index.php"
                     style="color: white; text-decoration: none; font-size: 18px;">Home</a></li>
 
-            <?php if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true): ?>
+            <?php if (! isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true): ?>
                 <li style="margin: 15px 0;"><a id="mobile-links" href="/user_auth/user_login.php"
                         style="color: white; text-decoration: none; font-size: 18px;">Sign In</a></li>
                 <li style="margin: 15px 0;"><a id="mobile-links" href="/user_auth/user_registration.php"

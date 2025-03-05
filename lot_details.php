@@ -45,8 +45,11 @@ $exchange_rate = 3800;
 $current_price_ugx = (float)$lot['price'] * $exchange_rate;
 $min_bid_increment_ugx = (float)$lot['min_bid'] * $exchange_rate;
 $max_bid_increment_ugx = (float)$lot['max_bid'] * $exchange_rate;
+$updated_min_bid_ugx = (float)$lot['min_bid'] * $exchange_rate;
 
-// ✅ Calculate Allowed Min & Max Bid in UGX
+
+//Calculate Allowed Min & Max Bid in UGX
+// $updated_min_bid_ugx = $min_bid_increment_ugx;
 $min_allowed_bid_ugx = $current_price_ugx + $min_bid_increment_ugx;
 $max_allowed_bid_ugx = $current_price_ugx + $max_bid_increment_ugx;
 
@@ -115,9 +118,19 @@ if ($highest_bid_result->num_rows > 0) {
             to { opacity: 0.5; }
         }
 
-        /* .black-txt-area > p{
-            color: red;
-        } */
+
+        
+   @media (max-width: 900px) {
+  .lot-desc{
+text-size:.8rem !important
+  }
+
+  .lot-page{
+ margin-top: 4rem;
+  }
+}
+
+
     </style>
 </head>
 <body>
@@ -125,7 +138,7 @@ if ($highest_bid_result->num_rows > 0) {
     <?php include 'navbar2.php'; ?>
 
     <div class=" container mt-5">
-        <h2 style="margin-top: 6rem; margin-bottom: 2rem;" class="text-center">Lot Details</h2>
+        <h2 style="margin-top: 6rem; margin-bottom: 2rem;" class="text-center lot-page">Lot Details</h2>
         <div class="row">
             <!-- ✅ Left Side: Image & Description -->
             <div class="col-md-6">
@@ -133,7 +146,7 @@ if ($highest_bid_result->num_rows > 0) {
 
                 <div class="bg-light p-3 rounded">
                     <h6 class="fw-bold">Description:</h6>
-                    <p><?php echo nl2br(htmlspecialchars($lot['description'])); ?></p>
+                    <p style="text-align: left;" class="lot-desc"><?php echo nl2br(htmlspecialchars($lot['description'])); ?></p>
                 </div>
 
                 <div class="bg-light p-3 rounded mt-3">
@@ -161,7 +174,7 @@ if ($highest_bid_result->num_rows > 0) {
 
                 <div class="bg-light p-3 rounded mb-2">
                     <h6 class="fw-bold">Minimum Allowed Bid:</h6>
-                    <p>UGX <?php echo number_format($min_allowed_bid_ugx); ?></p>
+                    <p>UGX <?php echo number_format($updated_min_bid_ugx); ?></p>
                 </div>
 
                 <div class="bg-light p-3 rounded mb-2">
@@ -185,9 +198,9 @@ if ($highest_bid_result->num_rows > 0) {
                         <input type="number"
                          id="bid_amount"
                          name="bid_amount" 
-                         value="<?php echo $current_price_ugx;?>"
+                         value="<?php echo $current_price_ugx + $updated_min_bid_ugx;?>"
                          class="form-control"
-                         step="<?php echo $min_allowed_bid_ugx;?>"
+                         step="<?php echo $updated_min_bid_ugx;?>"
                          placeholder="Enter your bid value"
                          required <?php echo $is_closed ? 'disabled' : ''; ?>>
                     </div>

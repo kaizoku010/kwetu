@@ -66,18 +66,34 @@ $category_display = ucwords(str_replace('_', ' ', $category));
 
                     echo '<div class="col-md-4 mb-4">
                             <div class="card h-100">
-                                <img src="' . htmlspecialchars($item['image']) . '" class="card-img-top" alt="Item Image">
-                                <div class="card-body">
-                                    <h5 class="card-title">' . htmlspecialchars($item['title']) . '</h5>
-                                    <p class="card-text">' . htmlspecialchars(substr($item['description'], 0, 100)) . '...</p>
-     <p class="price-display" 
-                                       data-original-price="' . $price_in_ugx . '" 
+                                <img src="' 
+                                . htmlspecialchars($item['image']) 
+                                . '" class="card-img-top" alt="Item Image">
+                                <div class="card-body" style="text-align:left;>
+                                    <h5 class="card-title">' 
+                                    . htmlspecialchars($item['title']) 
+                                    . '</h5>
+                                    <p class="card-text" style="text-align:left; ">' 
+                                    . htmlspecialchars(substr($item['description'], 0, 100)) 
+                                    . '...</p>
+                                    <p class="price-display" 
+                                       data-original-price="' . $price_in_ugx 
+                                       . '" 
                                        data-original-currency="UGX"
-                                       id="current-price-' . $item['id'] . '">
-                                        UGX ' . number_format($price_in_ugx) . '
-                                    </p>                                    <p><strong>Company:</strong> ' . htmlspecialchars($item['company_title']) . '</p>
-                                    <p><strong>Closing Date:</strong> ' . htmlspecialchars($item['closing_date']) . '</p>
-                                    <a href="lot_details.php?id=' . $item['id'] . '" class="btn btn-primary">View Details</a>
+                                       id="current-price-' . $item['id'] 
+                                       . '">
+                                        UGX ' . number_format($price_in_ugx) 
+                                        . '
+                                    </p>                      
+                                    <p><strong>Company:</strong> ' 
+                                    . htmlspecialchars($item['company_title']) 
+                                    . '</p>
+                                    <p><strong>Closing Date:</strong> ' 
+                                    . htmlspecialchars($item['closing_date']) 
+                                    . '</p>
+                                    <a href="lot_details.php?id=' 
+                                    . $item['id'] 
+                                    . '" class="btn" style="background-color: #f78b00; color: white;">View Details</a>
                                 </div>
                             </div>
                           </div>';
