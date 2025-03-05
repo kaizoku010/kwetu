@@ -219,7 +219,7 @@ if ($highest_bid_result->num_rows > 0) {
             bidInput.setAttribute('title', initialValue + 'K UGX');
         }
 
-        // Replace the existing interval-based code with WebSocket
+    //lets use a websocket instead of polling
         const ws = new WebSocket('ws://localhost:3306');
         const lotId = <?php echo $lot_id; ?>;
 
