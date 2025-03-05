@@ -20,6 +20,8 @@
 }
 
 
+
+
 .mdx-reg {
     justify-content: center;
     height: 100vh;
@@ -90,14 +92,14 @@
         font-size: small !important;
     }
 
-    .currency-selector-container {
-        margin-right: 1.8rem !important;
-        width: 5rem;
-        border-radius: 4px !important;
-        align-self: flex-end !important;
-        margin-bottom: 0.4rem;
-        margin-top: .2rem !important;
-    }
+   .currency-selector-container {
+       margin-right: 15px;
+       width: 5rem;
+       background-color: #f7951d !important;
+       border-radius: 4px !important;
+       align-self: flex-end !important;
+       margin-bottom: 1.3rem !important;
+   }
 
     .mdx-reg {
         background-color: #171515 !important;
