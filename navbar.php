@@ -92,6 +92,12 @@ margin-bottom: 0.3rem;
                 display: none !important;
             }
 
+                    .currency-selector-container {
+         
+            background-color: transparent !important;
+          
+}
+
         }
 
         /* Hide the mobile menu on desktop devices */

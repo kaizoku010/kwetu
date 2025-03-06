@@ -418,23 +418,6 @@ h2.auction-title {
       margin-left: 0.54rem;
     }
 
-    /* #globalCurrencySelector {
-      background-color: transparent;
-      color: white;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      padding: 2px 8px;
-      font-size: small !important;
-    }
-
-    .currency-selector-container {
-      margin-right: 1.8rem !important;
-      width: 5rem;
-      border-radius: 4px !important;
-      align-self: flex-end !important;
-      margin-bottom: 0.4rem;
-      margin-top: .2rem !important;
-    } */
-
   .search-input {
     padding: 12px;
     font-size: small !important;
