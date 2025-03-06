@@ -237,7 +237,7 @@
             bidInput.setAttribute('title', initialValue + 'K UGX');
         }
 
-        // Replace WebSocket code with long polling
+        // jus remove WebSockets, make it simple through long polling
         function pollBidUpdates() {
             $.ajax({
                 url: 'fetch_bid_data.php',
