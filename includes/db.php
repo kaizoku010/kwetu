@@ -1,25 +1,15 @@
 <?php
-// Database configuration
-$servername = "localhost";
-$username = "root";
-$password = "64649";
-$dbname = "ec";
+$servername = "localhost:3306";
+$username   = "kwetzigc_luke";
+$password   = "{n0P.7e0a3t2";
+$dbname     = "kwetzigc_db2";
 
-// Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
 if ($conn->connect_error) {
-    error_log("Database conanection failed: " . $conn->connect_error);
+    echo("<script>console.log('connection failed');</script>");
 
-    // Only show error message if not in production
-    if ($_SERVER['SERVER_NAME'] === 'localhost') {
-        die("Connection failed: " . $conn->connect_error);
-    } else {
-        die("Internal server error");
-    }
+    die("Connection failed: " . $conn->connect_error);
 }
 
-// Set charset to ensure proper encoding
-$conn->set_charset("utf8mb4");
-?>
+echo("<script>console.log('connection set');</script>");
