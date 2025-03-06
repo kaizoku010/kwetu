@@ -13,7 +13,18 @@
     <link rel="stylesheet" href="./css/mobile_styles.css">
 
    <style>
-        /* ===== ✅ Global Reset ===== */
+
+/* .currency-selector-container:after{
+    border-top: 6px solid red !important;
+}
+
+.currency-selector-container select{
+    appearance: none !important;
+    -moz-appearance: none !important;
+    -webkit-appearance: none !important;
+} */
+
+
         * {
             margin: 0;
             padding: 0;
@@ -189,7 +200,7 @@ margin-bottom: 0.3rem;
             }
 
                  .currency-selector-container {
-  margin-right: 2rem !important;
+  margin-right: 0rem !important;
 }
 
             .navbar {
