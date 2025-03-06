@@ -30,8 +30,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $condition = mysqli_real_escape_string($conn, $_POST['condition']);
     $description = mysqli_real_escape_string($conn, $_POST['description']);
     $category = mysqli_real_escape_string($conn, $_POST['category']);
+    $starting_date = mysqli_real_escape_string($conn, $_POST['starting_date']);
     $starting_time = mysqli_real_escape_string($conn, $_POST['starting_time']);
+    $closing_date = mysqli_real_escape_string($conn, $_POST['closing_date']);
     $closing_time = mysqli_real_escape_string($conn, $_POST['closing_time']);
+
+    // Combine date and time
+    $starting_datetime = $starting_date . ' ' . $starting_time;
+    $closing_datetime = $closing_date . ' ' . $closing_time;
 
     // ✅ Retrieve auction ID using company name
     $auction_query = "SELECT id FROM auctions WHERE company_title = '$company_name' LIMIT 1";
@@ -49,16 +55,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($_FILES['image']['name'])) {
         $image = $_FILES['image']['name'];
         $image_tmp = $_FILES['image']['tmp_name'];
-        $image_path = "assets/" . basename($image);
+        // Change the path to use parent directory
+        $image_path = "../assets/" . basename($image);
+
+        // Create assets directory if it doesn't exist
+        if (!is_dir("../assets/")) {
+            mkdir("../assets/", 0777, true);
+        }
 
         if (!move_uploaded_file($image_tmp, $image_path)) {
             die("Error uploading image.");
         }
+        
+        // Store the path in database without the parent directory prefix
+        $image_path = "assets/" . basename($image);
     }
 
     // ✅ Insert into Database
     $query = "INSERT INTO auction_items (auction_id, lot_number, title, bidders, price, min_bid, max_bid, `condition`, description, image, category, starting_time, closing_time) 
-              VALUES ('$auction_id', '$lot_number', '$title', '$bidders', '$price', '$min_bid', '$max_bid', '$condition', '$description', '$image_path', '$category', '$starting_time', '$closing_time')";
+              VALUES ('$auction_id', '$lot_number', '$title', '$bidders', '$price', '$min_bid', '$max_bid', '$condition', '$description', '$image_path', '$category', '$starting_datetime', '$closing_datetime')";
 
     if ($conn->query($query)) {
         echo "<script>
@@ -78,6 +93,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - Add Auction Items</title>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -85,8 +103,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             text-align: center;
         }
         .container {
-            width: 90%;
-            max-width: 1100px; /* ✅ Maximum width set */
+            width: 60%;
+            max-width: 100%; /* ✅ Maximum width set */
             margin: 30px auto;
             background-color: white;
             padding: 30px;
@@ -153,6 +171,53 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             justify-content: flex-end;
             margin-bottom: 10px;
         }
+        .select2-container {
+            width: 100% !important;
+            margin-bottom: 15px;
+        }
+
+
+
+.select2-selection__clear{
+    width: unset !important;
+}
+
+
+.select2-container--default .select2-selection--single .select2-selection__clear {
+  cursor: pointer;
+  float: right;
+  font-weight: bold;
+  height: unset !important;
+  margin-right: 20px;
+  padding-right: 0px;
+}
+
+        .select2-selection {
+            height: 45px !important;
+            padding: 8px !important;
+            border: 1px solid #ddd !important;
+            border-radius: 5px !important;
+        }
+        .select2-selection__arrow {
+            height: 44px !important;
+        }
+        /* Add these new styles */
+        .select2-container--default .select2-selection--single {
+            display: flex;
+            align-items: center;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: normal !important;
+            padding-left: 0 !important;
+        }
+        .select2-container--default .select2-results > .select2-results__options {
+            max-height: 200px;
+            overflow-y: auto;
+            text-align: left !important;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__placeholder {
+            color: #999;
+        }
     </style>
 </head>
 <body>
@@ -164,7 +229,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="section">
                 <h4>Auction Details</h4>
                 <label>Company Name</label>
-                <input type="text" name="company_name" required placeholder="Enter Company Name">
+                <select name="company_name" class="company-select" required>
+                    <option value="">Select a company</option>
+                    <?php
+                    $company_query = "SELECT DISTINCT company_title FROM auctions ORDER BY company_title";
+                    $company_result = $conn->query($company_query);
+                    
+                    while ($company = $company_result->fetch_assoc()) {
+                        echo '<option value="' . htmlspecialchars($company['company_title']) . '">' 
+                             . htmlspecialchars($company['company_title']) . '</option>';
+                    }
+                    ?>
+                </select>
 
                 <label>Category</label>
                 <select name="category" required>
@@ -176,12 +252,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <option value="other">Other</option>
                 </select>
                     <h4>Timing</h4>
+                <label>Starting Date</label>
+                <input type="date" name="starting_date" required>
+
                 <label>Starting Time</label>
                 <input type="time" name="starting_time" required>
 
+                <label>Closing Date</label>
+                <input type="date" name="closing_date" required>
+
                 <label>Closing Time</label>
                 <input type="time" name="closing_time" required>
-            
 
                 <label>Lot Number</label>
                 <input type="text" name="lot_number" required>
@@ -219,6 +300,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit" class="btn btn-success">Add Item</button>
         </form>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            $('.company-select').select2({
+                placeholder: 'Search for a company...',
+                allowClear: true
+            });
+        });
+    </script>
 
 </body>
 </html>

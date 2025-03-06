@@ -36,7 +36,7 @@ try {
     }
 
     // Query with pagination
-    $query = "SELECT * FROM auctions LIMIT ? OFFSET ?";
+    $query = "SELECT * FROM auctions ORDER BY id DESC LIMIT ? OFFSET ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("ii", $limit, $offset);
     $stmt->execute();

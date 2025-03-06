@@ -50,7 +50,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="../css/mobile_styles.css">
 
-
+    <style>
+    .mdx-small{
+        font-size: small;
+    }
+    </style>
     
 </head>
 <body>
@@ -79,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button onclick="window.location.href='/'" class="btn btn-success mdx-btn-bck">Back Home</button>
 
         </form>
-        <p class="text-center mt-3">Already have an account? <a style="color: #f78b00; text-decoration: none;" href="user_login.php">Login here</a></p>
+        <p class="text-center mt-3 mdx-small">Already have an account? <a style="color: #f78b00; text-decoration: none;" href="user_login.php">Login here</a></p>
 </div>   
 
 <!-- mdx filler -->

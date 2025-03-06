@@ -52,7 +52,7 @@ $active_users = $conn->query("SELECT COUNT(*) AS total FROM users WHERE last_act
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 60%;
             margin: auto;
             padding: 20px;
         }
@@ -110,8 +110,6 @@ $active_users = $conn->query("SELECT COUNT(*) AS total FROM users WHERE last_act
     <?php include 'admin_dashboard.php'; ?>
 
     <div class="container">
-        <h2 class="dashboard-header">Admin Dashboard</h2>
-
         <div class="row">
             <!-- Registered Users -->
             <div class="col">
