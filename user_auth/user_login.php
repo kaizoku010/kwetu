@@ -2,7 +2,15 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Temporary debug - remove after testing
+// Add this line to include the database connection
+include '../includes/db.php';
+
+// Initialize logout message
+$logout_message = '';
+if (isset($_GET['logout']) && $_GET['logout'] === 'success') {
+    $logout_message = '<div class="alert alert-success">You have been successfully logged out.</div>';
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($_POST['email']);
     $password = trim($_POST['password']);
