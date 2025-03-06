@@ -21,12 +21,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = $stmt->get_result();
     $user = $result->fetch_assoc();
     
-    echo "Email tried: " . $email . "<br>";
-    echo "User found in DB: " . ($user ? "Yes" : "No") . "<br>";
-    if ($user) {
-        echo "Password match: " . (password_verify($password, $user['password']) ? "Yes" : "No") . "<br>";
+    if ($user && password_verify($password, $user['password'])) {
+        // Set session variables
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['user_logged_in'] = true;
+        
+        // Redirect to profile page
+        header("Location: profile.php");
+        exit();
+    } else {
+        $error = "Invalid email or password";
     }
-    die();
 }
 ?>
 
