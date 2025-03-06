@@ -26,7 +26,7 @@
         }
 
      .currency-selector-container {
-  margin-right: 2rem !important;
+  /* margin-right: 2rem !important; */
   width: 5rem;
   background-color: #f7951d !important;
   border-radius: 4px !important;
@@ -105,6 +105,7 @@ margin-bottom: 0.3rem;
             .mobile-menu {
                 display: none !important;
             }
+
         }
 
         */
@@ -186,6 +187,10 @@ margin-bottom: 0.3rem;
             .mobile-hamburger {
                 display: block;
             }
+
+                 .currency-selector-container {
+  margin-right: 2rem !important;
+}
 
             .navbar {
                 position: fixed;
