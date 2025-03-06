@@ -18,6 +18,19 @@ ob_clean();
 header('Content-Type: application/json');
 header('Cache-Control: no-cache, must-revalidate');
 
+function getImageUrl($auction) {
+    // First check if image is a path to assets folder
+    if (!empty($auction['image']) && strpos($auction['image'], 'assets/') === 0) {
+        // It's a file path
+        if (file_exists($auction['image'])) {
+            return $auction['image'];
+        }
+    }
+    
+    // If not in assets or file doesn't exist, use the database image endpoint
+    return 'get_image.php?id=' . $auction['id'];
+}
+
 try {
     $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
     $recycling = isset($_GET['recycling']) ? filter_var($_GET['recycling'], FILTER_VALIDATE_BOOLEAN) : false;
@@ -57,11 +70,13 @@ try {
                 $status = 'closed';
             }
             
+            $imageUrl = getImageUrl($auction);
+            
             $auctionHtml = '<div class="auction-item" data-status="' . $status . '">
                     <a href="auction.php?id=' . $auction['id'] . '" class="auction-card-link">
                         <div class="auction-card d-flex flex-column flex-md-row align-items-stretch">
                     
-                        <div class="auction-images order-md-1" style="background-image: url(\'' . $auction['image'] . '\'); background-size: cover; background-position: center; min-height: 250px;">
+                        <div class="auction-images order-md-1" style="background-image: url(\'' . $imageUrl . '\'); background-size: cover; background-position: center; min-height: 250px;">
                             </div>
                             <div class="auction-box flex-grow-1 text-start">
                                 <h4 class="company-title fw-bold text-black">' . $auction['company_title'] . '</h4>

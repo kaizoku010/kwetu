@@ -1,6 +1,9 @@
 Options +FollowSymLinks
 RewriteEngine On
 
+# Allow direct access to assets directory
+RewriteRule ^assets/ - [L]
+
 # Handle 404 errors
 ErrorDocument 404 /404.php
 

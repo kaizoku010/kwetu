@@ -80,6 +80,21 @@
     }
 ?>
 
+<?php
+// Add this function at the top of the file after your includes
+function getImageUrl($lot) {
+    // First check if image is a path to assets folder
+    if (!empty($lot['image']) && strpos($lot['image'], 'assets/') === 0) {
+        if (file_exists($lot['image'])) {
+            return $lot['image'];
+        }
+    }
+    
+    // If not in assets or file doesn't exist, use the database image endpoint
+    return 'get_image.php?id=' . $lot['id'];
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -148,7 +163,9 @@
         <div class="row">
             <!-- ✅ Left Side: Image & Description -->
             <div class="col-md-6">
-                <img src="<?php echo htmlspecialchars($lot['image']); ?>" class="fixed-img rounded mb-3" alt="Lot Image">
+                <img src="<?php echo htmlspecialchars(getImageUrl($lot)); ?>" 
+                     alt="<?php echo htmlspecialchars($lot['title']); ?>" 
+                     class="img-fluid">
 
                 <div class="bg-light p-3 rounded">
                     <h6 class="fw-bold">Description:</h6>

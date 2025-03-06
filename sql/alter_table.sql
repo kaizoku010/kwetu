@@ -1,0 +1,2 @@
+ALTER TABLE auction_items 
+MODIFY COLUMN image VARCHAR(255);

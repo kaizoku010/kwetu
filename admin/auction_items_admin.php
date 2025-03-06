@@ -50,39 +50,65 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $auction_row = $auction_result->fetch_assoc();
     $auction_id = $auction_row['id'];
 
-    // ✅ Handle Image Upload
-    $image_path = "";
+    // Initialize $image_path with a default value
+    $image_path = null;
+
+    // Handle Image Upload
     if (!empty($_FILES['image']['name'])) {
-        $image = $_FILES['image']['name'];
-        $image_tmp = $_FILES['image']['tmp_name'];
-        // Change the path to use parent directory
-        $image_path = "../assets/" . basename($image);
-
+        $image_name = basename($_FILES['image']['name']);
+        $target_dir = "../assets/";
+        $target_file = $target_dir . $image_name;
+        
         // Create assets directory if it doesn't exist
-        if (!is_dir("../assets/")) {
-            mkdir("../assets/", 0777, true);
-        }
-
-        if (!move_uploaded_file($image_tmp, $image_path)) {
-            die("Error uploading image.");
+        if (!file_exists($target_dir)) {
+            if (!mkdir($target_dir, 0755, true)) {
+                die("<script>alert('Failed to create assets directory. Please contact administrator.'); window.history.back();</script>");
+            }
+            // Set proper permissions
+            chmod($target_dir, 0755);
         }
         
-        // Store the path in database without the parent directory prefix
-        $image_path = "assets/" . basename($image);
+        if (!move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
+            die("<script>alert('Error uploading image'); window.history.back();</script>");
+        }
+        $image_path = "assets/" . $image_name;
     }
 
+    // First verify all your variables are set
+    $auction_id = $auction_row['id'];
+    $lot_number = mysqli_real_escape_string($conn, $_POST['lot_number']);
+    $title = mysqli_real_escape_string($conn, $_POST['title']);
+    $bidders = mysqli_real_escape_string($conn, $_POST['bidders']);
+    $price = mysqli_real_escape_string($conn, $_POST['price']) / $exchange_rate;
+    $min_bid = mysqli_real_escape_string($conn, $_POST['min_bid']) / $exchange_rate;
+    $max_bid = mysqli_real_escape_string($conn, $_POST['max_bid']) / $exchange_rate;
+    $condition = mysqli_real_escape_string($conn, $_POST['condition']);
+    $description = mysqli_real_escape_string($conn, $_POST['description']);
+    $category = mysqli_real_escape_string($conn, $_POST['category']);
+    $starting_datetime = $starting_date . ' ' . $starting_time;
+    $closing_datetime = $closing_date . ' ' . $closing_time;
+
     // ✅ Insert into Database
-    $query = "INSERT INTO auction_items (auction_id, lot_number, title, bidders, price, min_bid, max_bid, `condition`, description, image, category, starting_time, closing_time) 
-              VALUES ('$auction_id', '$lot_number', '$title', '$bidders', '$price', '$min_bid', '$max_bid', '$condition', '$description', '$image_path', '$category', '$starting_datetime', '$closing_datetime')";
+    $query = "INSERT INTO auction_items (
+        auction_id, lot_number, title, bidders, price, 
+        min_bid, max_bid, `condition`, description, image,
+        category, starting_time, closing_time
+    ) VALUES (
+        '$auction_id', '$lot_number', '$title', '$bidders', '$price',
+        '$min_bid', '$max_bid', '$condition', '$description', '$image_path',
+        '$category', '$starting_datetime', '$closing_datetime'
+    )";
 
     if ($conn->query($query)) {
         echo "<script>
                 alert('Item Added Successfully!');
                 window.location.href = 'auction_items_admin.php';
               </script>";
-        exit();
     } else {
-        die("Database Error: " . $conn->error);
+        echo "<script>
+                alert('Error: " . $conn->error . "');
+                window.history.back();
+              </script>";
     }
 }
 ?>
