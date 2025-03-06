@@ -7,12 +7,12 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 $response = [
-    "current_price" => 0,
-    "user_bid" => 0,
-    "highest_bid" => 0,
-    "min_bid" => 0,
-    "max_bid" => 0,
-    "is_winning" => false
+    "current_price" => $current_price_ugx,
+    "user_bid" => $user_bid_value,
+    "highest_bid" => $highest_bid_ugx,
+    "min_bid" => $min_bid_ugx,
+    "max_bid" => $max_allowed_bid_ugx,
+    "is_winning" => $is_winning
 ];
 
 // ✅ Validate Lot ID

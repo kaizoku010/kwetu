@@ -175,21 +175,21 @@
 
                 <div class="bg-light p-3 rounded mb-2">
                     <h6 class="fw-bold">Highest Bid:</h6>
-                    <p>UGX                                                     <?php echo number_format($highest_bid_ugx); ?></p>
+                    <p>UGX                                                                               <?php echo number_format($highest_bid_ugx); ?></p>
                 </div>
 
                 <div class="bg-light p-3 rounded mb-2">
                     <h6 class="fw-bold">Minimum Allowed Bid:</h6>
-                    <p>UGX                                                     <?php echo number_format($updated_min_bid_ugx); ?></p>
+                    <p>UGX                                                                               <?php echo number_format($updated_min_bid_ugx); ?></p>
                 </div>
 
                 <div class="bg-light p-3 rounded mb-2">
                     <h6 class="fw-bold">Maximum Allowed Bid:</h6>
-                    <p>UGX                           <?php echo number_format($max_allowed_bid_ugx); ?></p>
+                    <p>UGX                                                     <?php echo number_format($max_allowed_bid_ugx); ?></p>
                 </div>
 
                 <!-- ✅ Winning or Losing Message -->
-                <div class="p-3 rounded text-center mb-2
+                <div id="bid-status" class="p-3 rounded text-center mb-2
                     <?php echo($user_bid_value == 0) ? 'bg-no-bid' : ($is_winning ? 'bg-winning' : 'bg-losing'); ?>">
                     <h6><?php echo($user_bid_value == 0) ? 'You haven\'t bided on this lot.' : ($is_winning ? 'You are winning!' : 'You are losing. Place a higher bid!'); ?></h6>
                 </div>
@@ -208,10 +208,10 @@
                          class="form-control"
                          step="<?php echo $updated_min_bid_ugx; ?>"
                          placeholder="Enter your bid value"
-                         required                                                                   <?php echo $is_closed ? 'disabled' : ''; ?>>
+                         required                                                                                                    <?php echo $is_closed ? 'disabled' : ''; ?>>
                     </div>
 
-                    <button type="submit" style="background-color: #f78b00 !important; color: white; border-radius: 30px;" class="btn w-100"                                                                                                                                                                                                                                               <?php echo $is_closed ? 'disabled' : ''; ?>>
+                    <button type="submit" style="background-color: #f78b00 !important; color: white; border-radius: 30px;" class="btn w-100"                                                                                                                                                                                                                                                                                                                                                                                           <?php echo $is_closed ? 'disabled' : ''; ?>>
                         <?php echo $is_closed ? 'This auction has already closed' : 'Place Bid'; ?>
                     </button>
                 </form>
@@ -237,46 +237,51 @@
             bidInput.setAttribute('title', initialValue + 'K UGX');
         }
 
-    //lets use a websocket instead of polling
-        const ws = new WebSocket('ws://kwetuauctions.com:8080');
-        const lotId =                                           <?php echo $lot_id; ?>;
+        // Replace WebSocket code with long polling
+        function pollBidUpdates() {
+            $.ajax({
+                url: 'fetch_bid_data.php',
+                data: { id: <?php echo $lot_id; ?> },
+                dataType: 'json',
+                success: function(data) {
+                    // Update price elements
+                    $('#current-price').text(data.current_price.toLocaleString());
+                    $('#min-allowed-bid').text(data.min_bid.toLocaleString());
+                    $('#max-allowed-bid').text(data.max_bid.toLocaleString());
+                    
+                    // Update user bid value
+                    const userBidElement = $('.black-txt-area .black-text');
+                    userBidElement.text(data.user_bid > 0 ?
+                        "UGX " + data.user_bid.toLocaleString() :
+                        "You haven't bided on this lot"
+                    );
+                    
+                    // Update highest bid
+                    $('.highest-bid p').text("UGX " + data.highest_bid.toLocaleString());
 
-        ws.onopen = function() {
-            // Subscribe to updates for this lot
-            ws.send(JSON.stringify({
-                type: 'subscribe',
-                lot_id: lotId
-            }));
-        };
+                    // Update winning/losing status banner
+                    const statusDiv = $('#bid-status');
+                    statusDiv.removeClass('bg-winning bg-losing bg-no-bid');
+                    
+                    if (data.user_bid === 0) {
+                        statusDiv.addClass('bg-no-bid')
+                                .find('h6').text("You haven't bided on this lot.");
+                    } else {
+                        statusDiv.addClass(data.is_winning ? 'bg-winning' : 'bg-losing')
+                                .find('h6').text(data.is_winning ? 
+                                    'You are winning!' : 
+                                    'You are losing. Place a higher bid!'
+                                );
+                    }
+                },
+                complete: function() {
+                    setTimeout(pollBidUpdates, 2000);
+                }
+            });
+        }
 
-        ws.onmessage = function(event) {
-            const data = JSON.parse(event.data);
-
-            // Update DOM elements
-            $('#current-price').text(data.current_price_ugx.toLocaleString());
-            $('#min-allowed-bid').text(data.min_allowed_bid_ugx.toLocaleString());
-            $('#max-allowed-bid').text(data.max_allowed_bid_ugx.toLocaleString());
-            $('#user-bid-value').text(data.user_bid_value > 0 ?
-                "UGX " + data.user_bid_value.toLocaleString() :
-                "You haven't bided on this lot"
-            );
-            $('#highest-bid').text(data.highest_bid_ugx.toLocaleString());
-
-            // Update winning/losing status
-            const bidStatus = $('#bid-status');
-            if (data.user_bid_value == 0) {
-                bidStatus.removeClass('bg-winning bg-losing')
-                        .addClass('bg-no-bid')
-                        .html("<h6>You haven't bided on this lot.</h6>");
-            } else {
-                bidStatus.removeClass('bg-no-bid')
-                        .addClass(data.is_winning ? 'bg-winning' : 'bg-losing')
-                        .html("<h6>" + (data.is_winning ? 'You are winning!' : 'You are losing. Place a higher bid!') + "</h6>");
-            }
-        };
-
-        // Remove the existing interval
-        // setInterval(fetchLotDetails, 5000); // Removed
+        // Start polling when page loads
+        pollBidUpdates();
     </script>
 </body>
 </html>
