@@ -200,7 +200,7 @@ margin-bottom: 0.3rem;
             }
 
                  .currency-selector-container {
-  margin-right: 0rem !important;
+  margin-right: 2rem !important;
 }
 
             .navbar {
