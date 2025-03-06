@@ -1,52 +1,24 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-session_start(); // ✅ Start session
-include '../includes/db.php';
-// include './navbar.php';
-
-// ✅ Display Logout Success Message if Redirected
-$logout_message = "";
-if (isset($_GET['logout']) && $_GET['logout'] === 'success') {
-    $logout_message = "<p class='text-success text-center'>You have successfully logged out.</p>";
-}
-
-// ✅ Handle Login Submission
+// Temporary debug - remove after testing
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($_POST['email']);
     $password = trim($_POST['password']);
-
-    // ✅ Check if User Exists
+    
     $stmt = $conn->prepare("SELECT id, username, password FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
-    $stmt->store_result();
-
-    if ($stmt->num_rows > 0) {
-        $stmt->bind_result($id, $username, $hashed_password);
-        $stmt->fetch();
-
-        // ✅ Verify Password
-        if (password_verify($password, $hashed_password)) {
-            $_SESSION['user_logged_in'] = true;
-            $_SESSION['username'] = $username;
-            $_SESSION['user_id'] = $id; // ✅ Store user ID in session
-
-            // ✅ Update last_active to track online users
-            $conn->query("UPDATE users SET last_active = NOW() WHERE id = " . $_SESSION['user_id']);
-
-            // header("Location: ../index.php");
-// take user to their profile by default
-            header("Location: /user_auth/profile.php"); 
-
-            exit();
-        } else {
-            $error = "Invalid credentials. Please try again.";
-        }
-    } else {
-        $error = "No user found with this email.";
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
+    
+    echo "Email tried: " . $email . "<br>";
+    echo "User found in DB: " . ($user ? "Yes" : "No") . "<br>";
+    if ($user) {
+        echo "Password match: " . (password_verify($password, $user['password']) ? "Yes" : "No") . "<br>";
     }
-
-    $stmt->close();
+    die();
 }
 ?>
 
