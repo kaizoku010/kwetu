@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // header("Location: ../index.php");
 // take user to their profile by default
-            header("Location: /profile.php"); 
+            header("Location: /user_auth/profile.php"); 
 
             exit();
         } else {
