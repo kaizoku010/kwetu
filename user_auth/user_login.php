@@ -34,9 +34,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // ✅ Update last_active to track online users
             $conn->query("UPDATE users SET last_active = NOW() WHERE id = " . $_SESSION['user_id']);
 
-            // header("Location: ../index.php");
+            header("Location: ../index.php");
 // take user to their profile by default
-            header("Location: profile.php"); 
+            // header("Location: /index.php"); 
 
             exit();
         } else {

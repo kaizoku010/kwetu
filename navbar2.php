@@ -21,7 +21,7 @@ $user_id = $_SESSION['user_id'] ?? null;
         display: block;
         padding: 10px;
         font-size: 16px;
-        color: #fff;
+        color: black;
         text-decoration: none;
     }
 
