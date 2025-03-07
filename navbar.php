@@ -641,7 +641,7 @@ margin-bottom: 0.3rem;
                     </div>
                 <?php else: ?>
                     <a class="login-button" href="./user_auth/user_login.php">Sign In</a>
-                    <a class="register-button" href="./user_auth/user_registration.php">Create Account</a>
+                    <a style="background-color: white !important;" class="register-button" href="./user_auth/user_registration.php">Create Account</a>
                 <?php endif; ?>
             </div>
 
