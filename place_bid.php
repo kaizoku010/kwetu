@@ -67,14 +67,12 @@ $update_stmt = $conn->prepare("UPDATE auction_items SET price = ? WHERE id = ?")
 $update_stmt->bind_param("di", $bid_amount, $lot_id);
 $update_stmt->execute();
 
-// ✅ Redirect Back to Lot Details Page with UGX confirmation
-echo "<script>
-        alert('Your bid of UGX " . number_format($bid_amount_ugx) . " has been placed successfully!');
-        window.location.href = 'lot_details.php?id=$lot_id';
-      </script>";
+// Redirect back to lot details page with success parameter
+header("Location: lot_details.php?id=$lot_id&bid_success=1&amount=" . urlencode(number_format($bid_amount_ugx)));
+exit();
 
 // After successful bid placement, notify WebSocket server
-$ch = curl_init('http://localhost:8080/notify');
+$ch = curl_init('https://kwetuauctions.com/notify');
 $bidData = [
     'lot_id' => $lot_id,
     'current_price_ugx' => $bid_amount_ugx,

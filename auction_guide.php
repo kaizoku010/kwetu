@@ -1,4 +1,5 @@
-<?php include 'navbar2.php'; ?> <!-- ✅ Added navbar.php -->
+<?php include 'navbar.php'; ?>
+<?php include 'navbar2.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -63,8 +64,6 @@
 </head>
 <body>
 
-    <?php include 'navbar.php'; ?> <!-- ✅ Include Navbar -->
-
     <div class="container">
         <h1 class="title">How to Participate in an Auction</h1>
 
@@ -108,6 +107,6 @@
             <strong>⚠️ Important:</strong> Pay attention to the **payment deadline**. Payments will **not** be accepted after the deadline unless you have made special arrangements with the company.
         </div>
     </div>
-
+    <?php include 'includes/footer.php'; ?>
 </body>
 </html>

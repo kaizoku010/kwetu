@@ -1,54 +1,6 @@
-<?php include 'navbar.php'; ?> <!-- ✅ Added navbar.php -->
-<?php include 'navbar2.php'; ?> <!-- ✅ Added navbar.php -->
-<?php
-include './includes/db.php';
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $company_name = mysqli_real_escape_string($conn, $_POST['company_name']);
-    $company_email = mysqli_real_escape_string($conn, $_POST['company_email']);
-    $company_location = mysqli_real_escape_string($conn, $_POST['company_location']);
-    $company_phone = mysqli_real_escape_string($conn, $_POST['company_phone']);
-    $items_sold = mysqli_real_escape_string($conn, $_POST['items_sold']);
-    $auction_date = mysqli_real_escape_string($conn, $_POST['auction_date']);
-    $inspection_date = mysqli_real_escape_string($conn, $_POST['inspection_date']);
-
-    // ✅ Create `uploads/` directory if it doesn't exist
-    $uploadDir = "uploads/";
-    if (!is_dir($uploadDir)) {
-        mkdir($uploadDir, 0777, true);
-    }
-
-    // ✅ Handle multiple file uploads
-    $imagePaths = [];
-    foreach ($_FILES['images']['tmp_name'] as $index => $tmpName) {
-        if (!empty($tmpName)) {
-            $imageName = basename($_FILES['images']['name'][$index]);
-            $imagePath = $uploadDir . $imageName;
-
-            if (move_uploaded_file($tmpName, $imagePath)) {
-                $imagePaths[] = $imagePath;
-            } else {
-                die("Error uploading image: " . $_FILES['images']['name'][$index]);
-            }
-        }
-    }
-
-    // ✅ Convert array to comma-separated string for database storage
-    $images = implode(",", $imagePaths);
-
-    // ✅ Insert into database
-    $query = "INSERT INTO auction_requests 
-        (company_name, company_email, company_location, company_phone, items_sold, auction_date, inspection_date, images) 
-        VALUES 
-        ('$company_name', '$company_email', '$company_location', '$company_phone', '$items_sold', '$auction_date', '$inspection_date', '$images')";
-
-    if ($conn->query($query)) {
-        echo "<script>alert('Your auction request has been submitted successfully!'); window.location.href='sell_with_us.php';</script>";
-    } else {
-        die("Database Error: " . $conn->error);
-    }
-}
-?>
+<?php include 'navbar.php'; ?>
+<?php include 'navbar2.php'; ?>
+<?php include './includes/db.php'; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -56,91 +8,231 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sell With Us - Kwetu Auctions</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f8f9fa;
             margin: 0;
             padding: 0;
+        }
+
+        .sell-container {
+            width: 90%;
+            max-width: 800px;
+            margin: 120px auto 50px;
+            background-color: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-title {
+            color: #f78b00;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
             text-align: center;
         }
-    .container {
-  width: 90%;
-  max-width: 700px;
-  margin: 50px auto;
-    margin-top: 50px;
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
 
-  margin-top: 10rem;
-}
-        h2 {
-            color: #f78b00;
+        .subtitle {
+            color: #6c757d;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-section {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
             margin-bottom: 20px;
         }
-        form {
-            text-align: left;
+
+        .form-label {
+            font-weight: 500;
+            color: #2c3e50;
+            margin-bottom: 8px;
         }
-        label {
-            font-weight: bold;
-            margin-top: 10px;
-            display: block;
+
+        .form-control {
+            border: 2px solid #e9ecef;
+            padding: 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
         }
-        input, textarea, button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+
+        .form-control:focus {
+            border-color: #f78b00;
+            box-shadow: 0 0 0 0.2rem rgba(247, 139, 0, 0.25);
         }
-        button {
-            background-color: #28a745;
+
+        .submit-btn {
+            background-color: #f78b00;
             color: white;
-            font-size: 16px;
-            font-weight: bold;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            background-color: #e67a00;
+            transform: translateY(-2px);
+        }
+
+        .file-upload {
+            border: 2px dashed #e9ecef;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
             cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload:hover {
+            border-color: #f78b00;
+        }
+
+
+        .mdx-btn-sell-with-us{
+            border-radius: 30px;
+            font-size: small !important;
+        }
+
+        .preview-images {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
             margin-top: 15px;
         }
-        button:hover {
-            background-color: #218838;
+
+        .preview-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
+    <div class="sell-container">
+        <h1 class="page-title">Sell With Us</h1>
+        <p class="subtitle">Partner with Kwetu Auctions to reach thousands of potential buyers</p>
 
-    <div class="container">
-        <h2>Sell With Us</h2>
-        <p>Fill out the form below to request an auction for your items.</p>
+        <form action="sell_with_us.php" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Company Name</label>
+                    <input type="text" name="company_name" class="form-control" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Company Email</label>
+                    <input type="email" name="company_email" class="form-control" required>
+                </div>
+            </div>
 
-        <form action="sell_with_us.php" method="POST" enctype="multipart/form-data">
-            <label>Company Name</label>
-            <input type="text" name="company_name" required>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Company Location</label>
+                    <input type="text" name="company_location" class="form-control" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Company Phone Number</label>
+                    <input type="tel" name="company_phone" class="form-control" required>
+                </div>
+            </div>
 
-            <label>Company Email</label>
-            <input type="email" name="company_email" required>
+            <div class="mb-3">
+                <label class="form-label">Items Being Sold</label>
+                <textarea name="items_sold" class="form-control" rows="4" placeholder="Please describe the items you wish to auction..." required></textarea>
+            </div>
 
-            <label>Company Location</label>
-            <input type="text" name="company_location" required>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Auction Date</label>
+                    <input type="date" name="auction_date" class="form-control" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Inspection Date</label>
+                    <input type="date" name="inspection_date" class="form-control" required>
+                </div>
+            </div>
 
-            <label>Company Phone Number</label>
-            <input type="text" name="company_phone" required>
+            <div class="mb-3">
+                <label class="form-label">Upload Photos</label>
+                <div class="file-upload" id="dropZone">
+                    <input type="file" name="images[]" id="fileInput" multiple accept="image/*" class="form-control" required style="display: none;">
+                    <div class="upload-text">
+                        <i class="fas fa-cloud-upload-alt fa-2x mb-2"></i>
+                        <p>Drag and drop your images here or click to browse</p>
+                    </div>
+                    <div class="preview-images" id="imagePreview"></div>
+                </div>
+            </div>
 
-            <label>Items Being Sold</label>
-            <textarea name="items_sold" rows="3" required></textarea>
-
-            <label>Auction Date</label>
-            <input type="date" name="auction_date" required>
-
-            <label>Inspection Date</label>
-            <input type="date" name="inspection_date" required>
-
-            <label>Upload Photos</label>
-            <input type="file" name="images[]" multiple accept="image/*" required>
-
-            <button type="submit">Submit Request</button>
+            <button type="submit" class="submit-btn mdx-btn-sell-with-us">Submit Request</button>
         </form>
     </div>
 
+    <?php include 'includes/footer.php'; ?>
+
+    <script>
+        // Form validation
+        (function() {
+            'use strict';
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        })();
+
+        // Image preview functionality
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const imagePreview = document.getElementById('imagePreview');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = '#f78b00';
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.style.borderColor = '#e9ecef';
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileInput.files = e.dataTransfer.files;
+            updateImagePreview();
+        });
+
+        fileInput.addEventListener('change', updateImagePreview);
+
+        function updateImagePreview() {
+            imagePreview.innerHTML = '';
+            Array.from(fileInput.files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = 'preview-image';
+                    imagePreview.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+    </script>
 </body>
 </html>

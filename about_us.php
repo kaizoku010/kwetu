@@ -17,17 +17,17 @@
             max-width: 1000px;
             margin: 80px auto 20px auto; /* Added top margin for spacing */
             padding: 20px;
-            border-radius: 10px; 
+            border-radius: 10px;
         }
 
-.about-title {
-  font-size: 30px;
-  font-weight: bold;
-  text-align: center;
-  color: #f78b00;
-  margin-bottom: 20px;
-  margin-top: 7rem;
-}
+        .about-title {
+        font-size: 30px;
+        font-weight: bold;
+        text-align: center;
+        color: #f78b00;
+        margin-bottom: 20px;
+        margin-top: 7rem;
+     }
         .about-section {
             margin-bottom: 40px;
             padding: 20px;
@@ -76,9 +76,9 @@
         <div class="about-section">
             <img src="assets/aucs2.jpg" alt="Auction House">
             <p>
-                Welcome to <span class="highlight">Kwetu Auctions</span>, your trusted platform for online auctions! 
+                Welcome to <span class="highlight">Kwetu Auctions</span>, your trusted platform for online auctions!
                 Established in <b>2015</b>, we have revolutionized the way people buy and sell valuable assets.
-                Whether you’re looking for rare collectibles, cars, real estate, or luxury goods, we connect buyers and sellers 
+                Whether you’re looking for rare collectibles, cars, real estate, or luxury goods, we connect buyers and sellers
                 in a <span class="highlight">secure, transparent, and exciting</span> bidding environment.
             </p>
         </div>
@@ -87,7 +87,7 @@
         <div class="about-section">
             <h2 class="highlight">Our Mission</h2>
             <p>
-                Our mission is to make online auctions <b>accessible, fair, and enjoyable</b> for everyone. 
+                Our mission is to make online auctions <b>accessible, fair, and enjoyable</b> for everyone.
                 We strive to provide a seamless experience by ensuring:
             </p>
             <ul>
@@ -151,6 +151,8 @@
         </div>
 
     </div>
+
+    <?php include 'includes/footer.php'; ?>
 
 </body>
 </html>

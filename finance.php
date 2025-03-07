@@ -5,6 +5,9 @@ include './includes/db.php';
 
 session_start();
 
+// Check if this is a direct access or included
+$is_included = (strpos($_SERVER['SCRIPT_NAME'], 'profile.php') !== false);
+
 // ✅ Ensure user is logged in
 if (!isset($_SESSION['user_id'])) {
     die("<script>alert('You must be logged in to access finance.'); window.location.href='./user_auth/user_login.php';</script>");
@@ -94,6 +97,7 @@ if (empty($company_winning_bids)) {
 }
 ?>
 
+<?php if (!$is_included): ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -113,6 +117,7 @@ if (empty($company_winning_bids)) {
             width: 90%;
             max-width: 1000px;
             margin: auto;
+            margin-top: 10rem;
             background-color: white;
             padding: 20px;
             border-radius: 8px;
@@ -183,13 +188,14 @@ if (empty($company_winning_bids)) {
             transition: background 0.3s ease;
             display: inline-block;
         }
-
+<?php include 'navbar2.php'; ?>
         .payment-btn:hover {
             background-color: #0056b3;
         }
     </style>
 </head>
 <body>
+<?php endif; ?>
 
     <?php include 'navbar.php'; ?>
     <?php include 'navbar2.php'; ?>
@@ -225,5 +231,8 @@ if (empty($company_winning_bids)) {
         <?php endforeach; ?>
     </div>
 
+<?php if (!$is_included): ?>
+<?php include 'includes/footer.php'; ?>
 </body>
 </html>
+<?php endif; ?>

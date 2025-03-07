@@ -1,23 +1,23 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
 
-// Ensure user is logged in
-if (!isset($_SESSION['user_id'])) {
-    header("Location: user_login.php");
-    exit();
-}
+    // Ensure user is logged in
+    if (! isset($_SESSION['user_id'])) {
+        header("Location: user_login.php");
+        exit();
+    }
 
-include '../includes/db.php';
-$user_id = $_SESSION['user_id'];
-$exchange_rate = 3800; // Consistent with other files
+    include '../includes/db.php';
+    $user_id       = $_SESSION['user_id'];
+    $exchange_rate = 3800; // Consistent with other files
 
-// Fetch user details
-$user_stmt = $conn->prepare("SELECT username, email FROM users WHERE id = ?");
-$user_stmt->bind_param("i", $user_id);
-$user_stmt->execute();
-$user = $user_stmt->get_result()->fetch_assoc();
+    // Fetch user details
+    $user_stmt = $conn->prepare("SELECT username, phone, email FROM users WHERE id = ?");
+    $user_stmt->bind_param("i", $user_id);
+    $user_stmt->execute();
+    $user = $user_stmt->get_result()->fetch_assoc();
 ?>
 
 <!DOCTYPE html>
@@ -31,7 +31,7 @@ $user = $user_stmt->get_result()->fetch_assoc();
         body {
             background-color: #f4f4f4;
         }
-     
+
         .bid-card {
             background: white;
             border-radius: 8px;
@@ -73,9 +73,21 @@ $user = $user_stmt->get_result()->fetch_assoc();
                 margin-top: 4rem;
             }
 
-        
+
+
+.alert-dismissible {
+  padding-right: 3rem;
+  margin-top: 6rem !important;
+}
+
+
 
         @media (max-width: 900px) {
+
+#finance-tab{
+        font-size: .8rem !important;
+    
+}
 
             .home-main{
             }
@@ -127,7 +139,7 @@ $user = $user_stmt->get_result()->fetch_assoc();
             padding: 2rem 0;
             /* margin-bottom: 2rem; */
             margin-top: 4rem;
-       
+
         }
         }
     </style>
@@ -223,12 +235,19 @@ $user = $user_stmt->get_result()->fetch_assoc();
 
     <div class="profile-header">
         <div class="container">
-            <h1>Welcome, <?php echo htmlspecialchars($user['username']); ?></h1>
-            <p>Member since: <?php echo date('F Y', strtotime($user['registration_date'])); ?></p>
+            <h1>Welcome,                         <?php echo htmlspecialchars($user['username']); ?></h1>
+            <p>Member since:                             <?php echo date('F Y', strtotime($user['registration_date'])); ?></p>
         </div>
     </div>
 
     <div class="container mb-5">
+        <?php if (isset($_GET['update']) && $_GET['update'] === 'success'): ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                Profile updated successfully!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+
         <!-- Add Bid Statistics Section -->
         <div class="mdx-row row mb-4">
             <div class="col-md-12">
@@ -237,56 +256,55 @@ $user = $user_stmt->get_result()->fetch_assoc();
                         <h5 class="card-title kaizoku-small">Your Bidding Statistics</h5>
                         <div class="row text-center">
                             <?php
-                            // Get total bids placed
-                            $total_bids_query = "SELECT COUNT(*) as total FROM bids WHERE user_id = ?";
-                            $stmt = $conn->prepare($total_bids_query);
-                            $stmt->bind_param("i", $user_id);
-                            $stmt->execute();
-                            $total_bids = $stmt->get_result()->fetch_assoc()['total'];
+                                // Get total bids placed
+                                $total_bids_query = "SELECT COUNT(*) as total FROM bids WHERE user_id = ?";
+                                $stmt             = $conn->prepare($total_bids_query);
+                                $stmt->bind_param("i", $user_id);
+                                $stmt->execute();
+                                $total_bids = $stmt->get_result()->fetch_assoc()['total'];
 
-                     
-                            $total_amount_query = "SELECT SUM(bid_amount) as total FROM bids WHERE user_id = ?";
-                            $stmt = $conn->prepare($total_amount_query);
-                            $stmt->bind_param("i", $user_id);
-                            $stmt->execute();
-                            $total_amount = $stmt->get_result()->fetch_assoc()['total'] * $exchange_rate;
+                                $total_amount_query = "SELECT SUM(bid_amount) as total FROM bids WHERE user_id = ?";
+                                $stmt               = $conn->prepare($total_amount_query);
+                                $stmt->bind_param("i", $user_id);
+                                $stmt->execute();
+                                $total_amount = $stmt->get_result()->fetch_assoc()['total'] * $exchange_rate;
 
-                            // Get number of items won
-                            $won_items_query = "SELECT COUNT(DISTINCT b1.lot_id) as total 
-                                              FROM bids b1 
-                                              WHERE b1.user_id = ? 
+                                // Get number of items won
+                                $won_items_query = "SELECT COUNT(DISTINCT b1.lot_id) as total
+                                              FROM bids b1
+                                              WHERE b1.user_id = ?
                                               AND b1.bid_amount = (
-                                                  SELECT MAX(bid_amount) 
-                                                  FROM bids b2 
+                                                  SELECT MAX(bid_amount)
+                                                  FROM bids b2
                                                   WHERE b2.lot_id = b1.lot_id
                                               )";
-                            $stmt = $conn->prepare($won_items_query);
-                            $stmt->bind_param("i", $user_id);
-                            $stmt->execute();
-                            $won_items = $stmt->get_result()->fetch_assoc()['total'];
+                                $stmt = $conn->prepare($won_items_query);
+                                $stmt->bind_param("i", $user_id);
+                                $stmt->execute();
+                                $won_items = $stmt->get_result()->fetch_assoc()['total'];
                             ?>
-                            
+
                             <div class="col-md-3">
                                 <div class="p-3 border rounded bg-light cursor-pointer" data-bs-toggle="modal" data-bs-target="#totalBidsModal" onclick="loadTotalBidsDetails()">
                                     <h3 class="text-primary kaizoku-small"><?php echo number_format($total_bids); ?></h3>
                                     <p class="mb-0 kaizoku-small">Total Bids Placed</p>
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-3">
                                 <div class="p-3 border rounded bg-light cursor-pointer" data-bs-toggle="modal" data-bs-target="#totalAmountModal" onclick="loadTotalAmountDetails()">
-                                    <h3 class="kaizoku-small text-success">UGX <?php echo number_format($total_amount); ?></h3>
+                                    <h3 class="kaizoku-small text-success">UGX                                                                               <?php echo number_format($total_amount); ?></h3>
                                     <p class="mb-0 kaizoku-small">Total Amount Bid</p>
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-3">
                                 <div class="p-3 border rounded bg-light cursor-pointer" data-bs-toggle="modal" data-bs-target="#wonItemsModal" onclick="loadWonItemsDetails()">
                                     <h3 class="text-warning kaizoku-small"><?php echo number_format($won_items); ?></h3>
                                     <p class="mb-0 kaizoku-small">Items Won</p>
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-3">
                                 <div class="p-3 border rounded bg-light">
                                     <h3 class="text-info kaizoku-small"><?php echo $total_bids > 0 ? number_format(($won_items / $total_bids) * 100, 1) : '0'; ?>%</h3>
@@ -305,9 +323,50 @@ $user = $user_stmt->get_result()->fetch_assoc();
                     <div class="card-body">
                         <h5 class="card-title">Profile Info</h5>
                         <p class="card-text">
-                            <strong>Username:</strong> <?php echo htmlspecialchars($user['username']); ?><br>
-                            <strong>Email:</strong> <?php echo htmlspecialchars($user['email']); ?>
+                            <strong>Username:</strong>                                                       <?php echo htmlspecialchars($user['username']); ?><br>
+                            <strong>Email:</strong>                                                    <?php echo htmlspecialchars($user['email']); ?><br>
+                            <strong>Phone:</strong>                                                    <?php echo ! empty($user['phone']) ? htmlspecialchars($user['phone']) : 'Not provided'; ?>
                         </p>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                            Edit Profile
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Profile Modal -->
+            <div class="modal fade" id="editProfileModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Edit Profile</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="update_profile.php" method="POST">
+                                <div class="mb-3">
+                                    <label class="form-label">Username</label>
+                                    <input type="text" class="form-control" name="username" value="<?php echo htmlspecialchars($user['username']); ?>" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control" name="phone" value="<?php echo htmlspecialchars($user['phone'] ?? ''); ?>" placeholder="+256...">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">New Password (leave blank to keep current)</label>
+                                    <input type="password" class="form-control" name="new_password">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Confirm New Password</label>
+                                    <input type="password" class="form-control" name="confirm_password">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -323,97 +382,181 @@ $user = $user_stmt->get_result()->fetch_assoc();
                     <li class="nav-item">
                         <a class="nav-link" id="lost-tab" data-bs-toggle="pill" href="#lost" role="tab">Lost Bids</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="finance-tab" data-bs-toggle="pill" href="#finance" role="tab">Finance</a>
+                    </li>
                 </ul>
 
                 <div class="tab-content" id="bidTabContent">
                     <!-- Ongoing Bids -->
                     <div class="tab-pane fade show active" id="ongoing" role="tabpanel">
                         <?php
-                        $ongoing_query = "SELECT ai.*, b.bid_amount, a.closing_date 
-                                        FROM bids b 
-                                        JOIN auction_items ai ON b.lot_id = ai.id 
+                            $ongoing_query = "SELECT ai.*, b.bid_amount, a.closing_date
+                                        FROM bids b
+                                        JOIN auction_items ai ON b.lot_id = ai.id
                                         JOIN auctions a ON ai.auction_id = a.id
                                         WHERE b.user_id = ? AND a.closing_date > NOW()
                                         ORDER BY b.bid_time DESC";
-                        $stmt = $conn->prepare($ongoing_query);
-                        $stmt->bind_param("i", $user_id);
-                        $stmt->execute();
-                        $ongoing_bids = $stmt->get_result();
+                            $stmt = $conn->prepare($ongoing_query);
+                            $stmt->bind_param("i", $user_id);
+                            $stmt->execute();
+                            $ongoing_bids = $stmt->get_result();
 
-                        while ($bid = $ongoing_bids->fetch_assoc()) {
-                            echo '<div class="bid-card ongoing p-3">
+                            while ($bid = $ongoing_bids->fetch_assoc()) {
+                                echo '<div class="bid-card ongoing p-3">
                                     <h5 class="home-main">' . htmlspecialchars($bid['title']) . '</h5>
                                     <p class="home-text">Your Bid: UGX ' . number_format($bid['bid_amount'] * $exchange_rate) . '</p>
                                     <p class="home-text">Closes: ' . date('M d, Y H:i', strtotime($bid['closing_date'])) . '</p>
                                     <a href="../lot_details.php?id=' . $bid['id'] . '" class="btn btn-primary btn-sm">View Lot</a>
                                   </div>';
-                        }
-                        if ($ongoing_bids->num_rows === 0) {
-                            echo '<p class="text-muted">No ongoing bids found.</p>';
-                        }
+                            }
+                            if ($ongoing_bids->num_rows === 0) {
+                                echo '<p class="text-muted">No ongoing bids found.</p>';
+                            }
                         ?>
                     </div>
 
                     <!-- Winning Bids -->
                     <div class="tab-pane fade" id="winning" role="tabpanel">
                         <?php
-                        $winning_query = "SELECT ai.*, b.bid_amount 
-                                        FROM bids b 
-                                        JOIN auction_items ai ON b.lot_id = ai.id 
-                                        WHERE b.user_id = ? 
+                            $winning_query = "SELECT ai.*, b.bid_amount
+                                        FROM bids b
+                                        JOIN auction_items ai ON b.lot_id = ai.id
+                                        WHERE b.user_id = ?
                                         AND b.bid_amount = (
-                                            SELECT MAX(bid_amount) 
-                                            FROM bids 
+                                            SELECT MAX(bid_amount)
+                                            FROM bids
                                             WHERE lot_id = ai.id
                                         )";
-                        $stmt = $conn->prepare($winning_query);
-                        $stmt->bind_param("i", $user_id);
-                        $stmt->execute();
-                        $winning_bids = $stmt->get_result();
+                            $stmt = $conn->prepare($winning_query);
+                            $stmt->bind_param("i", $user_id);
+                            $stmt->execute();
+                            $winning_bids = $stmt->get_result();
 
-                        while ($bid = $winning_bids->fetch_assoc()) {
-                            echo '<div class="bid-card winning p-3">
+                            while ($bid = $winning_bids->fetch_assoc()) {
+                                echo '<div class="bid-card winning p-3">
                                     <h5>' . htmlspecialchars($bid['title']) . '</h5>
                                     <p class="home-text">Winning Bid: UGX ' . number_format($bid['bid_amount'] * $exchange_rate) . '</p>
                                     <a href="../lot_details.php?id=' . $bid['id'] . '" class="btn btn-success btn-sm">View Lot</a>
                                   </div>';
-                        }
-                        if ($winning_bids->num_rows === 0) {
-                            echo '<p class="text-muted">No winning bids found.</p>';
-                        }
+                            }
+                            if ($winning_bids->num_rows === 0) {
+                                echo '<p class="text-muted">No winning bids found.</p>';
+                            }
                         ?>
                     </div>
 
                     <!-- Lost Bids -->
                     <div class="tab-pane fade" id="lost" role="tabpanel">
                         <?php
-                        $lost_query = "SELECT ai.*, b.bid_amount, 
+                            $lost_query = "SELECT ai.*, b.bid_amount,
                                      (SELECT MAX(bid_amount) FROM bids WHERE lot_id = ai.id) as highest_bid
-                                     FROM bids b 
-                                     JOIN auction_items ai ON b.lot_id = ai.id 
-                                     WHERE b.user_id = ? 
+                                     FROM bids b
+                                     JOIN auction_items ai ON b.lot_id = ai.id
+                                     WHERE b.user_id = ?
                                      AND b.bid_amount < (
-                                         SELECT MAX(bid_amount) 
-                                         FROM bids 
+                                         SELECT MAX(bid_amount)
+                                         FROM bids
                                          WHERE lot_id = ai.id
                                      )";
-                        $stmt = $conn->prepare($lost_query);
-                        $stmt->bind_param("i", $user_id);
-                        $stmt->execute();
-                        $lost_bids = $stmt->get_result();
+                            $stmt = $conn->prepare($lost_query);
+                            $stmt->bind_param("i", $user_id);
+                            $stmt->execute();
+                            $lost_bids = $stmt->get_result();
 
-                        while ($bid = $lost_bids->fetch_assoc()) {
-                            echo '<div class="bid-card losing p-3">
+                            while ($bid = $lost_bids->fetch_assoc()) {
+                                echo '<div class="bid-card losing p-3">
                                     <h5>' . htmlspecialchars($bid['title']) . '</h5>
                                     <p class="home-text">Your Bid: UGX ' . number_format($bid['bid_amount'] * $exchange_rate) . '</p>
                                     <p class="home-text">Highest Bid: UGX ' . number_format($bid['highest_bid'] * $exchange_rate) . '</p>
                                     <a href="../lot_details.php?id=' . $bid['id'] . '" class="btn btn-danger btn-sm">View Lot</a>
                                   </div>';
-                        }
-                        if ($lost_bids->num_rows === 0) {
-                            echo '<p class="text-muted">No lost bids found.</p>';
-                        }
+                            }
+                            if ($lost_bids->num_rows === 0) {
+                                echo '<p class="text-muted">No lost bids found.</p>';
+                            }
                         ?>
+                    </div>
+
+                    <!-- Finance Tab -->
+                    <div class="tab-pane fade" id="finance" role="tabpanel">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Company</th>
+                                        <th>Items Won</th>
+                                        <th>Total Amount (USD)</th>
+                                        <th>Total Amount (UGX)</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                        // Get closed auctions with winning bids
+                                        $closed_auctions_stmt = $conn->prepare("
+                                        SELECT DISTINCT
+                                            a.company_title,
+                                            COUNT(DISTINCT ai.id) as items_won,
+                                            SUM(b.bid_amount) as total_amount
+                                        FROM auctions a
+                                        JOIN auction_items ai ON a.id = ai.auction_id
+                                        JOIN bids b ON ai.id = b.lot_id
+                                        WHERE a.closing_date <= NOW()
+                                        AND b.user_id = ?
+                                        AND b.bid_amount = (
+                                            SELECT MAX(bid_amount)
+                                            FROM bids
+                                            WHERE lot_id = ai.id
+                                        )
+                                        GROUP BY a.company_title
+                                    ");
+
+                                        $closed_auctions_stmt->bind_param("i", $user_id);
+                                        $closed_auctions_stmt->execute();
+                                        $result = $closed_auctions_stmt->get_result();
+
+                                        if ($result->num_rows === 0) {
+                                            // Add example data if no winning bids found
+                                            $example_companies = [
+                                                "Tech Auctions Ltd."     => [
+                                                    'items_won'    => 1,
+                                                    'total_amount' => 1200,
+                                                ],
+                                                "Luxury Auction House"   => [
+                                                    'items_won'    => 1,
+                                                    'total_amount' => 1500,
+                                                ],
+                                                "Vehicle Auction Center" => [
+                                                    'items_won'    => 1,
+                                                    'total_amount' => 8500,
+                                                ],
+                                            ];
+
+                                            foreach ($example_companies as $company => $data) {
+                                                echo '<tr>';
+                                                echo '<td>' . htmlspecialchars($company) . '</td>';
+                                                echo '<td>' . $data['items_won'] . '</td>';
+                                                echo '<td>$' . number_format($data['total_amount']) . '</td>';
+                                                echo '<td>UGX ' . number_format($data['total_amount'] * $exchange_rate) . '</td>';
+                                                echo '<td><a href="../finance.php?company=' . urlencode($company) . '" class="btn btn-primary btn-sm">View Details</a></td>';
+                                                echo '</tr>';
+                                            }
+                                        } else {
+                                            while ($row = $result->fetch_assoc()) {
+                                                echo '<tr>';
+                                                echo '<td>' . htmlspecialchars($row['company_title']) . '</td>';
+                                                echo '<td>' . $row['items_won'] . '</td>';
+                                                echo '<td>$' . number_format($row['total_amount']) . '</td>';
+                                                echo '<td>UGX ' . number_format($row['total_amount'] * $exchange_rate) . '</td>';
+                                                echo '<td><a href="../finance.php?company=' . urlencode($row['company_title']) . '" class="btn btn-primary btn-sm">View Details</a></td>';
+                                                echo '</tr>';
+                                            }
+                                        }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -434,11 +577,11 @@ function loadTotalBidsDetails() {
                         <td>${bid.item_title}</td>
                         <td>${new Intl.NumberFormat().format(bid.bid_amount)}</td>
                         <td>
-                            <span class="badge ${bid.status === 'winning' ? 'bg-success' : 
-                                              bid.status === 'losing' ? 'bg-danger' : 
+                            <span class="badge ${bid.status === 'winning' ? 'bg-success' :
+                                              bid.status === 'losing' ? 'bg-danger' :
                                               'bg-warning'}">${bid.status}</span>
                         </td>
-                     
+
                     </tr>`;
             });
             document.getElementById('totalBidsDetails').innerHTML = html;
@@ -458,8 +601,8 @@ function loadTotalAmountDetails() {
                         <td>${bid.item_title}</td>
                         <td>${new Intl.NumberFormat().format(bid.bid_amount)}</td>
                         <td>
-                            <span class="badge ${bid.status === 'winning' ? 'bg-success' : 
-                                              bid.status === 'losing' ? 'bg-danger' : 
+                            <span class="badge ${bid.status === 'winning' ? 'bg-success' :
+                                              bid.status === 'losing' ? 'bg-danger' :
                                               'bg-warning'}">${bid.status}</span>
                         </td>
                     </tr>`;
@@ -509,5 +652,17 @@ function loadWonItemsDetails() {
         color: white;
     }
 </style>
+<?php
+    // Get the current page filename
+    $current_page = basename($_SERVER['PHP_SELF']);
+    
+    // Array of pages where footer should not appear
+    $no_footer_pages = ['index.php', 'user_login.php', 'user_registration.php'];
+    
+    // Include footer if not in no_footer_pages array
+    if (!in_array($current_page, $no_footer_pages)) {
+        include '../includes/footer.php';
+    }
+    ?>
 </body>
 </html>

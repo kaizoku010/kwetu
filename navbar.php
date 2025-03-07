@@ -11,6 +11,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/mobile_styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
    <style>
 
@@ -198,10 +199,9 @@ margin-bottom: 0.3rem;
                 display: block;
             }
 
-                 .currency-selector-container {
-  margin-right: 1rem !important;
-}
-
+ .currency-selector-container {
+    margin-right: 2rem !important;
+  }
             .navbar {
                 position: fixed;
                 top: 0;
@@ -275,7 +275,7 @@ margin-bottom: 0.3rem;
         }
 
         .auth-buttons a {
-            background-color: white;
+            background-color: transparent !important;
             color: #f78b00;
             padding: 8px 12px;
             margin-left: 10px;
@@ -306,11 +306,11 @@ margin-bottom: 0.3rem;
         @media screen and (max-width: 992px) {
 
 
-            .logo-image {
-                width: 6rem !important;
-                height: auto;
-                margin-left: -2rem !important;
-            }
+     .logo-image {
+    width: 6rem !important;
+    height: auto;
+    margin-left: 0.1rem !important;
+  }
 
             .nav-links {
                 display: flex;
@@ -446,6 +446,153 @@ margin-bottom: 0.3rem;
         .login-button:hover {
             color: gray !important;
         }
+
+        .user-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .user-trigger {
+            color: white;
+            cursor: pointer;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .user-dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            z-index: 1001;
+        }
+
+        .user-dropdown-content a {
+            color: black !important;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            margin: 0 !important;
+        }
+
+        .user-dropdown-content a:hover {
+            background-color: #f5f5f5;
+        }
+
+        .user-dropdown:hover .user-dropdown-content {
+            display: block;
+        }
+
+        /* Mobile adjustments */
+        @media screen and (max-width: 992px) {
+            .user-dropdown-content {
+                position: absolute;
+                top: 100%;
+                width: 200px;
+            }
+        }
+
+        @media screen and (max-width: 992px) {
+            .desktop-auth {
+                display: none !important;
+            }
+
+            .mobile-user-section {
+                padding: 20px 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                margin-bottom: 20px;
+            }
+
+            .mobile-user-header {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                color: white;
+                font-size: 18px;
+                padding: 0 0 15px 0;
+            }
+
+            .mobile-user-header i {
+                font-size: 20px;
+                width: 35px;
+                height: 35px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: rgba(255, 255, 255, 0.1);
+                border-radius: 50%;
+            }
+
+            .mobile-user-links {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .mobile-user-links a {
+                color: white !important;
+                text-decoration: none;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 10px 15px;
+                font-size: 16px;
+                transition: all 0.3s ease;
+            }
+
+            .mobile-user-links a:hover {
+                background-color: rgba(255, 255, 255, 0.1);
+                color: #f78b00 !important;
+            }
+
+            .mobile-auth-buttons {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                padding: 20px 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                margin-bottom: 20px;
+            }
+
+            .mobile-auth-buttons a {
+                color: white;
+                text-decoration: none;
+                padding: 12px 20px;
+                border-radius: 4px;
+                text-align: center;
+                transition: all 0.3s ease;
+            }
+
+            .mobile-login {
+                background-color: transparent;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+
+            .mobile-register {
+                background-color: #f78b00;
+            }
+
+            .mobile-login:hover {
+                background-color: rgba(255, 255, 255, 0.1);
+            }
+
+            .mobile-register:hover {
+                background-color: #e67e00;
+            }
+        }
+
+        @media screen and (min-width: 993px) {
+            .mobile-user-section,
+            .mobile-auth-buttons {
+                display: none;
+            }
+        }
     </style>
 </head>
 
@@ -474,24 +621,28 @@ margin-bottom: 0.3rem;
                 </select>
             </div>
             <!-- Auth buttons -->
-            <div class="auth-buttons">
+            <div class="auth-buttons desktop-auth">
                 <?php if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true): ?>
-                    <li class="kai-sama nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            👤                                 <?php echo htmlspecialchars($_SESSION['username']); ?>
+                    <div class="user-dropdown">
+                        <a class="user-trigger">
+                            <i class="fa-regular fa-user user-icon"></i>
+                            <span><?php echo htmlspecialchars($_SESSION['username']); ?></span>
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="./user_auth/profile.php">My Profile</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="./user_auth/user_logout.php">Logout</a></li>
-                        </ul>
-                    <?php else: ?>
-                        <a class="login-button" href="./user_auth/user_login.php">Sign In</a>
-                        <a class="register-button" href="./user_auth/user_registration.php">Create Account</a>
-                    <?php endif; ?>
+                        <div class="user-dropdown-content">
+                            <a href="./user_auth/profile.php">
+                                <i class="fa-regular fa-user"></i>
+                                My Profile
+                            </a>
+                            <a href="./user_auth/user_logout.php">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                                Logout
+                            </a>
+                        </div>
+                    </div>
+                <?php else: ?>
+                    <a class="login-button" href="./user_auth/user_login.php">Sign In</a>
+                    <a class="register-button" href="./user_auth/user_registration.php">Create Account</a>
+                <?php endif; ?>
             </div>
 
             <!-- Desktop Menu -->
@@ -516,31 +667,30 @@ margin-bottom: 0.3rem;
 
         <ul style="list-style: none; margin-top: 60px; padding: 0; text-align: left;">
             <?php if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true): ?>
-                <li style="margin: 15px 0;">
-                    <span style="color: white; font-size: 18px; display: block; margin-bottom: 10px;">
-                        👤                             <?php echo htmlspecialchars($_SESSION['username']); ?>
-                    </span>
-                    <ul style="list-style: none; padding-left: 20px;">
-                        <li style="margin: 10px 0;">
-                            <a id="mobile-links" href="/user_auth/profile.php"
-                                style="color: white; text-decoration: none; font-size: 16px;">My Profile</a>
-                        </li>
-                        <li style="margin: 10px 0;">
-                            <a id="mobile-links" href="/user_auth/user_logout.php"
-                                style="color: white; text-decoration: none; font-size: 16px;">Logout</a>
-                        </li>
-                    </ul>
+                <li class="mobile-user-section">
+                    <div class="mobile-user-header">
+                        <i class="fa-regular fa-user"></i>
+                        <span><?php echo htmlspecialchars($_SESSION['username']); ?></span>
+                    </div>
+                    <div class="mobile-user-links">
+                        <a href="./user_auth/profile.php">
+                            <i class="fa-regular fa-user"></i>
+                            My Profile
+                        </a>
+                        <a href="./user_auth/user_logout.php">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            Logout
+                        </a>
+                    </div>
+                </li>
+            <?php else: ?>
+                <li class="mobile-auth-buttons">
+                    <a href="./user_auth/user_login.php" class="mobile-login">Sign In</a>
+                    <a href="./user_auth/user_registration.php" class="mobile-register">Create Account</a>
                 </li>
             <?php endif; ?>
             <li style="margin: 15px 0;"><a id="mobile-links" href="index.php"
                     style="color: white; text-decoration: none; font-size: 18px;">Home</a></li>
-
-            <?php if (! isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true): ?>
-                <li style="margin: 15px 0;"><a id="mobile-links" href="/user_auth/user_login.php"
-                        style="color: white; text-decoration: none; font-size: 18px;">Sign In</a></li>
-                <li style="margin: 15px 0;"><a id="mobile-links" href="/user_auth/user_registration.php"
-                        style="color: white; text-decoration: none; font-size: 18px;">Register</a></li>
-            <?php endif; ?>
             <li style="margin: 15px 0;"><a id="mobile-links" href="auction_guide.php"
                     style="color: white; text-decoration: none; font-size: 18px;">Auction Guide</a></li>
             <li style="margin: 15px 0;"><a id="mobile-links" href="transport_services.php"

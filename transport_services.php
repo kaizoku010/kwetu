@@ -1,6 +1,7 @@
 <?php include 'navbar.php'; ?>
 <?php include 'navbar2.php'; ?>
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -140,6 +141,7 @@
         }
         ?>
     </div>
+<?php include 'includes/footer.php'; ?>
 
 </body>
 </html>

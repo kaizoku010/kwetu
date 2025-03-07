@@ -49,8 +49,11 @@
 
     //Calculate Allowed Min & Max Bid in UGX
     // $updated_min_bid_ugx = $min_bid_increment_ugx;
-    $min_allowed_bid_ugx = $current_price_ugx + $min_bid_increment_ugx;
-    $max_allowed_bid_ugx = $current_price_ugx + $max_bid_increment_ugx;
+    // $min_allowed_bid_ugx = $current_price_ugx + $min_bid_increment_ugx;
+    $min_allowed_bid_ugx = $min_bid_increment_ugx;
+
+    // $max_allowed_bid_ugx = $current_price_ugx + $max_bid_increment_ugx;
+    $max_allowed_bid_ugx = $max_bid_increment_ugx;
 
     // ✅ Fetch User's Last Bid
     $bid_stmt = $conn->prepare("SELECT bid_amount FROM bids WHERE lot_id = ? AND user_id = ? ORDER BY bid_time DESC LIMIT 1");
@@ -193,17 +196,17 @@
 
                 <div class="bg-light p-3 rounded mb-2">
                     <h6 class="fw-bold">Highest Bid:</h6>
-                    <p>UGX                                                                                                         <?php echo number_format($highest_bid_ugx); ?></p>
+                    <p>UGX                                                                                                                                   <?php echo number_format($highest_bid_ugx); ?></p>
                 </div>
 
                 <div class="bg-light p-3 rounded mb-2">
                     <h6 class="fw-bold">Minimum Allowed Bid:</h6>
-                    <p>UGX                                                                                                         <?php echo number_format($updated_min_bid_ugx); ?></p>
+                    <p>UGX                                                                                                                                   <?php echo number_format($updated_min_bid_ugx); ?></p>
                 </div>
 
                 <div class="bg-light p-3 rounded mb-2">
                     <h6 class="fw-bold">Maximum Allowed Bid:</h6>
-                    <p>UGX                                                                               <?php echo number_format($max_allowed_bid_ugx); ?></p>
+                    <p>UGX<?php echo number_format($max_bid_increment_ugx); ?></p>
                 </div>
 
                 <!-- ✅ Winning or Losing Message -->
@@ -226,10 +229,10 @@
                          class="form-control"
                          step="<?php echo $updated_min_bid_ugx; ?>"
                          placeholder="Enter your bid value"
-                         required                                                                                                                                     <?php echo $is_closed ? 'disabled' : ''; ?>>
+                         required                                                                                                                                                                      <?php echo $is_closed ? 'disabled' : ''; ?>>
                     </div>
 
-                    <button type="submit" style="background-color: #f78b00 !important; color: white; border-radius: 30px;" class="btn w-100"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       <?php echo $is_closed ? 'disabled' : ''; ?>>
+                    <button type="submit" style="background-color: #f78b00 !important; color: white; border-radius: 30px;" class="btn w-100"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   <?php echo $is_closed ? 'disabled' : ''; ?>>
                         <?php echo $is_closed ? 'This auction has already closed' : 'Place Bid'; ?>
                     </button>
                 </form>
@@ -257,13 +260,13 @@
 
         // Setup Server-Sent Events connection
         const evtSource = new EventSource('bid_events.php?id=<?php echo $lot_id; ?>');
-        
+
         evtSource.onmessage = function(event) {
             const data = JSON.parse(event.data);
-            
+
             // Update price elements
             $('#current-price').text(data.current_price.toLocaleString());
-            
+
             // Update user bid value
             const userBidElement = $('.black-txt-area .black-text');
             userBidElement.text(data.user_bid > 0 ?

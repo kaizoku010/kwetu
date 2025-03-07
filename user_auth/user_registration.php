@@ -1,4 +1,3 @@
-
 <?php 
 include '../includes/db.php';
 session_start();
@@ -8,6 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST['username']);
     $email = trim($_POST['email']);
     $password = trim($_POST['password']);
+    $phone = trim($_POST['phone']);
 
     // ✅ Check if email already exists
     $check_query = "SELECT * FROM users WHERE email = ?";
@@ -19,20 +19,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($stmt->num_rows > 0) {
         $error = "Email already exists. Please login.";
     } else {
-        // ✅ Securely Hash the Password
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-        // ✅ Insert User into Database
-        $query = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param("sss", $username, $email, $hashed_password);
-        
-        if ($stmt->execute()) {
-            // ✅ Redirect to Login Page After Successful Registration
-            header("Location: user_login.php?registered=success");
-            exit();
+        // ✅ Validate phone number
+        if (!preg_match("/^[0-9+\-\s()]{10,15}$/", $phone)) {
+            $error = "Please enter a valid phone number.";
         } else {
-            $error = "Registration failed. Try again.";
+            // ✅ Securely Hash the Password
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+            // ✅ Insert User into Database with phone
+            $query = "INSERT INTO users (username, email, password, phone) VALUES (?, ?, ?, ?)";
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("ssss", $username, $email, $hashed_password, $phone);
+            
+            if ($stmt->execute()) {
+                // ✅ Redirect to Login Page After Successful Registration
+                header("Location: user_login.php?registered=success");
+                exit();
+            } else {
+                $error = "Registration failed. Try again.";
+            }
         }
     }
 
@@ -64,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
  <img onclick="window.location.href='/'" src="../assets/logo-full.svg" class="brand-logo-reg" alt="Kwetu Logo">
   <?php if (isset($error)) echo "<p class='text-danger text-center'>$error</p>"; ?>
   <form action="user_registration.php" method="POST">
-  <div class="mb-3 mdx-margins">
+            <div class="mb-3 mdx-margins">
                 <label class="form-label">Username</label>
                 <input type="text" class="form-control" name="username" required>
             </div>
@@ -72,6 +77,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="mb-3">
                 <label class="form-label">Email</label>
                 <input type="email" class="form-control" name="email" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Phone Number</label>
+                <input type="tel" class="form-control" name="phone" placeholder="+256..." required>
             </div>
 
             <div class="mb-3">
@@ -90,8 +100,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="mdx-filler"></div>
 
 </div>
-
-
 
 </body>
 </html>
