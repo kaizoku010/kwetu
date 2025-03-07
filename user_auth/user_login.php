@@ -44,7 +44,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['user_logged_in'] = true;
         
         // Use absolute path for redirect
-        header("Location: /user_auth/profile.php");
+        // header("Location: /user_auth/profile.php");
+        header("Location: ./index.php");
+
         exit();
     }
     $error = "Invalid email or password";
