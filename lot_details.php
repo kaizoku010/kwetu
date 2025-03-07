@@ -257,11 +257,19 @@
 
         // jus remove WebSockets, make it simple through long polling
         function pollBidUpdates() {
+            let lastKnownPrice = $('#current-price').text().replace(/,/g, '');
+            
             $.ajax({
                 url: 'fetch_bid_data.php',
-                data: { id:                            <?php echo $lot_id; ?> },
+                data: { id: <?php echo $lot_id; ?> },
                 dataType: 'json',
                 success: function(data) {
+                    // If price changed significantly, refresh the whole page
+                    if (Math.abs(data.current_price - lastKnownPrice) > 0) {
+                        location.reload();
+                        return;
+                    }
+                    
                     // Update price elements
                     $('#current-price').text(data.current_price.toLocaleString());
                     $('#min-allowed-bid').text(data.min_bid.toLocaleString());
@@ -293,7 +301,7 @@
                     }
                 },
                 complete: function() {
-                    setTimeout(pollBidUpdates, 2000);
+                    setTimeout(pollBidUpdates, 500);
                 }
             });
         }
