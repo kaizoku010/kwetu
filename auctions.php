@@ -86,6 +86,14 @@ if (session_status() === PHP_SESSION_NONE) {
             display: inline-block;
             text-align: center;
         }
+
+
+        @media (max-width: 1699px) {
+            .auction-container{
+                max-width: 1100px !important;
+            }
+        }
+
         @media (min-width: 768px) {
             .second-image {
                 display: none !important;

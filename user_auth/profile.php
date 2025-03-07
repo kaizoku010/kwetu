@@ -1,15 +1,29 @@
 <?php
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
-    }
+// Define the root path
+define('ROOT_PATH', dirname(dirname(__FILE__)));
 
-    // Ensure user is logged in
-    if (! isset($_SESSION['user_id'])) {
-        header("Location: user_login.php");
-        exit();
-    }
+// Include files using absolute paths
+require_once ROOT_PATH . '/includes/db.php';
+require_once ROOT_PATH . '/navbar.php';
 
-    include '../includes/db.php';
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Debug session data
+if (!isset($_SESSION['user_id'])) {
+    die("Session expired or user not logged in. Please <a href='user_login.php'>login again</a>.");
+}
+
+// Add session debugging
+echo "<!-- Debug Info: ";
+echo "User ID: " . $_SESSION['user_id'];
+echo " Session Status: " . session_status();
+echo " -->";
+
     $user_id       = $_SESSION['user_id'];
     $exchange_rate = 3800; // Consistent with other files
 

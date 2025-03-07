@@ -1,15 +1,23 @@
 <?php
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+
 $servername = "localhost:3306";
 $username   = "kwetzigc_luke";
 $password   = "{n0P.7e0a3t2";
 $dbname     = "kwetzigc_db2";
 
-$conn = new mysqli($servername, $username, $password, $dbname);
 
-if ($conn->connect_error) {
-    echo("<script>console.log('connection failed');</script>");
+try {
+    $conn = new mysqli($host, $username, $password, $database);
 
-    die("Connection failed: " . $conn->connect_error);
+    if ($conn->connect_error) {
+        throw new Exception("Connection failed: " . $conn->connect_error);
+    }
+} catch (Exception $e) {
+    die("Database connection error: " . $e->getMessage());
 }
 
 echo("<script>console.log('connection set');</script>");
