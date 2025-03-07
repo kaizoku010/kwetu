@@ -27,8 +27,17 @@ echo " -->";
     $user_id       = $_SESSION['user_id'];
     $exchange_rate = 3800; // Consistent with other files
 
-    // Fetch user details
-    $user_stmt = $conn->prepare("SELECT username, phone, email FROM users WHERE id = ?");
+    // Fetch user details - modified to handle missing phone column
+    $user_stmt = $conn->prepare("SELECT username, email, 
+        CASE WHEN EXISTS (
+            SELECT * FROM information_schema.COLUMNS 
+            WHERE TABLE_NAME = 'users' 
+            AND COLUMN_NAME = 'phone'
+        ) 
+        THEN phone 
+        ELSE NULL 
+        END as phone 
+        FROM users WHERE id = ?");
     $user_stmt->bind_param("i", $user_id);
     $user_stmt->execute();
     $user = $user_stmt->get_result()->fetch_assoc();

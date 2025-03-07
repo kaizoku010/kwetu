@@ -141,15 +141,6 @@
             </div>
         </div>
 
-        <!-- ✅ Contact Us -->
-        <div class="contact-section">
-            <h2 class="highlight">Get in Touch</h2>
-            <p>Have questions? Our team is here to help!</p>
-            <p><b>Email:</b> support@kwetuauctions.com</p>
-            <p><b>Phone:</b> +256 700 123 456</p>
-            <p><b>Visit Us:</b> 123 Auction Street, Kampala, Uganda</p>
-        </div>
-
     </div>
 
     <?php include 'includes/footer.php'; ?>
