@@ -255,59 +255,54 @@
             bidInput.setAttribute('title', initialValue + 'K UGX');
         }
 
-        // jus remove WebSockets, make it simple through long polling
-        function pollBidUpdates() {
-            let lastKnownPrice = $('#current-price').text().replace(/,/g, '');
+        // Setup Server-Sent Events connection
+        const evtSource = new EventSource('bid_events.php?id=<?php echo $lot_id; ?>');
+        
+        evtSource.onmessage = function(event) {
+            const data = JSON.parse(event.data);
             
-            $.ajax({
-                url: 'fetch_bid_data.php',
-                data: { id: <?php echo $lot_id; ?> },
-                dataType: 'json',
-                success: function(data) {
-                    // If price changed significantly, refresh the whole page
-                    if (Math.abs(data.current_price - lastKnownPrice) > 0) {
-                        location.reload();
-                        return;
-                    }
-                    
-                    // Update price elements
-                    $('#current-price').text(data.current_price.toLocaleString());
-                    $('#min-allowed-bid').text(data.min_bid.toLocaleString());
-                    $('#max-allowed-bid').text(data.max_bid.toLocaleString());
+            // Update price elements
+            $('#current-price').text(data.current_price.toLocaleString());
+            
+            // Update user bid value
+            const userBidElement = $('.black-txt-area .black-text');
+            userBidElement.text(data.user_bid > 0 ?
+                "UGX " + data.user_bid.toLocaleString() :
+                "You haven't bided on this lot"
+            );
 
-                    // Update user bid value
-                    const userBidElement = $('.black-txt-area .black-text');
-                    userBidElement.text(data.user_bid > 0 ?
-                        "UGX " + data.user_bid.toLocaleString() :
-                        "You haven't bided on this lot"
-                    );
+            // Update highest bid
+            $('.highest-bid p').text("UGX " + data.highest_bid.toLocaleString());
 
-                    // Update highest bid
-                    $('.highest-bid p').text("UGX " + data.highest_bid.toLocaleString());
+            // Update winning/losing status banner
+            const statusDiv = $('#bid-status');
+            statusDiv.removeClass('bg-winning bg-losing bg-no-bid');
 
-                    // Update winning/losing status banner
-                    const statusDiv = $('#bid-status');
-                    statusDiv.removeClass('bg-winning bg-losing bg-no-bid');
+            if (data.user_bid === 0) {
+                statusDiv.addClass('bg-no-bid')
+                        .find('h6').text("You haven't bided on this lot.");
+            } else {
+                statusDiv.addClass(data.is_winning ? 'bg-winning' : 'bg-losing')
+                        .find('h6').text(data.is_winning ?
+                            'You are winning!' :
+                            'You are losing. Place a higher bid!'
+                        );
+            }
+        };
 
-                    if (data.user_bid === 0) {
-                        statusDiv.addClass('bg-no-bid')
-                                .find('h6').text("You haven't bided on this lot.");
-                    } else {
-                        statusDiv.addClass(data.is_winning ? 'bg-winning' : 'bg-losing')
-                                .find('h6').text(data.is_winning ?
-                                    'You are winning!' :
-                                    'You are losing. Place a higher bid!'
-                                );
-                    }
-                },
-                complete: function() {
-                    setTimeout(pollBidUpdates, 500);
-                }
-            });
-        }
+        evtSource.onerror = function(err) {
+            console.error("EventSource failed:", err);
+            // Attempt to reconnect after 5 seconds
+            setTimeout(() => {
+                evtSource.close();
+                location.reload();
+            }, 5000);
+        };
 
-        // Start polling when page loads
-        pollBidUpdates();
+        // Close EventSource when leaving the page
+        window.addEventListener('beforeunload', function() {
+            evtSource.close();
+        });
     </script>
 </body>
 </html>
