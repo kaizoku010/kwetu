@@ -81,18 +81,19 @@
 ?>
 
 <?php
-// Add this function at the top of the file after your includes
-function getImageUrl($lot) {
-    // First check if image is a path to assets folder
-    if (!empty($lot['image']) && strpos($lot['image'], 'assets/') === 0) {
-        if (file_exists($lot['image'])) {
-            return $lot['image'];
+    // Add this function at the top of the file after your includes
+    function getImageUrl($lot)
+    {
+        // First check if image is a path to assets folder
+        if (! empty($lot['image']) && strpos($lot['image'], 'assets/') === 0) {
+            if (file_exists($lot['image'])) {
+                return $lot['image'];
+            }
         }
+
+        // If not in assets or file doesn't exist, use the database image endpoint
+        return 'get_image.php?id=' . $lot['id'];
     }
-    
-    // If not in assets or file doesn't exist, use the database image endpoint
-    return 'get_image.php?id=' . $lot['id'];
-}
 ?>
 
 <!DOCTYPE html>
@@ -163,8 +164,8 @@ function getImageUrl($lot) {
         <div class="row">
             <!-- ✅ Left Side: Image & Description -->
             <div class="col-md-6">
-                <img src="<?php echo htmlspecialchars(getImageUrl($lot)); ?>" 
-                     alt="<?php echo htmlspecialchars($lot['title']); ?>" 
+                <img src="<?php echo htmlspecialchars(getImageUrl($lot)); ?>"
+                     alt="<?php echo htmlspecialchars($lot['title']); ?>"
                      class="img-fluid">
 
                 <div class="bg-light p-3 rounded">
@@ -192,17 +193,17 @@ function getImageUrl($lot) {
 
                 <div class="bg-light p-3 rounded mb-2">
                     <h6 class="fw-bold">Highest Bid:</h6>
-                    <p>UGX                                                                               <?php echo number_format($highest_bid_ugx); ?></p>
+                    <p>UGX                                                                                                         <?php echo number_format($highest_bid_ugx); ?></p>
                 </div>
 
                 <div class="bg-light p-3 rounded mb-2">
                     <h6 class="fw-bold">Minimum Allowed Bid:</h6>
-                    <p>UGX                                                                               <?php echo number_format($updated_min_bid_ugx); ?></p>
+                    <p>UGX                                                                                                         <?php echo number_format($updated_min_bid_ugx); ?></p>
                 </div>
 
                 <div class="bg-light p-3 rounded mb-2">
                     <h6 class="fw-bold">Maximum Allowed Bid:</h6>
-                    <p>UGX                                                     <?php echo number_format($max_allowed_bid_ugx); ?></p>
+                    <p>UGX                                                                               <?php echo number_format($max_allowed_bid_ugx); ?></p>
                 </div>
 
                 <!-- ✅ Winning or Losing Message -->
@@ -225,10 +226,10 @@ function getImageUrl($lot) {
                          class="form-control"
                          step="<?php echo $updated_min_bid_ugx; ?>"
                          placeholder="Enter your bid value"
-                         required                                                                                                    <?php echo $is_closed ? 'disabled' : ''; ?>>
+                         required                                                                                                                                     <?php echo $is_closed ? 'disabled' : ''; ?>>
                     </div>
 
-                    <button type="submit" style="background-color: #f78b00 !important; color: white; border-radius: 30px;" class="btn w-100"                                                                                                                                                                                                                                                                                                                                                                                           <?php echo $is_closed ? 'disabled' : ''; ?>>
+                    <button type="submit" style="background-color: #f78b00 !important; color: white; border-radius: 30px;" class="btn w-100"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       <?php echo $is_closed ? 'disabled' : ''; ?>>
                         <?php echo $is_closed ? 'This auction has already closed' : 'Place Bid'; ?>
                     </button>
                 </form>
@@ -258,35 +259,35 @@ function getImageUrl($lot) {
         function pollBidUpdates() {
             $.ajax({
                 url: 'fetch_bid_data.php',
-                data: { id: <?php echo $lot_id; ?> },
+                data: { id:                            <?php echo $lot_id; ?> },
                 dataType: 'json',
                 success: function(data) {
                     // Update price elements
                     $('#current-price').text(data.current_price.toLocaleString());
                     $('#min-allowed-bid').text(data.min_bid.toLocaleString());
                     $('#max-allowed-bid').text(data.max_bid.toLocaleString());
-                    
+
                     // Update user bid value
                     const userBidElement = $('.black-txt-area .black-text');
                     userBidElement.text(data.user_bid > 0 ?
                         "UGX " + data.user_bid.toLocaleString() :
                         "You haven't bided on this lot"
                     );
-                    
+
                     // Update highest bid
                     $('.highest-bid p').text("UGX " + data.highest_bid.toLocaleString());
 
                     // Update winning/losing status banner
                     const statusDiv = $('#bid-status');
                     statusDiv.removeClass('bg-winning bg-losing bg-no-bid');
-                    
+
                     if (data.user_bid === 0) {
                         statusDiv.addClass('bg-no-bid')
                                 .find('h6').text("You haven't bided on this lot.");
                     } else {
                         statusDiv.addClass(data.is_winning ? 'bg-winning' : 'bg-losing')
-                                .find('h6').text(data.is_winning ? 
-                                    'You are winning!' : 
+                                .find('h6').text(data.is_winning ?
+                                    'You are winning!' :
                                     'You are losing. Place a higher bid!'
                                 );
                     }

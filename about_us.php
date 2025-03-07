@@ -17,7 +17,8 @@
             max-width: 1000px;
             margin: 80px auto 20px auto; /* Added top margin for spacing */
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 10px; 
+        }
 
 .about-title {
   font-size: 30px;
