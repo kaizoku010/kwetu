@@ -482,15 +482,15 @@ margin-bottom: 0.3rem;
                             👤                                 <?php echo htmlspecialchars($_SESSION['username']); ?>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="/user_auth/profile.php">My Profile</a></li>
+                            <li><a class="dropdown-item" href="./user_auth/profile.php">My Profile</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="/user_auth/user_logout.php">Logout</a></li>
+                            <li><a class="dropdown-item" href="./user_auth/user_logout.php">Logout</a></li>
                         </ul>
                     <?php else: ?>
-                        <a class="login-button" href="user_auth/user_login.php">Sign In</a>
-                        <a class="register-button" href="/user_auth/user_registration.php">Create Account</a>
+                        <a class="login-button" href="./user_auth/user_login.php">Sign In</a>
+                        <a class="register-button" href="./user_auth/user_registration.php">Create Account</a>
                     <?php endif; ?>
             </div>
 
@@ -499,10 +499,10 @@ margin-bottom: 0.3rem;
                 <li><a href="/">Home</a></li>
                 <li><a href="./auction_guide.php">Auction Guide</a></li>
                 <li><a href="./transport_services.php">Transport Services</a></li>
-                <li><a href="sell_with_us.php">Sell With Us</a></li>
-                <li><a href="about_us.php">About Us</a></li>
-                <li><a href="career.php">Careers</a></li>
-                <li><a href="faq.php">FAQ</a></li>
+                <li><a href="./sell_with_us.php">Sell With Us</a></li>
+                <li><a href="./about_us.php">About Us</a></li>
+                <li><a href="./career.php">Careers</a></li>
+                <li><a href="./faq.php">FAQ</a></li>
                 <li><a href="./admin/admin_login.php">Admin</a></li>
             </ul>
         </div>
