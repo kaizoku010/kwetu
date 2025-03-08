@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding-top: 80px;
         }
         .container {
-            width: 80%;
+            width: 50%;
             max-width: 1100px;
             margin: auto;
             background-color: white;
