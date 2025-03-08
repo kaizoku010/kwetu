@@ -6,8 +6,8 @@ define('ROOT_PATH', dirname(dirname(__FILE__)));
 require_once ROOT_PATH . '/includes/db.php';
 require_once ROOT_PATH . '/navbar.php';
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();

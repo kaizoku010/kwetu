@@ -3,6 +3,14 @@ header('Content-Type: text/event-stream');
 header('Cache-Control: no-cache');
 header('Connection: keep-alive');
 
+// Only try to clean buffer if one exists
+if (ob_get_level() > 0) {
+    ob_end_clean();
+}
+
+// Start new buffer
+ob_start();
+
 include './includes/db.php';
 
 if (session_status() === PHP_SESSION_NONE) {
@@ -59,8 +67,9 @@ while (true) {
     echo "data: " . json_encode($response) . "\n\n";
     
     // Flush the output buffer
-    ob_flush();
-    flush();
+    if (ob_get_level() > 0) {
+        ob_flush();
+    }
     
     // Wait for 1 second before next update
     sleep(1);

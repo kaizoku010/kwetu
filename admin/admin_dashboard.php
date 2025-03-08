@@ -26,15 +26,26 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
         <h2>Admin Panel</h2>
         <ul>
             <li><a href="dashboard.php">📊 Dashboard</a></li>
+            
+            <!-- Auction Management Group -->
             <li><a href="auctions_admin.php">🏢 Manage Auction Companies</a></li>
-            <li><a href="auction_items_admin.php">📋 Manage Company Listings</a></li>
+            <li><a href="manage_items.php">📦 Manage Items</a></li>
+            <li><a href="auction_items_admin.php">📋 Add New Items</a></li>
+            
+            <!-- User Management -->
             <li><a href="manage_users.php">👥 Manage Users</a></li>
             <li><a href="admin_sell_requests.php">📩 Sell Requests</a></li>
-            <li><a href="admin_about_us.php">📜 Edit About Us Page</a></li>
-            <li><a href="edit_careers.php">💼 Edit Careers Page</a></li>
-            <li><a href="edit_services.php">🛠️ Edit Services Page</a></li>
-            <li><a href="edit_contact.php">📞 Edit Contact Us Page</a></li>
+            
+            <!-- Content Management -->
+            <li><a href="admin_about_us.php">📜 Edit About Us</a></li>
+            <li><a href="edit_careers.php">💼 Edit Careers</a></li>
+            <li><a href="edit_services.php">🛠️ Edit Services</a></li>
+            <li><a href="edit_contact.php">📞 Edit Contact</a></li>
+            
+            <!-- Communications -->
             <li><a href="subscriptions.php">📩 Subscriptions</a></li>
+            
+            <!-- Logout -->
             <li><a href="admin_logout.php" class="logout-btn">🚪 Logout</a></li>
         </ul>
     </div>

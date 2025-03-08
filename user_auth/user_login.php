@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         // Use absolute path for redirect
         // header("Location: /user_auth/profile.php");
-        header("Location: ./index.php");
+        header("Location: ../index.php");
 
         exit();
     }

@@ -51,7 +51,7 @@ $user_id = $_SESSION['user_id'] ?? null;
     }
 
     .upcoming-auctions-menu {
-        background: #8B4513 !important;
+        background:rgb(253, 253, 253) !important;
         /* Brown */
         border-left: 4px solid #5A2D0C;
     }

@@ -169,7 +169,26 @@
             <div class="col-md-6">
                 <img src="<?php echo htmlspecialchars(getImageUrl($lot)); ?>"
                      alt="<?php echo htmlspecialchars($lot['title']); ?>"
-                     class="img-fluid">
+                     class="img-fluid main-image mb-3">
+
+                <?php
+                // Fetch additional images
+                $stmt = $conn->prepare("SELECT image_path FROM item_images WHERE item_id = ?");
+                $stmt->bind_param("i", $lot['id']);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                
+                if ($result->num_rows > 0) {
+                    echo '<div class="image-gallery">';
+                    while ($image = $result->fetch_assoc()) {
+                        echo '<img src="' . htmlspecialchars($image['image_path']) . '" 
+                                   class="gallery-thumb" 
+                                   onclick="showImage(this.src)"
+                                   alt="Additional Image">';
+                    }
+                    echo '</div>';
+                }
+                ?>
 
                 <div class="bg-light p-3 rounded">
                     <h6 class="fw-bold">Description:</h6>
@@ -307,5 +326,35 @@
             evtSource.close();
         });
     </script>
+    <script>
+        function showImage(src) {
+            const mainImage = document.querySelector('.main-image');
+            mainImage.src = src;
+        }
+    </script>
+    <style>
+        .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .gallery-thumb {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: transform 0.2s;
+        }
+        .gallery-thumb:hover {
+            transform: scale(1.05);
+        }
+        .main-image {
+            width: 100%;
+            max-height: 500px;
+            object-fit: contain;
+        }
+    </style>
 </body>
 </html>

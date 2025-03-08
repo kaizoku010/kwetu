@@ -1,118 +1,151 @@
-<?php include 'navbar_admin.php'; ?>
-<?php include 'admin_dashboard.php'; ?>
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+
+// Include admin navigation and sidebar first, before setting JSON header
+include 'navbar_admin.php';
+include 'admin_dashboard.php';
+
+// Only set JSON header for POST requests
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    header('Content-Type: application/json');
+}
+
 include '../includes/db.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// ✅ Ensure admin is logged in
+// Ensure admin is logged in
 if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
     header("Location: admin_login.php");
     exit();
 }
 
-// ✅ Set Exchange Rate
+// Set Exchange Rate
 $exchange_rate = 3800;
 
-// ✅ Handle Form Submission
+// Handle Form Submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $company_name = mysqli_real_escape_string($conn, $_POST['company_name']);
-    $lot_number = mysqli_real_escape_string($conn, $_POST['lot_number']);
-    $title = mysqli_real_escape_string($conn, $_POST['title']);
-    $bidders = mysqli_real_escape_string($conn, $_POST['bidders']);
-    $price = mysqli_real_escape_string($conn, $_POST['price']) / $exchange_rate; // Convert UGX to USD before storing
-    $min_bid = mysqli_real_escape_string($conn, $_POST['min_bid']) / $exchange_rate;
-    $max_bid = mysqli_real_escape_string($conn, $_POST['max_bid']) / $exchange_rate;
-    $condition = mysqli_real_escape_string($conn, $_POST['condition']);
-    $description = mysqli_real_escape_string($conn, $_POST['description']);
-    $category = mysqli_real_escape_string($conn, $_POST['category']);
-    $starting_date = mysqli_real_escape_string($conn, $_POST['starting_date']);
-    $starting_time = mysqli_real_escape_string($conn, $_POST['starting_time']);
-    $closing_date = mysqli_real_escape_string($conn, $_POST['closing_date']);
-    $closing_time = mysqli_real_escape_string($conn, $_POST['closing_time']);
+    $response = ['success' => false, 'message' => '', 'debug' => []];
+    
+    try {
+        // Log the incoming data
+        $response['debug']['post'] = $_POST;
+        $response['debug']['files'] = $_FILES;
 
-    // Combine date and time
-    $starting_datetime = $starting_date . ' ' . $starting_time;
-    $closing_datetime = $closing_date . ' ' . $closing_time;
+        if (empty($_POST['company_name'])) {
+            throw new Exception("Company name is required");
+        }
 
-    // ✅ Retrieve auction ID using company name
-    $auction_query = "SELECT id FROM auctions WHERE company_title = '$company_name' LIMIT 1";
-    $auction_result = $conn->query($auction_query);
+        $company_name = mysqli_real_escape_string($conn, $_POST['company_name']);
+        $lot_number = mysqli_real_escape_string($conn, $_POST['lot_number']);
+        $title = mysqli_real_escape_string($conn, $_POST['title']);
+        $bidders = mysqli_real_escape_string($conn, $_POST['bidders']);
+        $price = floatval($_POST['price']) / $exchange_rate;
+        $min_bid = floatval($_POST['min_bid']) / $exchange_rate;
+        $max_bid = floatval($_POST['max_bid']) / $exchange_rate;
+        $condition = mysqli_real_escape_string($conn, $_POST['condition']);
+        $description = mysqli_real_escape_string($conn, $_POST['description']);
+        $category = mysqli_real_escape_string($conn, $_POST['category']);
+        $starting_datetime = $_POST['starting_date'] . ' ' . $_POST['starting_time'];
+        $closing_datetime = $_POST['closing_date'] . ' ' . $_POST['closing_time'];
 
-    if ($auction_result->num_rows == 0) {
-        die("<script>alert('Error: Company does not exist!'); window.history.back();</script>");
-    }
+        // Get auction ID
+        $result = $conn->query("SELECT id FROM auctions WHERE company_title = '$company_name'");
+        if ($result->num_rows == 0) {
+            throw new Exception("Company not found: $company_name");
+        }
 
-    $auction_row = $auction_result->fetch_assoc();
-    $auction_id = $auction_row['id'];
+        $auction_row = $result->fetch_assoc();
+        $auction_id = $auction_row['id'];
 
-    // Initialize $image_path with a default value
-    $image_path = null;
-
-    // Handle Image Upload
-    if (!empty($_FILES['image']['name'])) {
-        $image_name = basename($_FILES['image']['name']);
-        $target_dir = "../assets/";
-        $target_file = $target_dir . $image_name;
-        
-        // Create assets directory if it doesn't exist
-        if (!file_exists($target_dir)) {
-            if (!mkdir($target_dir, 0755, true)) {
-                die("<script>alert('Failed to create assets directory. Please contact administrator.'); window.history.back();</script>");
+        // Handle main image
+        $image_path = null;
+        if (!empty($_FILES['main_image']['name'])) {
+            $image_name = time() . '_' . basename($_FILES['main_image']['name']);
+            $target_dir = "../assets/";
+            $target_file = $target_dir . $image_name;
+            
+            if (!is_dir($target_dir)) {
+                if (!mkdir($target_dir, 0777, true)) {
+                    throw new Exception("Failed to create assets directory");
+                }
             }
-            // Set proper permissions
-            chmod($target_dir, 0755);
+            
+            if (!move_uploaded_file($_FILES['main_image']['tmp_name'], $target_file)) {
+                throw new Exception("Failed to upload main image. Upload error code: " . $_FILES['main_image']['error']);
+            }
+            $image_path = "assets/" . $image_name;
         }
-        
-        if (!move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
-            die("<script>alert('Error uploading image'); window.history.back();</script>");
+
+        // Insert main item data
+        $stmt = $conn->prepare("INSERT INTO auction_items (
+            auction_id, lot_number, title, bidders, price, 
+            min_bid, max_bid, `condition`, description, image,
+            category, starting_time, closing_time
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+        if (!$stmt) {
+            throw new Exception("Prepare failed: " . $conn->error);
         }
-        $image_path = "assets/" . $image_name;
-    }
 
-    // First verify all your variables are set
-    $auction_id = $auction_row['id'];
-    $lot_number = mysqli_real_escape_string($conn, $_POST['lot_number']);
-    $title = mysqli_real_escape_string($conn, $_POST['title']);
-    $bidders = mysqli_real_escape_string($conn, $_POST['bidders']);
-    $price = mysqli_real_escape_string($conn, $_POST['price']) / $exchange_rate;
-    $min_bid = mysqli_real_escape_string($conn, $_POST['min_bid']) / $exchange_rate;
-    $max_bid = mysqli_real_escape_string($conn, $_POST['max_bid']) / $exchange_rate;
-    $condition = mysqli_real_escape_string($conn, $_POST['condition']);
-    $description = mysqli_real_escape_string($conn, $_POST['description']);
-    $category = mysqli_real_escape_string($conn, $_POST['category']);
-    $starting_datetime = $starting_date . ' ' . $starting_time;
-    $closing_datetime = $closing_date . ' ' . $closing_time;
+        $stmt->bind_param(
+            "isssdddssssss",
+            $auction_id, $lot_number, $title, $bidders, $price,
+            $min_bid, $max_bid, $condition, $description, $image_path,
+            $category, $starting_datetime, $closing_datetime
+        );
 
-    // ✅ Insert into Database
-    $query = "INSERT INTO auction_items (
-        auction_id, lot_number, title, bidders, price, 
-        min_bid, max_bid, `condition`, description, image,
-        category, starting_time, closing_time
-    ) VALUES (
-        '$auction_id', '$lot_number', '$title', '$bidders', '$price',
-        '$min_bid', '$max_bid', '$condition', '$description', '$image_path',
-        '$category', '$starting_datetime', '$closing_datetime'
-    )";
+        if (!$stmt->execute()) {
+            throw new Exception("Execute failed: " . $stmt->error);
+        }
 
-    if ($conn->query($query)) {
-        echo "<script>
-                alert('Item Added Successfully!');
-                window.location.href = 'auction_items_admin.php';
-              </script>";
-    } else {
-        echo "<script>
-                alert('Error: " . $conn->error . "');
-                window.history.back();
-              </script>";
+        $item_id = $stmt->insert_id;
+        $response['debug']['item_id'] = $item_id;
+
+        // Handle additional images
+        if (!empty($_FILES['additional_images']['name'][0])) {
+            $stmt_additional = $conn->prepare("INSERT INTO item_images (item_id, image_path, is_primary) VALUES (?, ?, FALSE)");
+            
+            if (!$stmt_additional) {
+                throw new Exception("Prepare additional images failed: " . $conn->error);
+            }
+
+            foreach ($_FILES['additional_images']['name'] as $key => $name) {
+                if (empty($name)) continue;
+
+                $image_name = time() . '_' . basename($name);
+                $target_file = "../assets/" . $image_name;
+                
+                if (move_uploaded_file($_FILES['additional_images']['tmp_name'][$key], $target_file)) {
+                    $additional_image_path = "assets/" . $image_name;
+                    $stmt_additional->bind_param("is", $item_id, $additional_image_path);
+                    if (!$stmt_additional->execute()) {
+                        throw new Exception("Failed to save additional image: " . $stmt_additional->error);
+                    }
+                }
+            }
+        }
+
+        $response['success'] = true;
+        $response['message'] = 'Item added successfully';
+        echo json_encode($response);
+        exit;
+
+    } catch (Exception $e) {
+        $response['success'] = false;
+        $response['message'] = $e->getMessage();
+        $response['debug']['error'] = $e->getTraceAsString();
+        echo json_encode($response);
+        exit;
     }
 }
-?>
 
+// If not a POST request, show the HTML
+if ($_SERVER["REQUEST_METHOD"] != "POST") {
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -132,6 +165,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             width: 60%;
             max-width: 100%; /* ✅ Maximum width set */
             margin: 30px auto;
+            margin-left: 270px; /* Add this to account for sidebar width */
             background-color: white;
             padding: 30px;
             border-radius: 10px;
@@ -201,23 +235,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             width: 100% !important;
             margin-bottom: 15px;
         }
-
-
-
-.select2-selection__clear{
-    width: unset !important;
-}
-
-
-.select2-container--default .select2-selection--single .select2-selection__clear {
-  cursor: pointer;
-  float: right;
-  font-weight: bold;
-  height: unset !important;
-  margin-right: 20px;
-  padding-right: 0px;
-}
-
+        .progress {
+            height: 20px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .upload-status {
+            margin-top: 10px;
+            display: none;
+        }
+        .select2-selection__clear{
+            width: unset !important;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__clear {
+            cursor: pointer;
+            float: right;
+            font-weight: bold;
+            height: unset !important;
+            margin-right: 20px;
+            padding-right: 0px;
+        }
         .select2-selection {
             height: 45px !important;
             padding: 8px !important;
@@ -251,7 +288,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container">
         <h2>Admin Panel - Add Auction Item</h2>
 
-        <form action="auction_items_admin.php" method="POST" enctype="multipart/form-data">
+        <form id="auctionItemForm" method="POST" enctype="multipart/form-data">
             <div class="section">
                 <h4>Auction Details</h4>
                 <label>Company Name</label>
@@ -313,28 +350,116 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
             <div class="section">
+                <label>Main Item Image</label>
+                <input type="file" name="main_image" id="main_image" required>
+
+                <label>Additional Images (Optional)</label>
+                <input type="file" name="additional_images[]" id="additional_images" multiple>
+                <small class="text-muted">You can select multiple images at once</small>
+
                 <label>Condition</label>
                 <textarea name="condition" rows="2" required></textarea>
 
                 <label>Description</label>
                 <textarea name="description" rows="4" required></textarea>
-
-                <label>Item Image</label>
-                <input type="file" name="image">
             </div>
 
             <button type="submit" class="btn btn-success">Add Item</button>
+
+            <!-- Progress bar moved below the submit button -->
+            <div class="mt-3">
+                <div class="progress" style="display: none;">
+                    <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                </div>
+                <div class="alert upload-status mt-2"></div>
+            </div>
         </form>
     </div>
 
+
     <script>
-        $(document).ready(function() {
-            $('.company-select').select2({
-                placeholder: 'Search for a company...',
-                allowClear: true
+    $(document).ready(function() {
+        // Show success alert after item addition
+        <?php if (isset($_GET['success']) && $_GET['success'] == 1): ?>
+        alert('Item added successfully!');
+        <?php endif; ?>
+
+        // Select All functionality
+        $('#masterCheckbox').change(function() {
+            $('input[name="items[]"]').prop('checked', $(this).prop('checked'));
+        });
+
+        // Delete Selected Items
+        $('#deleteSelected').click(function() {
+            if (!confirm('Are you sure you want to delete selected items?')) return;
+            
+            const selectedItems = $('input[name="items[]"]:checked').map(function() {
+                return $(this).val();
+            }).get();
+
+            if (selectedItems.length === 0) {
+                alert('Please select items to delete');
+                return;
+            }
+
+            $.ajax({
+                url: 'delete_items.php',
+                type: 'POST',
+                data: { items: selectedItems, action: 'delete_selected' },
+                success: function(response) {
+                    if (response.success) {
+                        alert('Selected items deleted successfully');
+                        location.reload();
+                    } else {
+                        alert('Error: ' + response.message);
+                    }
+                }
             });
         });
+
+        // Delete All Items
+        $('#deleteAll').click(function() {
+            if (!confirm('Are you absolutely sure you want to delete ALL items? This cannot be undone!')) return;
+            
+            $.ajax({
+                url: 'delete_items.php',
+                type: 'POST',
+                data: { action: 'delete_all' },
+                success: function(response) {
+                    if (response.success) {
+                        alert('All items deleted successfully');
+                        location.reload();
+                    } else {
+                        alert('Error: ' + response.message);
+                    }
+                }
+            });
+        });
+
+        // Single Item Delete
+        $('.delete-single').click(function() {
+            if (!confirm('Are you sure you want to delete this item?')) return;
+            
+            const itemId = $(this).data('id');
+            $.ajax({
+                url: 'delete_items.php',
+                type: 'POST',
+                data: { items: [itemId], action: 'delete_selected' },
+                success: function(response) {
+                    if (response.success) {
+                        alert('Item deleted successfully');
+                        location.reload();
+                    } else {
+                        alert('Error: ' + response.message);
+                    }
+                }
+            });
+        });
+    });
     </script>
 
 </body>
 </html>
+<?php
+}
+?>
