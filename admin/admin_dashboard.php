@@ -18,6 +18,28 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="admin_dashboard.css">
+    <style>
+        /* Add these styles to properly position main content */
+        body {
+            margin-left: 250px; /* Match sidebar width */
+        }
+        
+        .main-content {
+            padding: 20px;
+            width: calc(100% - 250px); /* Full width minus sidebar */
+            margin-left: 250px;
+        }
+
+        /* Ensure sidebar stays fixed */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 250px;
+            z-index: 1000;
+        }
+    </style>
 </head>
 <body>
 
