@@ -40,9 +40,9 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 </head>
 <body>
     <?php include 'navbar_admin.php'; ?>
-    <?php include 'admin_dashboard.php'; ?>
+    <?php include 'admin_sidebar.php'; ?>
 
-    <div class="main-content">
+    <div class="content-wrapper">
         <h2>Manage Auction Items</h2>
         
         <!-- Filters -->

@@ -56,12 +56,12 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     </div>
 
     <!-- Main Content Area -->
-    <div class="main-content">
+    <!-- <div class="main-content">
         <div class="welcome-section">
             <h1>Welcome, Admin</h1>
             <p>Select an option from the sidebar to manage the system. This dashboard provides you with complete control over your auction platform.</p>
         </div>
-    </div>
+    </div> -->
 
 </body>
 </html>
