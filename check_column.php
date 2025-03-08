@@ -19,4 +19,11 @@ if($result->num_rows == 0) {
         echo "Failed to add column: " . $conn->error;
     }
 }
+
+// Show all categories currently in use
+echo "<br><br>Current categories in use:<br>";
+$categories = $conn->query("SELECT DISTINCT category FROM auction_items");
+while($row = $categories->fetch_assoc()) {
+    echo $row['category'] . "<br>";
+}
 ?>

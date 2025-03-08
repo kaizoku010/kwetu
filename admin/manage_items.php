@@ -169,7 +169,78 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                 return;
             }
 
-            deleteItems(selectedItems);
+            $.ajax({
+                url: 'delete_items.php',
+                type: 'POST',
+                data: { 
+                    items: selectedItems,
+                    action: 'delete_selected'
+                },
+                dataType: 'json',
+                beforeSend: function() {
+                    // Disable delete buttons while processing
+                    $('.delete-single, #deleteSelected, #deleteAll').prop('disabled', true);
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // Remove deleted rows from the table
+                        selectedItems.forEach(function(itemId) {
+                            $(`input[name="items[]"][value="${itemId}"]`).closest('tr').fadeOut(400, function() {
+                                $(this).remove();
+                            });
+                        });
+                        alert('Items deleted successfully');
+                    } else {
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function() {
+                    alert('Error occurred while deleting items');
+                },
+                complete: function() {
+                    // Re-enable delete buttons
+                    $('.delete-single, #deleteSelected, #deleteAll').prop('disabled', false);
+                }
+            });
+        });
+
+        // Delete Single Item
+        $('.delete-single').click(function() {
+            if (!confirm('Are you sure you want to delete this item?')) return;
+            
+            const itemId = $(this).data('id');
+            const $row = $(this).closest('tr');
+
+            $.ajax({
+                url: 'delete_items.php',
+                type: 'POST',
+                data: { 
+                    items: [itemId],
+                    action: 'delete_selected'
+                },
+                dataType: 'json',
+                beforeSend: function() {
+                    // Disable delete buttons while processing
+                    $('.delete-single, #deleteSelected, #deleteAll').prop('disabled', true);
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $row.fadeOut(400, function() {
+                            $(this).remove();
+                        });
+                        alert('Item deleted successfully');
+                    } else {
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function() {
+                    alert('Error occurred while deleting item');
+                },
+                complete: function() {
+                    // Re-enable delete buttons
+                    $('.delete-single, #deleteSelected, #deleteAll').prop('disabled', false);
+                }
+            });
         });
 
         // Delete All Items
@@ -180,43 +251,31 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                 url: 'delete_items.php',
                 type: 'POST',
                 data: { action: 'delete_all' },
-                success: function(response) {
-                    if (response.success) {
-                        alert('All items deleted successfully');
-                        location.reload();
-                    } else {
-                        alert('Error: ' + response.message);
-                    }
-                }
-            });
-        });
-
-        // Delete Single Item
-        $('.delete-single').click(function() {
-            if (!confirm('Are you sure you want to delete this item?')) return;
-            
-            const itemId = $(this).data('id');
-            deleteItems([itemId]);
-        });
-
-        function deleteItems(items) {
-            $.ajax({
-                url: 'delete_items.php',
-                type: 'POST',
-                data: { 
-                    items: items,
-                    action: 'delete_selected'
+                dataType: 'json',
+                beforeSend: function() {
+                    // Disable delete buttons while processing
+                    $('.delete-single, #deleteSelected, #deleteAll').prop('disabled', true);
                 },
                 success: function(response) {
                     if (response.success) {
-                        alert('Items deleted successfully');
-                        location.reload();
+                        // Remove all rows from the table
+                        $('#itemsTableBody tr').fadeOut(400, function() {
+                            $(this).remove();
+                        });
+                        alert('All items deleted successfully');
                     } else {
                         alert('Error: ' + response.message);
                     }
+                },
+                error: function() {
+                    alert('Error occurred while deleting items');
+                },
+                complete: function() {
+                    // Re-enable delete buttons
+                    $('.delete-single, #deleteSelected, #deleteAll').prop('disabled', false);
                 }
             });
-        }
+        });
     });
     </script>
 </body>

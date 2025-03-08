@@ -9,7 +9,11 @@ $exchange_rate = 3800;
 $category = isset($_GET['category']) ? mysqli_real_escape_string($conn, $_GET['category']) : '';
 $valid_categories = ['cars', 'furniture', 'electronics', 'real_estate', 'other'];
 
+// Debug output
+echo "<!-- Debug: Selected category: " . htmlspecialchars($category) . " -->";
+
 if (!in_array($category, $valid_categories)) {
+    echo "<!-- Debug: Invalid category selected -->";
     header("Location: index.php");
     exit();
 }
@@ -18,8 +22,10 @@ $items_per_page = 12;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $items_per_page;
 
-// Simpler query first for debugging
+// Debug query
 $total_query = "SELECT COUNT(*) as total FROM auction_items WHERE category = '$category'";
+echo "<!-- Debug: Count query: " . htmlspecialchars($total_query) . " -->";
+
 $total_result = $conn->query($total_query);
 
 if (!$total_result) {
@@ -27,6 +33,7 @@ if (!$total_result) {
 }
 
 $total_row = $total_result->fetch_assoc();
+echo "<!-- Debug: Total items found: " . $total_row['total'] . " -->";
 $total_items = $total_row['total'];
 $total_pages = ceil($total_items / $items_per_page);
 

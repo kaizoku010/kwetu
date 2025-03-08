@@ -47,7 +47,10 @@ try {
                 throw new Exception('Failed to delete items');
             }
 
-            echo json_encode(['success' => true, 'message' => 'Items deleted successfully']);
+            echo json_encode([
+                'success' => true,
+                'message' => 'Items deleted successfully'
+            ]);
             break;
 
         case 'delete_all':
@@ -67,7 +70,10 @@ try {
                 throw new Exception('Failed to delete all items');
             }
 
-            echo json_encode(['success' => true, 'message' => 'All items deleted successfully']);
+            echo json_encode([
+                'success' => true,
+                'message' => 'All items deleted successfully'
+            ]);
             break;
 
         default:
@@ -75,5 +81,8 @@ try {
     }
 
 } catch (Exception $e) {
-    echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+    echo json_encode([
+        'success' => false,
+        'message' => $e->getMessage()
+    ]);
 }
