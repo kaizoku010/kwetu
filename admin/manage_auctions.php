@@ -25,6 +25,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
         .main-content {
             margin-left: 250px;
             padding: 20px;
+            width: 50%;
         }
     </style>
 </head>

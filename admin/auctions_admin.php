@@ -1,6 +1,6 @@
 <?php 
-include 'admin_dashboard.php';
-include '../includes/db.php'; 
+include '../includes/db.php';
+
 
 
 if (session_status() === PHP_SESSION_NONE) {
@@ -13,36 +13,67 @@ if (!isset($_SESSION['admin_logged_in'])) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $title = $_POST['title'];
-    $opening_date = $_POST['opening_date'];
-    $closing_date = $_POST['closing_date'];
-    $location = $_POST['location'];
-    $description = $_POST['description'];
-    $bank_name = $_POST['bank_name'];
-    $account_number = $_POST['account_number'];
-    $swift_code = $_POST['swift_code'];
-    $payment_deadline = $_POST['payment_deadline'];
-    $how_to_pay = $_POST['how_to_pay'];
-    $image = $_FILES['image']['name'];
-    $image_tmp = $_FILES['image']['tmp_name'];
-    $second_image = $_FILES['second_image']['name'];
-    $second_image_tmp = $_FILES['second_image']['tmp_name'];
-
-    if (!is_dir("assets")) {
-        mkdir("assets", 0777, true);
-    }
-    move_uploaded_file($image_tmp, "assets/$image");
-    if (!empty($second_image)) {
-        move_uploaded_file($second_image_tmp, "assets/$second_image");
-    }
-
-    $query = "INSERT INTO auctions (company_title, opening_date, closing_date, location, description, image, second_image, bank_name, account_number, swift_code, payment_deadline, how_to_pay) 
-              VALUES ('$title', '$opening_date', '$closing_date', '$location', '$description', 'assets/$image', 'assets/$second_image', '$bank_name', '$account_number', '$swift_code', '$payment_deadline', '$how_to_pay')";
+    $title            = mysqli_real_escape_string($conn, $_POST['title']);
+    $opening_date     = mysqli_real_escape_string($conn, $_POST['opening_date']);
+    $starting_time    = mysqli_real_escape_string($conn, $_POST['starting_time']);
+    $closing_date     = mysqli_real_escape_string($conn, $_POST['closing_date']);
+    $closing_time     = mysqli_real_escape_string($conn, $_POST['closing_time']);
+    $location         = mysqli_real_escape_string($conn, $_POST['location']);
+    $description      = mysqli_real_escape_string($conn, $_POST['description']);
+    $bank_name        = mysqli_real_escape_string($conn, $_POST['bank_name']);
+    $account_number   = mysqli_real_escape_string($conn, $_POST['account_number']);
+    $swift_code       = mysqli_real_escape_string($conn, $_POST['swift_code']);
+    $payment_deadline = mysqli_real_escape_string($conn, $_POST['payment_deadline']);
+    $how_to_pay       = mysqli_real_escape_string($conn, $_POST['how_to_pay']);
     
-    if ($conn->query($query)) {
+    // Correct file handling
+    $image            = $_FILES['image']['name'];
+    $image_tmp        = $_FILES['image']['tmp_name'];
+    $second_image     = $_FILES['second_image']['name'] ?? '';
+    $second_image_tmp = $_FILES['second_image']['tmp_name'] ?? '';
+
+    // Create assets directory if it doesn't exist
+    if (!is_dir("../assets")) {
+        mkdir("../assets", 0777, true);
+    }
+
+    // Move uploaded files
+    $image_path = '';
+    $second_image_path = '';
+    
+    if (move_uploaded_file($image_tmp, "../assets/$image")) {
+        $image_path = "assets/$image";
+    } else {
+        echo "<script>alert('Error uploading primary image');</script>";
+        exit;
+    }
+
+    if (!empty($second_image) && !empty($second_image_tmp)) {
+        if (move_uploaded_file($second_image_tmp, "../assets/$second_image")) {
+            $second_image_path = "assets/$second_image";
+        }
+    }
+
+    $query = "INSERT INTO auctions (
+        company_title, opening_date, starting_time, closing_date, 
+        closing_time, location, description, image, second_image, 
+        bank_name, account_number, swift_code, payment_deadline, how_to_pay
+    ) VALUES (
+        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+    )";
+
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param(
+        "ssssssssssssss", 
+        $title, $opening_date, $starting_time, $closing_date,
+        $closing_time, $location, $description, $image_path, $second_image_path,
+        $bank_name, $account_number, $swift_code, $payment_deadline, $how_to_pay
+    );
+
+    if ($stmt->execute()) {
         echo "<script>alert('Auction Added Successfully!'); window.location.href='auctions_admin.php';</script>";
     } else {
-        echo "<script>alert('Error: " . $conn->error . "');</script>";
+        echo "<script>alert('Error: " . $stmt->error . "');</script>";
     }
 }
 ?>
@@ -66,7 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding-top: 80px;
         }
         .container {
-            width: 50%;
+            width: 80%;
             max-width: 1100px;
             margin: auto;
             background-color: white;
@@ -126,9 +157,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <label>Opening Date</label>
             <input type="date" name="opening_date" required>
+             
+             
+            <label>Starting Time</label>
+                <input type="time" name="starting_time" required>
 
             <label>Closing Date</label>
             <input type="date" name="closing_date" required>
+            
+            <label>Closing Time</label>
+                <input type="time" name="closing_time" required>
+            
 
             <label>Location</label>
             <input type="text" name="location" required>
@@ -163,3 +202,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </body>
 </html>
+
