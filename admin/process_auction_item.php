@@ -22,8 +22,6 @@ try {
     $condition = $_POST['condition'];
     $description = $_POST['description'];
     $category = $_POST['category'];
-    $starting_datetime = $_POST['starting_date'] . ' ' . $_POST['starting_time'];
-    $closing_datetime = $_POST['closing_date'] . ' ' . $_POST['closing_time'];
 
     // Get auction ID
     $result = $conn->query("SELECT id FROM auctions WHERE company_title = '$company_name'");
@@ -52,11 +50,11 @@ try {
     $query = "INSERT INTO auction_items (
         auction_id, lot_number, title, bidders, price, 
         min_bid, max_bid, `condition`, description, image,
-        category, starting_time, closing_time
+        category
     ) VALUES (
         '$auction_id', '$lot_number', '$title', '$bidders', '$price',
         '$min_bid', '$max_bid', '$condition', '$description', '$image_path',
-        '$category', '$starting_datetime', '$closing_datetime'
+        '$category'
     )";
 
     if (!$conn->query($query)) {

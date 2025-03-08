@@ -314,18 +314,6 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
                     <option value="real_estate">Real Estate</option>
                     <option value="other">Other</option>
                 </select>
-                    <h4>Timing</h4>
-                <label>Starting Date</label>
-                <input type="date" name="starting_date" required>
-
-                <label>Starting Time</label>
-                <input type="time" name="starting_time" required>
-
-                <label>Closing Date</label>
-                <input type="date" name="closing_date" required>
-
-                <label>Closing Time</label>
-                <input type="time" name="closing_time" required>
 
                 <label>Lot Number</label>
                 <input type="text" name="lot_number" required>
