@@ -1,0 +1,169 @@
+.mdx-reg-section {
+    height: 100vh;
+    background-color: black;
+    background-image: url("../assets/bg2.png");
+    display: flex;
+    margin-top: 0 !important;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.form-control {
+    border-radius: 30px !important;
+}
+
+.mdx-filler {
+    display: block;
+    width: 70%;
+    background-color: transparent;
+}
+
+
+
+
+.mdx-reg {
+    justify-content: center;
+    height: 100vh;
+    background-color: black;
+    background-image: url("../assets/wavy.jpg");
+    color: white;
+    width: 35% !important;
+    max-width: 100%;
+    display: flex;
+    padding-left: 7rem;
+    padding-right: 7rem;
+    flex-direction: column;
+    margin-top: 0 !important;
+}
+
+.brand-logo-reg {
+    width: 10rem;
+    margin-bottom: 2rem;
+    align-self: center;
+}
+
+/* .mdx-margins{
+        margin-left: 3rem;
+            margin-right: 3rem;
+    } */
+
+.mdx-btn-reg:hover {
+    background-color: transparent !important;
+    color: white !important;
+}
+
+.brand-logo-reg:hover {
+    cursor: pointer;
+}
+
+.mdx-btn-bck:hover {
+    background-color: #f78b00 !important;
+    color: white !important;
+}
+
+.mdx-btn-reg {
+    background-color: #f78b00 !important;
+    border-color: #f78b00 !important;
+    border-radius: 30px;
+    width: 100%;
+    font-size: small;
+}
+
+.mdx-btn-bck {
+    margin-top: 1rem;
+    background-color: transparent !important;
+    border-color: #f78b00 !important;
+    border-radius: 30px;
+    width: 100%;
+    font-size: small;
+    border: 1px solid #f78b00;
+}
+
+@media screen and (max-width: 993px) {
+    .mdx-filler {
+        display: none;
+    }
+
+
+         .nav-container {
+             margin-top: .2rem;
+             /* margin-right: 1.7rem !important; */
+             justify-content: end !important;
+             flex-direction: column;
+         }
+
+
+
+    #globalCurrencySelector {
+        background-color: transparent;
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 2px 8px;
+        font-size: small !important;
+    }
+
+   .currency-selector-container {
+       margin-right: 15px;
+       width: 5rem;
+       background-color: #f7951d !important;
+       border-radius: 4px !important;
+       align-self: flex-end !important;
+       margin-bottom: 1.3rem !important;
+   }
+
+    .mdx-reg {
+        background-color: #171515 !important;
+        height: 100vh;
+        background-image: url("../assets/wavy.jpg");
+        color: white;
+        padding-left: 6rem;
+        padding-right: 6rem;
+        display: flex;
+        flex-direction: column;
+        width: 100% !important;
+        margin-top: 0 !important;
+        justify-content: center;
+
+    }
+
+    .brand-logo-reg {
+        width: 10rem;
+        margin-bottom: 2rem;
+        align-self: center;
+    }
+
+    .mdx-btn-reg {
+        background-color: #f78b00 !important;
+        border-color: #f78b00 !important;
+        font-size: .8rem !important;
+        border-radius: 30px;
+        width: 100%;
+            font-size: small;
+    }
+
+    .mdx-btn-bck {
+        margin-top: 1rem;
+        background-color: transparent !important;
+        border-color: #f78b00 !important;
+        border-radius: 30px;
+        font-size: .8rem !important;
+        width: 100%;
+        font-size: small;
+        border: 2px solid #f78b00;
+    }
+
+    .form-control {
+        border-radius: 30px !important;
+    }
+
+
+    .currency-selector-container {
+        margin-right: 1.8rem !important;
+        width: 5rem;
+        border-radius: 4px !important;
+        align-self: flex-end !important;
+        margin-bottom: 0.4rem;
+        margin-top: 1.2rem !important;
+    }
+}

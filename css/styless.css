@@ -1,0 +1,357 @@
+                                                                  /* Make Navbar Fixed at the Top */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* Ensures it's above other elements */
+}
+
+/* Adjust Main Content to Avoid Overlapping */
+body {
+    padding-top: 70px; /* Prevents navbar from covering content */
+}
+
+/* ===== Home Page Styling (index.php) ===== */
+body.index-page {
+    background: #f8f9fa;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+                                                                            /* ===== Hero Section (Banner) ===== */
+.hero {
+    background: url("https://media.istockphoto.com/id/917901978/photo/gavel-on-auction-word.jpg?s=612x612&w=0&k=20&c=e5mnLUG2UEg6y8zfO1zc7Gi4Ed8PEEeV3eGeYOKxKBI=") no-repeat center center/cover;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    padding: 20px;
+    position: relative;
+}
+
+/* Hero Text */
+.hero h1 {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 18px;
+}
+
+                                                                /* ===== Search Bar Styling ===== */
+.search-container {
+    margin-top: 20px;
+    width: 60%;
+}
+
+.search-form {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+/* Search Input */
+.search-input {
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #f78b00;
+    border-radius: 5px 0 0 5px;
+    flex: 1;
+}
+
+/* Search Button */
+.search-btn {
+    background: #f78b00;
+    color: white;
+    border: 2px solid #f78b00;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.search-btn:hover {
+    background: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero {
+        height: 250px;
+    }
+
+    .hero h1 {
+        font-size: 28px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .search-container {
+        width: 90%;
+    }
+}
+                                                                             /* Fixed Sidebar in the Middle */
+.fixed-sidebar {
+    position: fixed;
+    top: 50%;
+    left: 20px; /* Adjust left position */
+    transform: translateY(-50%);
+    width: 200px; /* Smaller width */
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+/* Sidebar Content */
+.sidebar-content {
+    text-align: center;
+}
+
+/* Sidebar Links */
+.fixed-sidebar .nav-link {
+    padding: 10px;
+    font-size: 1rem;
+    display: block;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background 0.3s ease-in-out;
+}
+
+.fixed-sidebar .nav-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+}
+/* Controls the Sidebar Size and Position */
+.fixed-sidebar {
+    position: fixed;
+    top: 50%;  /* Centers vertically */
+    left: 20px;  /* Positions it to the left */
+    transform: translateY(-50%);  /* Ensures perfect centering */
+    
+    width: 200px;  /* ✅ CONTROLS WIDTH */
+    background: rgba(0, 0, 0, 0.8);
+    
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+/* Controls the Size of the Sidebar Links */
+.fixed-sidebar .nav-link {
+    padding: 10px;  /* ✅ CONTROLS LINK HEIGHT */
+    font-size: 1rem;  /* ✅ CONTROLS LINK TEXT SIZE */
+    display: block;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background 0.3s ease-in-out;
+}
+
+/* Sidebar Hover Effect */
+.fixed-sidebar .nav-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+}
+/* Auction Card Styling */
+.auction-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: transform 0.2s ease-in-out;
+}
+
+.auction-card-link:hover {
+    transform: scale(1.03);
+}
+
+/* Auction Card Layout */
+.auction-card {
+    display: flex;
+    flex-direction: row; /* Side-by-side layout */
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+/* Auction Details - Title, Dates, Location, Description */
+.auction-details {
+    flex: 1;
+    text-align: left;
+    padding-right: 15px;
+}
+
+.auction-details h4 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.auction-details p {
+    margin: 5px 0;
+    font-size: 1rem;
+}
+
+/* Auction Image on the Right */
+.auction-image {
+    flex: 0 0 40%;
+    position: relative;
+}
+
+.auction-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+/* Participate Button */
+.participate-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: #f78b00;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background 0.3s ease-in-out;
+    font-size: 0.9rem;
+}
+
+.participate-btn:hover {
+    background: #0056b3;
+}
+
+
+
+
+
+/* Auction Item Card                                              Auction.php*/
+.auction-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+/* Card Header */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+}
+
+/* Favorite Icon */
+.favorite-icon {
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #ffcc00;
+}
+
+/* Item Image */
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+/* Bid Section */
+.bid-section {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* Bid Input */
+.bid-input {
+    width: 70%;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Place Bid Button */
+.place-bid-btn {
+    padding: 5px 10px;
+}
+/* ===== Admin Login Page Styling ===== */
+body {
+    background: #f4f4f4;
+    font-family: Arial, sans-serif;
+}
+
+/* Center the Login Form */
+.container {
+    max-width: 400px;
+    background: white;
+    padding: 30px;
+    margin: 100px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+/* Page Title */
+h2 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Input Fields */
+.form-control {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Form Labels */
+.form-label {
+    font-weight: bold;
+    color: #555;
+}
+
+/* Login Button */
+.btn-primary {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    background: #f78b00;
+    border: none;
+    transition: 0.3s;
+}
+
+.btn-primary:hover {
+    background: #0056b3;
+}
+
+/* Error Message */
+.text-danger {
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #d9534f;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .container {
+        max-width: 90%;
+    }
+}

@@ -1,0 +1,375 @@
+
+                                                                    /* Make Navbar Fixed at the Top */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 1rem;
+    z-index: 1000; /* Ensures it's above other elements */
+}
+
+/* Adjust Main Content to Avoid Overlapping */
+body {
+    padding-top: 70px; /* Prevents navbar from covering content */
+}
+
+/* ===== Home Page Styling (index.php) ===== */
+body.index-page {
+    background: #f8f9fa;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* ===== Hero Section (Banner) ===== */ 
+/* https://asset.cloudinary.com/dnko3bvt0/40cc04863b2f72003d888c5574bfc060 */
+.hero {
+    background: url('assets/auc.jpg') center/cover no-repeat !important;
+  height: 44rem !important;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    padding: 20px;
+    position: relative;
+}
+
+
+
+.container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 30px auto;
+    margin-top: 30px;
+    background-color: transparent !important;
+    padding: 20px;
+    border-radius: 0px !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0) !important;
+}
+
+.logo-image {
+    width: 8rem;
+    height: auto;
+    margin-left: 1rem;
+}
+
+
+
+.hero p {
+    font-size: 18px;
+}
+
+/* ===== Search Bar Styling ===== */
+.search-container {
+    margin-top: 20px;
+    width: 60%;
+}
+
+.search-form {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+/* Search Input */
+.search-input {
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #f78b00;
+    border-radius: 5px 0 0 5px;
+    flex: 1;
+}
+
+.search-btn {
+    background: #f78b00;
+    color: white;
+    border: 2px solid #f78b00;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.search-btn:hover {
+    background: #f78c00da;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+
+
+ 
+    .hero {
+        height: 250px;
+    }
+
+    .hero h1 {
+        font-size: 1.8rem !important;
+        margin-top: 4rem;
+    
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .search-container {
+        width: 90%;
+    }
+}
+                                                       /* Fixed Sidebar in the Middle */
+.fixed-sidebar {
+    position: fixed;
+    top: 50%;
+    left: 20px; /* Adjust left position */
+    transform: translateY(-50%);
+    width: 200px; /* Smaller width */
+    background-color: black !important;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+.nav-links {
+    display: flex;
+    font-size: .8rem !important;
+    list-style: none;
+    justify-content: center;
+    align-content: center;
+    margin-bottom: 0px;
+}
+
+/* Sidebar Content */
+.sidebar-content {
+    text-align: center;
+}
+
+
+/* Sidebar Links */
+.fixed-sidebar {
+    padding: 10px;
+    top: 55% !important;    
+    display: block;
+    text-align: left !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background 0.3s ease-in-out;
+}
+
+
+.nav-link- {
+    padding: 10px;
+    font-size: .8rem;
+    display: block;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background 0.3s ease-in-out;
+}
+
+.nav-link {
+    padding: 10px;
+    font-size: 1rem;
+    display: block;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background 0.3s ease-in-out;
+}
+
+
+
+.fixed-sidebar:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+}
+
+.nav-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+}
+.cta-btn:hover {
+    background: rgb(240, 239, 239);
+}
+
+
+.auction-container {
+    width: 100%;
+    max-width: 1193px;
+    margin: 0px auto;
+    background: transparent !important;
+    padding: 20px;
+    border-radius: 0px !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0) !important;
+}
+
+
+
+/* General Page Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+/* Finance Summary Header */
+.finance-header {
+    font-size: 30px;
+    font-weight: bold;
+    color: #343a40;
+    margin-top: 20px;
+    padding: 10px;
+}
+
+/* Main Container */
+.container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 30px auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Company Titles */
+.company-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #f78b00;
+    margin-top: 20px;
+    text-decoration: underline;
+    padding-bottom: 5px;
+}
+
+/* Table Styling */
+.table-container {
+    overflow-x: auto;
+    margin-top: 15px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.table th, .table td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #f78b00;
+    color: white;
+    font-weight: bold;
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.table tbody tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+/* Item Image */
+.item-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+/* Total Amount Styling */
+.total-amount {
+    font-size: 20px;
+    font-weight: bold;
+    color: green;
+    margin-top: 15px;
+}
+
+/* Payment Info Button */
+.payment-btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.payment-btn {
+    background-color: #f78b00;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.payment-btn:hover {
+    background-color: #0056b3;
+}
+/* Grand Total Styling */
+.grand-total {
+    font-size: 22px;
+    font-weight: bold;
+    color: darkgreen;
+    margin-top: 30px;
+}
+
+
+.categories-container{
+display: flex;
+/* justify-content: center;
+align-items: center; */
+gap: 1rem;
+margin-top: 1rem;
+}
+
+.ic-box {
+  
+    background-color: white;
+    width: fit-content;
+    border-radius: 5px;
+    justify-content: center;
+    padding: .5rem;
+    align-items: center;
+}
+
+.ic-box-img {
+    width: 40px;
+    height: 40px;
+    margin-bottom: .1rem;
+}
+.ic-box-text {
+    font-size: small;
+    font-weight: bold;
+    margin-top: .8rem;
+    color: #393939;
+    margin-top: 0px;
+}
+
+.cta-section {
+    background: #f78b00;
+    color: white;
+    text-align: center;
+    padding: 30px;
+    margin-top: 0px !important;
+}
+
+
+
+.new-item-holder{
+    background-color: red !important;
+}
+
+
+.form-select-sm {
+    font-size: .733rem !important;
+}

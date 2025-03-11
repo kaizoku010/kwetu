@@ -1,0 +1,23 @@
+name: Deployment
+
+on:
+  push:
+    branches:
+      - main  # Change to your branch if needed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4  # Ensure you have the latest checkout version
+
+      - name: Deploy using FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.3  # Use correct version
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: "./"  # Adjust if necessary
+          server-dir: ${{ secrets.FTP_REMOTE_PATH }}
