@@ -113,12 +113,17 @@
             object-fit: cover;
         }
 
-
-#bid-status h6{
-    color: gray !important;
-
+        .black-txt-area .black-text {
+    color: black !important;
 }
 
+.black-txt-area  {
+    color: black !important;
+}
+
+.bg-light p {
+    color: black !important;
+}
         .bid-status {
             font-size: 18px;
             font-weight: bold;

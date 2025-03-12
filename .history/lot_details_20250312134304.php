@@ -112,13 +112,6 @@
             height: 400px;
             object-fit: cover;
         }
-
-
-#bid-status h6{
-    color: gray !important;
-
-}
-
         .bid-status {
             font-size: 18px;
             font-weight: bold;
@@ -217,7 +210,7 @@
 
                 <div class="bg-light p-3 rounded mb-2 black-txt-area">
                     <h6 class="fw-bold">Your Last Bid:</h6>
-                    <p style="color: black !important;" class="black-text"><?php echo($user_bid_value > 0) ? "UGX " . number_format($user_bid_value) : "You haven't bided on this lot"; ?></p>
+                    <p style="color: gray !important;" class="black-text"><?php echo($user_bid_value > 0) ? "UGX " . number_format($user_bid_value) : "You haven't bided on this lot"; ?></p>
                 </div>
 
                 <div class="bg-light p-3 rounded mb-2">

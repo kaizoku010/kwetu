@@ -112,13 +112,6 @@
             height: 400px;
             object-fit: cover;
         }
-
-
-#bid-status h6{
-    color: gray !important;
-
-}
-
         .bid-status {
             font-size: 18px;
             font-weight: bold;

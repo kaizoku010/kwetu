@@ -113,9 +113,15 @@
             object-fit: cover;
         }
 
+        .black-txt-area .black-text {
+    color: black !important;
+}
 
-#bid-status h6{
-    color: gray !important;
+.black-txt-area h6 {
+    color: black !important;
+}
+
+.bid-status {
 
 }
 

@@ -1,4 +1,4 @@
-<?php include 'navbar.php'; ?> <!-- ✅ Added navbar.php -->
+<?php include 'navbar.php'; ?> <!-- âœ… Added navbar.php -->
 <?php
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
@@ -8,21 +8,21 @@
         session_start();
     }
 
-    // ✅ Ensure user is logged in
+    // âœ… Ensure user is logged in
     if (! isset($_SESSION['user_id'])) {
         die("<script>alert('You must be logged in to view this lot.'); window.location.href='./user_auth/user_login.php';</script>");
     }
 
     $user_id = $_SESSION['user_id'];
 
-    // ✅ Validate Lot ID
+    // âœ… Validate Lot ID
     if (! isset($_GET['id']) || ! is_numeric($_GET['id'])) {
         die("<h2 class='text-center text-danger'>Invalid lot ID.</h2>");
     }
 
     $lot_id = (int) $_GET['id'];
 
-    // ✅ Fetch Lot Details
+    // âœ… Fetch Lot Details
     $stmt = $conn->prepare("SELECT a.*, b.closing_date FROM auction_items a
                         JOIN auctions b ON a.auction_id = b.id WHERE a.id = ?");
     $stmt->bind_param("i", $lot_id);
@@ -36,12 +36,12 @@
     $lot          = $lot_result->fetch_assoc();
     $closing_time = strtotime($lot['closing_date']);
     $current_time = time();
-    $is_closed    = ($closing_time <= $current_time); // ✅ Auction is closed if time has passed
+    $is_closed    = ($closing_time <= $current_time); // âœ… Auction is closed if time has passed
 
     //  Tryin Exchange Rate
     $exchange_rate = 3800;
 
-    // ✅ Convert Prices to UGX
+    // âœ… Convert Prices to UGX
     $current_price_ugx     = (float) $lot['price'] * $exchange_rate;
     $min_bid_increment_ugx = (float) $lot['min_bid'] * $exchange_rate;
     $max_bid_increment_ugx = (float) $lot['max_bid'] * $exchange_rate;
@@ -55,7 +55,7 @@
     // $max_allowed_bid_ugx = $current_price_ugx + $max_bid_increment_ugx;
     $max_allowed_bid_ugx = $max_bid_increment_ugx;
 
-    // ✅ Fetch User's Last Bid
+    // âœ… Fetch User's Last Bid
     $bid_stmt = $conn->prepare("SELECT bid_amount FROM bids WHERE lot_id = ? AND user_id = ? ORDER BY bid_time DESC LIMIT 1");
     $bid_stmt->bind_param("ii", $lot_id, $user_id);
     $bid_stmt->execute();
@@ -67,7 +67,7 @@
         $user_bid_value = (float) $user_bid_data['bid_amount'] * $exchange_rate;
     }
 
-    // ✅ Fetch Highest Bid for this Lot
+    // âœ… Fetch Highest Bid for this Lot
     $highest_bid_stmt = $conn->prepare("SELECT user_id, bid_amount FROM bids WHERE lot_id = ? ORDER BY bid_amount DESC LIMIT 1");
     $highest_bid_stmt->bind_param("i", $lot_id);
     $highest_bid_stmt->execute();
@@ -112,13 +112,6 @@
             height: 400px;
             object-fit: cover;
         }
-
-
-#bid-status h6{
-    color: gray !important;
-
-}
-
         .bid-status {
             font-size: 18px;
             font-weight: bold;
@@ -172,7 +165,7 @@
     <div class=" container mt-5">
         <h2 style="margin-top: 6rem; margin-bottom: 2rem;" class="text-center lot-page">Lot Details</h2>
         <div class="row">
-            <!-- ✅ Left Side: Image & Description -->
+            <!-- âœ… Left Side: Image & Description -->
             <div class="col-md-6">
                 <img src="<?php echo htmlspecialchars(getImageUrl($lot)); ?>"
                      alt="<?php echo htmlspecialchars($lot['title']); ?>"
@@ -208,7 +201,7 @@
                 </div>
             </div>
 
-            <!-- ✅ Right Side: Bidding Details -->
+            <!-- âœ… Right Side: Bidding Details -->
             <div class="col-md-6">
                 <div class="bg-light p-3 rounded mb-2">
                     <h6 class="fw-bold">Current Price:</h6>
@@ -217,7 +210,7 @@
 
                 <div class="bg-light p-3 rounded mb-2 black-txt-area">
                     <h6 class="fw-bold">Your Last Bid:</h6>
-                    <p style="color: black !important;" class="black-text"><?php echo($user_bid_value > 0) ? "UGX " . number_format($user_bid_value) : "You haven't bided on this lot"; ?></p>
+                    <p class="black-text"><?php echo($user_bid_value > 0) ? "UGX " . number_format($user_bid_value) : "You haven't bided on this lot"; ?></p>
                 </div>
 
                 <div class="bg-light p-3 rounded mb-2">
@@ -235,13 +228,13 @@
                     <p>UGX<?php echo number_format($max_bid_increment_ugx); ?></p>
                 </div>
 
-                <!-- ✅ Winning or Losing Message -->
+                <!-- âœ… Winning or Losing Message -->
                 <div id="bid-status" class="p-3 rounded text-center mb-2
                     <?php echo($user_bid_value == 0) ? 'bg-no-bid' : ($is_winning ? 'bg-winning' : 'bg-losing'); ?>">
                     <h6><?php echo($user_bid_value == 0) ? 'You haven\'t bided on this lot.' : ($is_winning ? 'You are winning!' : 'You are losing. Place a higher bid!'); ?></h6>
                 </div>
 
-                <!-- ✅ Display Proper Message if Auction is Closed -->
+                <!-- âœ… Display Proper Message if Auction is Closed -->
                 <form action="place_bid.php" method="POST" class="mt-3">
                     <input type="hidden" name="lot_id" value="<?php echo $lot_id; ?>">
                     <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
@@ -268,91 +261,70 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            // Prevent double-clicking on bid submission
-            let bidInProgress = false;
-            
-            $('form').on('submit', function(e) {
-                if (bidInProgress) {
-                    e.preventDefault();
-                    return;
-                }
-                
-                bidInProgress = true;
-                const submitButton = $(this).find('button[type="submit"]');
-                submitButton.prop('disabled', true);
-                
-                // Re-enable after 3 seconds in case of error
-                setTimeout(() => {
-                    bidInProgress = false;
-                    submitButton.prop('disabled', false);
-                }, 3000);
-            });
-
-            // Setup SSE for price updates
-            let eventSource = null;
-            
-            function connectSSE() {
-                if (eventSource) {
-                    eventSource.close();
-                }
-
-                eventSource = new EventSource('bid_events.php?lot_id=<?php echo $lot_id; ?>');
-                
-                eventSource.onmessage = function(event) {
-                    try {
-                        const data = JSON.parse(event.data);
-                        updatePriceDisplay(data);
-                    } catch (e) {
-                        console.error('Error parsing SSE data:', e);
-                    }
-                };
-                
-                eventSource.onerror = function() {
-                    console.log('SSE connection failed, reconnecting...');
-                    eventSource.close();
-                    setTimeout(connectSSE, 5000);
-                };
-
-                eventSource.addEventListener('error', function(event) {
-                    if (event.data === 'Auction not found or ended') {
-                        eventSource.close();
-                        window.location.href = 'auctions.php?message=auction_ended';
-                    }
-                });
+        // Format input value to show in thousands
+        const bidInput = document.getElementById('bid_amount');
+        bidInput.addEventListener('input', function(e) {
+            const value = this.value;
+            if (value) {
+                const formattedValue = Math.floor(parseInt(value) / 1000);
+                this.setAttribute('title', formattedValue + 'K UGX');
             }
-
-            // Initial connection
-            connectSSE();
-
-            // Cleanup on page unload
-            window.addEventListener('beforeunload', function() {
-                if (eventSource) {
-                    eventSource.close();
-                }
-            });
         });
 
-        function updatePriceDisplay(data) {
+        // Format initial value
+        if (bidInput.value) {
+            const initialValue = Math.floor(parseInt(bidInput.value) / 1000);
+            bidInput.setAttribute('title', initialValue + 'K UGX');
+        }
+
+        // Setup Server-Sent Events connection
+        const evtSource = new EventSource('bid_events.php?id=<?php echo $lot_id; ?>');
+
+        evtSource.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+
+            // Update price elements
             $('#current-price').text(data.current_price.toLocaleString());
-            $('.highest-bid p').text("UGX " + data.highest_bid.toLocaleString());
-            
+
+            // Update user bid value
             const userBidElement = $('.black-txt-area .black-text');
-            userBidElement.text(data.user_bid > 0 
-                ? "UGX " + data.user_bid.toLocaleString() 
-                : "You haven't placed a bid on this lot"
+            userBidElement.text(data.user_bid > 0 ?
+                "UGX " + data.user_bid.toLocaleString() :
+                "You haven't bided on this lot"
             );
 
-            // Update bid status
+            // Update highest bid
+            $('.highest-bid p').text("UGX " + data.highest_bid.toLocaleString());
+
+            // Update winning/losing status banner
             const statusDiv = $('#bid-status');
-            if (data.is_winning) {
-                statusDiv.removeClass('losing').addClass('winning')
-                    .text("You are currently winning!");
-            } else if (data.user_bid > 0) {
-                statusDiv.removeClass('winning').addClass('losing')
-                    .text("You have been outbid!");
+            statusDiv.removeClass('bg-winning bg-losing bg-no-bid');
+
+            if (data.user_bid === 0) {
+                statusDiv.addClass('bg-no-bid')
+                        .find('h6').text("You haven't bided on this lot.");
+            } else {
+                statusDiv.addClass(data.is_winning ? 'bg-winning' : 'bg-losing')
+                        .find('h6').text(data.is_winning ?
+                            'You are winning!' :
+                            'You are losing. Place a higher bid!'
+                        );
             }
-        }
+        };
+
+        evtSource.onerror = function(err) {
+            console.error("EventSource failed:", err);
+            // Attempt to reconnect after 5 seconds
+            setTimeout(() => {
+                evtSource.close();
+                location.reload();
+            }, 5000);
+        };
+
+        // Close EventSource when leaving the page
+        window.addEventListener('beforeunload', function() {
+            evtSource.close();
+        });
     </script>
     <script>
         function showImage(src) {

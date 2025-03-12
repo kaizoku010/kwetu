@@ -114,8 +114,8 @@
         }
 
 
-#bid-status h6{
-    color: gray !important;
+.bid-status h6{
+    color: black !important;
 
 }
 
