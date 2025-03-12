@@ -8,8 +8,8 @@ if (!isset($_GET['id'])) {
 
 $id = (int)$_GET['id'];
 
-// Modified to get any image, not just primary
-$stmt = $conn->prepare("SELECT image_path FROM item_images WHERE item_id = ? LIMIT 1");
+// First check for additional images
+$stmt = $conn->prepare("SELECT image_path FROM item_images WHERE item_id = ? AND is_primary = TRUE LIMIT 1");
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -31,14 +31,20 @@ $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
 
-if ($row && !empty($row['image'])) {
-    if (file_exists($row['image'])) {
+if ($row && $row['image']) {
+    if (strpos($row['image'], 'assets/') === 0 && file_exists($row['image'])) {
         $mime = mime_content_type($row['image']);
         header("Content-Type: $mime");
         readfile($row['image']);
-        exit;
+    } else {
+        header("Content-Type: image/jpeg");
+        echo $row['image'];
+    }
+} else {
+    // Return a default image
+    $default_image = 'assets/default-auction.jpg';
+    if (file_exists($default_image)) {
+        header("Content-Type: image/jpeg");
+        readfile($default_image);
     }
 }
-
-header("HTTP/1.0 404 Not Found");
-?>
