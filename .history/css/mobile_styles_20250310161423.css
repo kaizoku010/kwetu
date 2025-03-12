@@ -20,6 +20,8 @@
 }
 
 
+
+
 .mdx-reg {
     justify-content: center;
     height: 100vh;
@@ -77,8 +79,6 @@
     font-size: small;
     border: 1px solid #f78b00;
 }
-
-
 
 @media screen and (max-width: 993px) {
     .mdx-filler {

@@ -196,20 +196,6 @@ if (session_status() === PHP_SESSION_NONE) {
     width: 100% !important;
     height: fit-content;
 }
-
-.promo-title {
-    font-size: 1.5rem !important;
-    font-weight: bolder !important;
-}
-
-.promo-details {
-    text-align: left !important;
-    display: flex;
-    background-color: white;
-    flex-direction: column;
-    padding: 1rem !important;
-    justify-content: space-between;
-}
         }
     </style>
 

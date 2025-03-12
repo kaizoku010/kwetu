@@ -204,7 +204,8 @@ if (session_status() === PHP_SESSION_NONE) {
 
 .promo-details {
     text-align: left !important;
-    display: flex;
+    display: flex
+;
     background-color: white;
     flex-direction: column;
     padding: 1rem !important;
