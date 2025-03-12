@@ -17,5 +17,5 @@ if ($conn->query($sql)) {
 }
 
 
-// no wau out
+
 ?>

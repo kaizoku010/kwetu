@@ -15,7 +15,4 @@ if ($conn->query($sql)) {
 } else {
     echo "Error creating table: " . $conn->error;
 }
-
-
-// no wau out
 ?>
