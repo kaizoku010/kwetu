@@ -96,10 +96,9 @@
 
          .currency-selector-container {
             margin-right: 2rem !important;
-            display: none !important;
         }
 
-/* 
+
     #globalCurrencySelector {
         background-color: transparent;
         color: white;
@@ -107,7 +106,7 @@
         border: 1px solid rgba(255, 255, 255, 0.2);
         padding: 2px 8px;
         font-size: small !important;
-    } */
+    }
 
    .currency-selector-container {
        margin-right: 15px;
