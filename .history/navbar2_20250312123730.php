@@ -148,7 +148,7 @@ $user_id = $_SESSION['user_id'] ?? null;
 
     .hover-dropdown ul li {
         padding: 8px;
-        border-bottom: 0.1px solid #ddd;
+        border-bottom: 0.px solid #ddd;
         font-size: 14px;
     }
 

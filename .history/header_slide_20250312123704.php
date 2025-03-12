@@ -16,7 +16,7 @@
         <div id="imageSlider" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="/assets/default-company.jpg"class="d-block w-100" alt="Auction Image 1">
+                    <img src="/assets/ad.jpg"class="d-block w-100" alt="Auction Image 1">
                 </div>
                 <div class="carousel-item">
                     <img src="/assets/default-company.jpg" class="d-block w-100" alt="Auction Image 2">

@@ -262,7 +262,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
-            // Prevent double-clicking on bid submission
+            // Prevent double-clicking
             let bidInProgress = false;
             
             $('form').on('submit', function(e) {
@@ -272,46 +272,55 @@
                 }
                 
                 bidInProgress = true;
-                const submitButton = $(this).find('button[type="submit"]');
-                submitButton.prop('disabled', true);
+                $(this).find('button[type="submit"]').prop('disabled', true);
                 
                 // Re-enable after 3 seconds in case of error
                 setTimeout(() => {
                     bidInProgress = false;
-                    submitButton.prop('disabled', false);
+                    $(this).find('button[type="submit"]').prop('disabled', false);
                 }, 3000);
             });
 
-            // Setup SSE for price updates
+            // Update price display using SSE
             const eventSource = new EventSource('bid_events.php?lot_id=<?php echo $lot_id; ?>');
             
             eventSource.onmessage = function(event) {
-                try {
-                    const data = JSON.parse(event.data);
-                    updatePriceDisplay(data);
-                } catch (e) {
-                    console.error('Error parsing SSE data:', e);
-                }
+                const data = JSON.parse(event.data);
+                updatePriceDisplay(data);
             };
             
             eventSource.onerror = function() {
-                console.log('SSE connection failed, reconnecting...');
                 eventSource.close();
+                // Retry connection after 5 seconds
                 setTimeout(() => {
-                    window.location.reload();
+                    location.reload();
                 }, 5000);
             };
         });
 
         function updatePriceDisplay(data) {
             $('#current-price').text(data.current_price.toLocaleString());
-            $('.highest-bid p').text("UGX " + data.highest_bid.toLocaleString());
             
             const userBidElement = $('.black-txt-area .black-text');
-            userBidElement.text(data.user_bid > 0 
-                ? "UGX " + data.user_bid.toLocaleString() 
-                : "You haven't bided on this lot"
+            userBidElement.text(data.user_bid > 0 ?
+                "UGX " + data.user_bid.toLocaleString() :
+                "You haven't bided on this lot"
             );
+            
+            $('.highest-bid p').text("UGX " + data.highest_bid.toLocaleString());
+            
+            const statusDiv = $('#bid-status');
+            statusDiv.removeClass('bg-winning bg-losing bg-no-bid');
+            
+            if (data.user_bid === 0) {
+                statusDiv.addClass('bg-no-bid')
+                        .find('h6').text("You haven't bided on this lot.");
+            } else {
+                statusDiv.addClass(data.is_winning ? 'bg-winning' : 'bg-losing')
+                        .find('h6').text(data.is_winning ?
+                            'You are winning!' :
+                            'You are losing. Place a higher bid!');
+            }
         }
     </script>
     <script>

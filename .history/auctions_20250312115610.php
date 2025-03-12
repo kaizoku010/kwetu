@@ -321,7 +321,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     <div class="auction-details promo-details">
                             <div class="promo-text">
                             <p style="font-size:small; color:gray; font-weight: 600;">EXPERT INSIGHTS</p>
-                            <h4 class="promo-title">ADVERTISE HERE</h4>
+                            <h4 class="promo-title">WHAT IS A FAIR PRICE?</h4>
                             <p style="font-size:small; color:gray">From the desk of Sam Kwetu</p>
                             </div>
 

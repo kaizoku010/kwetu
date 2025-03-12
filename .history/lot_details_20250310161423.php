@@ -261,58 +261,70 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            // Prevent double-clicking on bid submission
-            let bidInProgress = false;
-            
-            $('form').on('submit', function(e) {
-                if (bidInProgress) {
-                    e.preventDefault();
-                    return;
-                }
-                
-                bidInProgress = true;
-                const submitButton = $(this).find('button[type="submit"]');
-                submitButton.prop('disabled', true);
-                
-                // Re-enable after 3 seconds in case of error
-                setTimeout(() => {
-                    bidInProgress = false;
-                    submitButton.prop('disabled', false);
-                }, 3000);
-            });
-
-            // Setup SSE for price updates
-            const eventSource = new EventSource('bid_events.php?lot_id=<?php echo $lot_id; ?>');
-            
-            eventSource.onmessage = function(event) {
-                try {
-                    const data = JSON.parse(event.data);
-                    updatePriceDisplay(data);
-                } catch (e) {
-                    console.error('Error parsing SSE data:', e);
-                }
-            };
-            
-            eventSource.onerror = function() {
-                console.log('SSE connection failed, reconnecting...');
-                eventSource.close();
-                setTimeout(() => {
-                    window.location.reload();
-                }, 5000);
-            };
+        // Format input value to show in thousands
+        const bidInput = document.getElementById('bid_amount');
+        bidInput.addEventListener('input', function(e) {
+            const value = this.value;
+            if (value) {
+                const formattedValue = Math.floor(parseInt(value) / 1000);
+                this.setAttribute('title', formattedValue + 'K UGX');
+            }
         });
 
-        function updatePriceDisplay(data) {
-            $('#current-price').text(data.current_price.toLocaleString());
-            $('.highest-bid p').text("UGX " + data.highest_bid.toLocaleString());
-            
-            const userBidElement = $('.black-txt-area .black-text');
-            userBidElement.text(data.user_bid > 0 
-                ? "UGX " + data.user_bid.toLocaleString() 
-                : "You haven't bided on this lot"
-            );
+        // Format initial value
+        if (bidInput.value) {
+            const initialValue = Math.floor(parseInt(bidInput.value) / 1000);
+            bidInput.setAttribute('title', initialValue + 'K UGX');
         }
+
+        // Setup Server-Sent Events connection
+        const evtSource = new EventSource('bid_events.php?id=<?php echo $lot_id; ?>');
+
+        evtSource.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+
+            // Update price elements
+            $('#current-price').text(data.current_price.toLocaleString());
+
+            // Update user bid value
+            const userBidElement = $('.black-txt-area .black-text');
+            userBidElement.text(data.user_bid > 0 ?
+                "UGX " + data.user_bid.toLocaleString() :
+                "You haven't bided on this lot"
+            );
+
+            // Update highest bid
+            $('.highest-bid p').text("UGX " + data.highest_bid.toLocaleString());
+
+            // Update winning/losing status banner
+            const statusDiv = $('#bid-status');
+            statusDiv.removeClass('bg-winning bg-losing bg-no-bid');
+
+            if (data.user_bid === 0) {
+                statusDiv.addClass('bg-no-bid')
+                        .find('h6').text("You haven't bided on this lot.");
+            } else {
+                statusDiv.addClass(data.is_winning ? 'bg-winning' : 'bg-losing')
+                        .find('h6').text(data.is_winning ?
+                            'You are winning!' :
+                            'You are losing. Place a higher bid!'
+                        );
+            }
+        };
+
+        evtSource.onerror = function(err) {
+            console.error("EventSource failed:", err);
+            // Attempt to reconnect after 5 seconds
+            setTimeout(() => {
+                evtSource.close();
+                location.reload();
+            }, 5000);
+        };
+
+        // Close EventSource when leaving the page
+        window.addEventListener('beforeunload', function() {
+            evtSource.close();
+        });
     </script>
     <script>
         function showImage(src) {

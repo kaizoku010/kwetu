@@ -83,7 +83,7 @@ $bidData = [
 curl_setopt($ch, CURLOPT_POST, 1);
 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($bidData));
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_TIMEOUT, 2); // Add timeout
 curl_exec($ch);
 curl_close($ch);
+exit();
 ?>
