@@ -11,9 +11,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Define $isAdmin based on session
-$isAdmin = isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true;
-
 // Clear any previous output
 ob_clean();
 
