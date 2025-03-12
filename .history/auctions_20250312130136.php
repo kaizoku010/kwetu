@@ -197,7 +197,13 @@ if (session_status() === PHP_SESSION_NONE) {
     height: fit-content;
 }
 
-
+#globalCurrencySelector {
+    background-color: transparent;
+    display: none;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 2px 8px;
+}
 
 .promo-title {
     font-size: 1.5rem !important;
