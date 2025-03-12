@@ -1,9 +1,17 @@
 <?php
+// Prevent any output before JSON
+ob_start();
+
+// Error handling that won't output to page
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+
+include './includes/db.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Define $isAdmin before it's used
+// Define $isAdmin based on session
 $isAdmin = isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true;
 
 // Clear any previous output
