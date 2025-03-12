@@ -415,7 +415,7 @@ h2.auction-title {
       font-weight: bold;
       color: white;
       text-decoration: none;
-      margin-left: -.5rem;
+      margin-left: 0.54rem;
     }
 
   .search-input {
