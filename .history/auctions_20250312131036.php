@@ -194,7 +194,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
     .mdx-promos-image img {
     width: 100% !important;
-    height: 10rem !important;;
+    height: 10rem !important;-content;
 }
 
 
