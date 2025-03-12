@@ -215,7 +215,7 @@ if (session_status() === PHP_SESSION_NONE) {
 .promo-link {
     text-decoration: none;
     /* color: #f7951d; */
-    font-size: medium !important;
+    font-size: medium;
     font-weight: 500;
     color: black;
     text-transform: uppercase;

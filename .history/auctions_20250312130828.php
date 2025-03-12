@@ -199,26 +199,17 @@ if (session_status() === PHP_SESSION_NONE) {
 
 
 .mdx-promos {
-    margin-bottom: 1rem !important;
+    margin-bottom: 1rem;
     width: 100% !important;
-    background: white !important;
-    border-radius: 12px !important;
-    padding-top: 1rem !important;
+    background: white !im;
+    border-radius: 12px;
+    padding-top: 1rem;
 }
 
 
 .promo-title {
-    font-size: 1.2rem !important;
+    font-size: 1.5rem !important;
     font-weight: bolder !important;
-}
-
-.promo-link {
-    text-decoration: none;
-    /* color: #f7951d; */
-    font-size: medium !important;
-    font-weight: 500;
-    color: black;
-    text-transform: uppercase;
 }
 
 .promo-details {

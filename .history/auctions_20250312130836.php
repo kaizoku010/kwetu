@@ -208,17 +208,8 @@ if (session_status() === PHP_SESSION_NONE) {
 
 
 .promo-title {
-    font-size: 1.2rem !important;
+    font-size: 1.5rem !important;
     font-weight: bolder !important;
-}
-
-.promo-link {
-    text-decoration: none;
-    /* color: #f7951d; */
-    font-size: medium !important;
-    font-weight: 500;
-    color: black;
-    text-transform: uppercase;
 }
 
 .promo-details {
