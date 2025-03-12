@@ -120,7 +120,7 @@ $exchange_rate = 3800;
             }
             echo "</div>";
         } else {
-            echo "<h2  class='text-center text-danger' style='margin-top: 9rem;'>No Items Found</h2>";
+            echo "<h2 style="" class='text-center text-danger'>No Items Found</h2>";
         }
 
         $stmt->close();
